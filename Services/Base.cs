@@ -36,64 +36,84 @@ namespace lastfm.Services
 			this.Secret = secret;
 			this.SessionKey = sessionKey;
 		}
-    
-    public Base(string[] authData)
-    {
-      this.APIKey = authData[0];
-      this.Secret = authData[1];
-      this.SessionKey = authData[2];
-    }
+		
+		public Base(string[] authData)
+		{
+			this.APIKey = authData[0];
+			this.Secret = authData[1];
+			this.SessionKey = authData[2];
+		}
 		
 		protected virtual RequestParameters getParams()
-    {
-      // OVERRIDE ME
-      return new RequestParameters();
-    }
+		{
+			// OVERRIDE ME
+			return new RequestParameters();
+		}
     
-    protected XmlDocument request(string methodName, RequestParameters parameters)
-    {
-      return (new Request(methodName, APIKey, parameters, Secret, SessionKey)).execute();
-    }
+		protected XmlDocument request(string methodName, RequestParameters parameters)
+		{
+			return (new Request(methodName, APIKey, parameters, Secret, SessionKey)).execute();
+		}
     
-    protected XmlDocument request(string methodName)
-    {
-      return (new Request(methodName, APIKey, getParams(), Secret, SessionKey)).execute();
-    }
+		protected XmlDocument request(string methodName)
+		{
+			return (new Request(methodName, APIKey, getParams(), Secret, SessionKey)).execute();
+		}
     
-    protected string[] getAuthData()
-    {
-      return new string[] {this.APIKey, this.Secret, this.SessionKey};
-    }
+		protected string[] getAuthData()
+		{
+			return new string[] {this.APIKey, this.Secret, this.SessionKey};
+		}
+		
+		protected string extract(XmlNode node, string name, int index)
+		{
+			return ((XmlElement)node).GetElementsByTagName(name)[index].InnerText;
+		}
+		
+		protected string extract(XmlNode node, string name)
+		{
+			return extract((XmlElement)node, name, 0);
+		}
+		
+		protected string extract(XmlDocument document, string name)
+		{
+			return extract(document.DocumentElement, name);
+		}
+		
+		protected string extract(XmlDocument document, string name, int index)
+		{
+			return extract(document.DocumentElement, name, index);
+		}
+		
+    protected string[] extractAll(XmlNode node, string name, int limitCount)
+		{
+			string[] s = extractAll(node, name);
+			List<string> l = new List<string>();
+			
+			for(int i = 0; i < limitCount; i++)
+				l.Add(s[i]);
+			
+			return l.ToArray();
+		}
     
-    protected string extract(XmlElement element, string name, int index)
-    {
-      return element.GetElementsByTagName(name)[index].InnerText;
-    }
-    
-    protected string extract(XmlElement element, string name)
-    {
-      return extract(element, name, 0);
-    }
-    
-    protected string[] extractAll(XmlElement element, string name, int limitCount)
-    {
-      string[] s = extractAll(element, name);
-      List<string> l = new List<string>();
-      
-      for(int i = 0; i < limitCount; i++)
-        l.Add(s[i]);
-      
-      return l.ToArray();
-    }
-    
-    protected string[] extractAll(XmlElement element, string name)
-    {
-      List<string> list = new List<string>();
-      
-      for(int i = 0; i < element.GetElementsByTagName(name).Count; i++)
-          list.Add(extract(element, name, i));
-      
-      return list.ToArray();
-    }
+		protected string[] extractAll(XmlNode node, string name)
+		{
+			List<string> list = new List<string>();
+			
+			for(int i = 0; i < ((XmlElement)node).GetElementsByTagName(name).Count; i++)
+				list.Add(extract(node, name, i));
+			
+			return list.ToArray();
+		}
+		
+		protected string[] extractAll(XmlDocument document, string name)
+		{
+			return extractAll(document.DocumentElement, name);
+		}
+		
+		protected string[] extractAll(XmlDocument document, string name, int limitCount)
+		{
+			return extractAll(document.DocumentElement, name, limitCount);
+		}
 	}
 }

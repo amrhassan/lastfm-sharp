@@ -22,34 +22,33 @@ using System;
 
 namespace lastfm.Services
 {
-  public class Tag : Base
-  {
-    public string Name {get; private set;}    
+	public class Tag : Base
+	{
+		public string Name {get; private set;}    
+		
+		public Tag(string name, string apiKey, string secret, string sessionKey)
+			: base(apiKey, secret, sessionKey)
+		{
+			this.Name = name;
+		}
+		
+		public Tag(string name, string[] authData)
+			:base(authData)
+		{
+			Name = name;
+		}
+		
+		protected override RequestParameters getParams ()
+		{
+			RequestParameters p = base.getParams ();
+			p["tag"] = this.Name;
+			
+			return p;
+		}
     
-    public Tag(string name, string apiKey, string secret, string sessionKey)
-      : base(apiKey, secret, sessionKey)
-    {
-      this.Name = name;
-    }
-    
-    public Tag(string name, string[] authData)
-      :base(authData)
-    {
-      Name = name;
-    }
-    
-    protected override RequestParameters getParams ()
-    {
-      RequestParameters p = base.getParams ();
-      p["tag"] = this.Name;
-      
-      return p;
-    }
-    
-    public override string ToString ()
-    {
-      return this.Name;
-    }
-
-  }
+		public override string ToString ()
+		{
+			return this.Name;
+		}
+	}
 }

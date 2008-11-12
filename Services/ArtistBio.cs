@@ -22,23 +22,23 @@ using System;
 
 namespace lastfm.Services
 {
-  public class ArtistBio : Wiki
-  {
-    public string ArtistName {get; private set;}
-    public Artist Artist {get{return new Artist(ArtistName, getAuthData());}}
-    
-    public ArtistBio(string artistName, string[] authData)
-      :base("artist", authData)
-    {
-      this.ArtistName = artistName;
-    }
-    
-    protected override RequestParameters getParams ()
-    {
-      RequestParameters p = base.getParams ();
-      p["artist"] = ArtistName;
-      
-      return p;
-    }
-  }
+	public class ArtistBio : Wiki
+	{
+		public string ArtistName {get; private set;}
+		public Artist Artist {get{return new Artist(ArtistName, getAuthData());}}
+		
+		public ArtistBio(string artistName, string[] authData)
+			:base("artist", authData)
+		{
+			this.ArtistName = artistName;
+		}
+		
+		protected override RequestParameters getParams ()
+		{
+			RequestParameters p = base.getParams ();
+			p["artist"] = ArtistName;
+			
+			return p;
+		}
+	}
 }

@@ -1,4 +1,4 @@
-// TrackWiki.cs
+// ImageSize.cs
 //
 //  Copyright (C) 2008 Amr Hassan
 //
@@ -21,27 +21,11 @@
 using System;
 
 namespace lastfm.Services
-{
-	public class TrackWiki : Wiki
+{	
+	public enum ImageSize
 	{
-		public string ArtistName {get; private set;}
-		public Artist Artist {get { return new Artist(ArtistName, getAuthData()); } }
-		public string Title {get; private set;}
-		
-		public TrackWiki(string artistName, string title, string[] authData)
-			:base("track", authData)
-		{
-			ArtistName = artistName;
-			Title = title;
-		}
-		
-		protected override RequestParameters getParams ()
-		{
-			RequestParameters p = base.getParams ();
-			p["track"] = Title;
-			p["artist"] = ArtistName;
-
-			return p;
-		}
+		Small = 0,
+		Medium = 1,
+		Large = 2
 	}
 }

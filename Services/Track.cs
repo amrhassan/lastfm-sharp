@@ -20,51 +20,117 @@
 
 using System;
 using System.Collections.Generic;
+using System.Xml;
 
 namespace lastfm.Services
 {
-  public class Track : TaggableBase
-  {
-    public string Title {get; private set;}
-    public string ArtistName {get; private set;}
-    public Artist Artist
-    { get { return new Artist(this.ArtistName, getAuthData()); } }
+	public class Track : TaggableBase
+	{
+		public string Title {get; private set;}
+		public string ArtistName {get; private set;}
+		public Artist Artist
+		{ get { return new Artist(this.ArtistName, getAuthData()); } }
+		
+		public Wiki Wiki
+		{
+			get
+			{ return new TrackWiki(ArtistName, Title, getAuthData()); }
+		}
+		
+		public Track(string artistName, string title, string apiKey, string secret, string sessionKey)
+			:base("track", new string[] {apiKey, secret, sessionKey})
+		{
+			Title = title;
+			ArtistName = artistName;
+		}
     
-    public Wiki Wiki
-    {
-      get
-      { return new TrackWiki(ArtistName, Title, getAuthData()); }
-    }
+		public Track(string artistName, string title, string[] authData)
+			:base("track", authData)
+		{
+			Title = title;
+			ArtistName = artistName;
+		}
+		
+		public override string ToString ()
+		{
+			return this.Artist + " - " + this.Title;
+		}
     
-    public Track(string artistName, string title, string apiKey, string secret, string sessionKey)
-      :base("track", new string[] {apiKey, secret, sessionKey})
-    {
-      Title = title;
-      ArtistName = artistName;
-    }
-    
-    public Track(string artistName, string title, string[] authData)
-      :base("track", authData)
-    {
-      Title = title;
-      ArtistName = artistName;
-    }
-    
-    public override string ToString ()
-    {
-      return this.Artist + " - " + this.Title;
-    }
-    
-    protected override RequestParameters getParams ()
-    {
-      RequestParameters p = base.getParams ();
-      p["artist"] = ArtistName;
-      p["track"] = Title;
-      
-      return p;
-    }
-    
-    
-
-  }
+		protected override RequestParameters getParams ()
+		{
+			RequestParameters p = base.getParams ();
+			p["artist"] = ArtistName;
+			p["track"] = Title;
+			
+			return p;
+		}
+		
+		public int GetID()
+		{
+			XmlDocument doc = request("track.getInfo");
+			
+			return Int32.Parse(extract(doc, "id"));
+		}
+		
+		public TimeSpan GetDuration()
+		{
+			XmlDocument doc = request("track.getInfo");
+			
+			// Duration is returned in milliseconds.
+			return new TimeSpan(0, 0, 0, 0, Int32.Parse(extract(doc, "duration")));
+		}
+		
+		public bool IsStreamable()
+		{
+			XmlDocument doc = request("track.getInfo");
+			
+			int value = Int32.Parse(extract(doc, "streamable"));
+			
+			if (value == 1)
+				return true;
+			else
+				return false;
+		}
+		
+		public Album GetAlbum()
+		{
+			XmlDocument doc = request("track.getInfo");
+			
+			if (doc.GetElementsByTagName("album").Count > 0)
+			{
+				XmlNode n = doc.GetElementsByTagName("album")[0];
+				
+				string artist = extract(n, "artist");
+				string title = extract(n, "title");
+				
+				return new Album(artist, title, getAuthData());
+			}else{
+				return null;
+			}
+		}
+		
+		public void Ban()
+		{
+			request("track.ban");
+		}
+		
+		public Track[] GetSimilar()
+		{
+			XmlDocument doc = request("track.getSimilar");
+			
+			List<Track> list = new List<Track>();
+			
+			foreach(XmlNode n in doc.GetElementsByTagName("track"))
+			{
+				list.Add(new Track(extract(n, "name", 1), extract(n, "name"), getAuthData()));
+			}
+			
+			return list.ToArray();
+		}
+		
+		public void Love()
+		{
+			request("track.love");
+		}
+	}
 }

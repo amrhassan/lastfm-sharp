@@ -27,68 +27,87 @@ namespace lastfm.Services
 	public class Artist : TaggableBase
 	{
 		public string Name {get; private set;}
-    
-    public ArtistBio Bio
-    {
-      get
-      { return new ArtistBio(Name, getAuthData()); }
-    }
-    
-		public Artist(string name, string apiKey, string secret, string sessionKey)
-      :base("artist", new string[] {apiKey, secret, sessionKey})
+		
+		public ArtistBio Bio
 		{
-      this.Name = name;
+			get
+			{ return new ArtistBio(Name, getAuthData()); }
+		}
+		
+		public Artist(string name, string apiKey, string secret, string sessionKey)
+			:base("artist", new string[] {apiKey, secret, sessionKey})
+		{
+			this.Name = name;
+		}
+		
+		public Artist(string name, string[] authData)
+			:base(name, authData)
+		{
+			Name = name;
 		}
     
-    public Artist(string name, string[] authData)
-      :base(name, authData)
-    {
-      Name = name;
-    }
-    
-    public override string ToString ()
-    {
-      return this.Name;
-    }
-    
-    protected override RequestParameters getParams ()
-    {
-      RequestParameters p = base.getParams();
-      p["artist"] = this.Name;
+		public override string ToString ()
+		{
+			return this.Name;
+		}
+		
+		protected override RequestParameters getParams ()
+		{
+			RequestParameters p = base.getParams();
+			p["artist"] = this.Name;
+			
+			return p;
+		}
+		
+		public Artist[] GetSimilar(int limit)
+		{
+			RequestParameters p = getParams();
+			if (limit > -1)
+				p["limit"] = limit.ToString();
+			
+			XmlDocument doc = request("artist.getSimilar", p);
       
-      return p;
-    }
-    
-    public Artist[] GetSimilar(int limit)
-    {
-      RequestParameters p = getParams();
-      if (limit > -1)
-        p["limit"] = limit.ToString();
+			string[] names = extractAll(doc, "name");
       
-      XmlDocument doc = request("artist.getSimilar", p);
+			List<Artist> list = new List<Artist>();
       
-      string[] names = extractAll(doc.DocumentElement, "name");
-      
-      List<Artist> list = new List<Artist>();
-      
-      foreach(string name in names)
-        list.Add(new Artist(name, getAuthData()));
-      
-      return list.ToArray();
-    }
+			foreach(string name in names)
+				list.Add(new Artist(name, getAuthData()));
+			
+			return list.ToArray();
+		}
 
-    public Artist[] GetSimilar()
-    {
-      return GetSimilar(-1);
-    }
-    
-    public int GetListenerCount()
-    {
-      XmlDocument doc = request("artist.getInfo");
-      
-      return Convert.ToInt32(extract(doc.DocumentElement, "listeners"));
-    }
-    
-    
+		public Artist[] GetSimilar()
+		{
+			return GetSimilar(-1);
+		}
+		
+		public int GetListenerCount()
+		{
+			XmlDocument doc = request("artist.getInfo");
+			
+			return Convert.ToInt32(extract(doc, "listeners"));
+		}
+		
+		public int GetPlaycount()
+		{
+			XmlDocument doc = request("artist.getInfo");
+			
+			return Convert.ToInt32(extract(doc, "playcount"));
+		}
+		
+		public string GetImageURL(ImageSize size)
+		{
+			XmlDocument doc = request("artist.getInfo");
+			
+			string[] sizes = extractAll(doc, "image", 3);
+			
+			return sizes[(int)size];
+		}
+		
+		public string GetImageURL()
+		{
+			return GetImageURL(ImageSize.Large);
+		}
 	}
 }

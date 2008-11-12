@@ -23,40 +23,39 @@ using System.Xml;
 
 namespace lastfm.Services
 {
-  
-  public abstract class Wiki : Base
-  {
-    private string prefix {get; set;}
-    
-    public Wiki(string prefix, string[] authData)
-      :base(authData)
-    {
-      this.prefix = prefix;
-    }
-    
-    public DateTime GetPublishedDate()
-    {
-      XmlDocument doc = request(prefix + ".getInfo");
+	public abstract class Wiki : Base
+	{
+		private string prefix {get; set;}
+		
+		public Wiki(string prefix, string[] authData)
+			:base(authData)
+		{
+			this.prefix = prefix;
+		}
+		
+		public DateTime GetPublishedDate()
+		{
+			XmlDocument doc = request(prefix + ".getInfo");
+			
+			return DateTime.Parse(extract(doc, "published"));
+		}
+		
+		public string GetSummary()
+		{
+			// TODO: Clean the string before return
+			
+			XmlDocument doc = request(prefix + ".getInfo");
       
-      return DateTime.Parse(extract(doc.DocumentElement, "published"));
-    }
-    
-    public string GetSummary()
-    {
-      // TODO: Clean the string before return
+			return extract(doc, "summary");
+		}
+		
+		public string getContent()
+		{
+			// TODO: Clean the string first
       
-      XmlDocument doc = request(prefix + ".getInfo");
+			XmlDocument doc = request(prefix + ".getInfo");
       
-      return extract(doc.DocumentElement, "summary");
-    }
-    
-    public string getContent()
-    {
-      // TODO: Clean the string first
-      
-      XmlDocument doc = request(prefix + ".getInfo");
-      
-      return extract(doc.DocumentElement, "content");
-    }
-  }
+			return extract(doc, "content");
+		}
+	}
 }
