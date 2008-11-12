@@ -1,0 +1,37 @@
+<Project name="lastfm-sharp" fileversion="2.0" DefaultNamespace="lastfm" language="C#" clr-version="Net_2_0" ctype="DotNetProject">
+  <Configurations active="Debug">
+    <Configuration name="Debug" ctype="DotNetProjectConfiguration">
+      <Output directory="bin/Debug" assemblyKeyFile="." assembly="lastfm-sharp" />
+      <Build debugmode="True" target="Library" />
+      <Execution runwithwarnings="True" consolepause="False" runtime="MsNet" clr-version="Net_2_0" />
+      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" definesymbols="DEBUG" generatexmldocumentation="False" codepage="65001" ctype="CSharpCompilerParameters" />
+    </Configuration>
+    <Configuration name="Release" ctype="DotNetProjectConfiguration">
+      <Output directory="bin/Release" assemblyKeyFile="." assembly="lastfm-sharp" />
+      <Build debugmode="False" target="Library" />
+      <Execution runwithwarnings="True" consolepause="False" runtime="MsNet" clr-version="Net_2_0" />
+      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" generatexmldocumentation="True" codepage="65001" ctype="CSharpCompilerParameters" />
+    </Configuration>
+  </Configurations>
+  <Contents>
+    <File name="AssemblyInfo.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services" subtype="Directory" buildaction="Compile" />
+    <File name="CHANGES" subtype="Code" buildaction="Nothing" />
+    <File name="Services/ServiceException.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/Artist.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/Base.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/Request.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/RequestParameters.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/Tag.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/TaggableBase.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/Track.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/Wiki.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/ArtistBio.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/TrackWiki.cs" subtype="Code" buildaction="Compile" />
+  </Contents>
+  <References>
+    <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <ProjectReference type="Gac" localcopy="True" refto="System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <ProjectReference type="Gac" localcopy="True" refto="System.Xml, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  </References>
+</Project>
