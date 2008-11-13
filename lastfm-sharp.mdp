@@ -1,4 +1,4 @@
-<Project name="lastfm-sharp" fileversion="2.0" DefaultNamespace="lastfm" language="C#" clr-version="Net_2_0" ctype="DotNetProject">
+<Project name="lastfm-sharp" fileversion="2.0" DefaultNamespace="Lastfm" language="C#" clr-version="Net_2_0" ctype="DotNetProject">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="bin/Debug" assemblyKeyFile="." assembly="lastfm-sharp" />
