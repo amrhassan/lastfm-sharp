@@ -25,17 +25,11 @@ namespace lastfm.Services
 	public class TrackWiki : Wiki
 	{
 		public string ArtistName {get; private set;}
-		public Artist Artist {get { return new Artist(ArtistName, getAuthData()); } }
+		public Artist Artist {get { return new Artist(ArtistName, Session); } }
 		public string Title {get; private set;}
-		
-		public TrackWiki(string artistName, string title, string apiKey, string secret, string sessionKey)
-			:base("track", new string[] {apiKey, secret, sessionKey})
-		{
-			ArtistName = artistName;
-			Title = title;
-		}
-		internal TrackWiki(string artistName, string title, string[] authData)
-			:base("track", authData)
+
+		public TrackWiki(string artistName, string title, Session session)
+			:base("track", session)
 		{
 			ArtistName = artistName;
 			Title = title;

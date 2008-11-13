@@ -26,22 +26,11 @@ namespace lastfm.Services
 {
 	public abstract class Base
 	{
-		protected string APIKey {get; private set;}
-		protected string Secret {get; private set;}
-		protected string SessionKey {get; private set;}
+		protected Session Session {get; set;}
 		
-		public Base(string apiKey, string secret, string sessionKey)
+		public Base(Session session)
 		{
-			this.APIKey = apiKey;
-			this.Secret = secret;
-			this.SessionKey = sessionKey;
-		}
-		
-		internal Base(string[] authData)
-		{
-			this.APIKey = authData[0];
-			this.Secret = authData[1];
-			this.SessionKey = authData[2];
+			Session = session;
 		}
 		
 		protected virtual RequestParameters getParams()
@@ -52,17 +41,12 @@ namespace lastfm.Services
     
 		protected XmlDocument request(string methodName, RequestParameters parameters)
 		{
-			return (new Request(methodName, APIKey, parameters, Secret, SessionKey)).execute();
+			return (new Request(methodName, Session, parameters)).execute();
 		}
     
 		protected XmlDocument request(string methodName)
 		{
-			return (new Request(methodName, APIKey, getParams(), Secret, SessionKey)).execute();
-		}
-    
-		protected string[] getAuthData()
-		{
-			return new string[] {this.APIKey, this.Secret, this.SessionKey};
+			return (new Request(methodName, Session, getParams())).execute();
 		}
 		
 		protected string extract(XmlNode node, string name, int index)

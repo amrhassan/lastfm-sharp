@@ -29,23 +29,16 @@ namespace lastfm.Services
 		public string Title {get; private set;}
 		public string ArtistName {get; private set;}
 		public Artist Artist
-		{ get { return new Artist(this.ArtistName, getAuthData()); } }
+		{ get { return new Artist(this.ArtistName, Session); } }
 		
 		public Wiki Wiki
 		{
 			get
-			{ return new TrackWiki(ArtistName, Title, getAuthData()); }
-		}
-		
-		public Track(string artistName, string title, string apiKey, string secret, string sessionKey)
-			:base("track", new string[] {apiKey, secret, sessionKey})
-		{
-			Title = title;
-			ArtistName = artistName;
+			{ return new TrackWiki(ArtistName, Title, Session); }
 		}
     
-		internal Track(string artistName, string title, string[] authData)
-			:base("track", authData)
+		public Track(string artistName, string title, Session session)
+			:base("track", session)
 		{
 			Title = title;
 			ArtistName = artistName;
@@ -103,7 +96,7 @@ namespace lastfm.Services
 				string artist = extract(n, "artist");
 				string title = extract(n, "title");
 				
-				return new Album(artist, title, getAuthData());
+				return new Album(artist, title, Session);
 			}else{
 				return null;
 			}
@@ -122,7 +115,7 @@ namespace lastfm.Services
 			
 			foreach(XmlNode n in doc.GetElementsByTagName("track"))
 			{
-				list.Add(new Track(extract(n, "name", 1), extract(n, "name"), getAuthData()));
+				list.Add(new Track(extract(n, "name", 1), extract(n, "name"), Session));
 			}
 			
 			return list.ToArray();

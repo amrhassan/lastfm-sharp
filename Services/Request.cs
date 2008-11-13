@@ -36,41 +36,23 @@ namespace lastfm.Services
 		const string ROOT = "http://ws.audioscrobbler.com/2.0/";
 		
 		public string MethodName {get; private set;}
-		public string APIKey{get; private set;}
-		public string SecretKey {get; private set;}
-		public string SessionKey {get; private set;}
+		public Session Session {get; private set;}
 		
 		public RequestParameters Parameters {get; private set;}
 		
-		private bool authenticated {get; set;}
-		
-		public Request(string methodName, string apiKey, RequestParameters parameters)
+		public Request(string methodName, Session session, RequestParameters parameters)
 		{
 			this.MethodName = methodName;
-			this.APIKey = apiKey;
+			this.Session = session;
 			this.Parameters = parameters;
 			
 			this.Parameters["method"] = this.MethodName;
-			this.Parameters["api_key"] = this.APIKey;
-			
-			this.authenticated = false;
-		}
-		
-		public Request(string methodName, string apiKey, RequestParameters parameters,
-		               string secretKey, string sessionKey)
-		{
-			this.MethodName = methodName;
-			this.APIKey = apiKey;
-			this.SecretKey = secretKey;
-			this.Parameters = parameters;
-			this.SessionKey = sessionKey;
-			
-			this.Parameters["method"] = this.MethodName;
-			this.Parameters["api_key"] = this.APIKey;
-			this.Parameters["sk"] = this.SessionKey;
-			this.Parameters["api_sig"] = this.getSignature();
-			
-			this.authenticated = true;
+			this.Parameters["api_key"] = this.Session.APIKey;
+			if (Session.Authenticated)
+			{
+				this.Parameters["sk"] = this.Session.SessionKey;
+				this.Parameters["api_sig"] = this.getSignature();
+			}
 		}
 		
 		private string getSignature()
@@ -79,7 +61,7 @@ namespace lastfm.Services
 			foreach(string key in this.Parameters.Keys)
 				str += key + this.Parameters[key];
 			
-			str += this.SecretKey;
+			str += this.Session.APISecret;
 			
 			return this.md5(str);
 			

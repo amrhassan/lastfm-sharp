@@ -27,17 +27,10 @@ namespace lastfm.Services
 		public string ArtistName {get; private set;}
 		public string Title {get; private set;}
 		public string Name {get { return Title; } }
-		public Artist Artist {get { return new Artist(ArtistName, getAuthData()); } }
+		public Artist Artist {get { return new Artist(ArtistName, Session); } }
 		
-		public Album(string artistName, string title, string apiKey, string secret, string sessionKey)
-			:base("album", new string[] {apiKey, secret, sessionKey})
-		{
-			ArtistName = artistName;
-			Title = title;
-		}
-		
-		internal Album(string artistName, string title, string[] authData)
-			:base("album", authData)
+		public Album(string artistName, string title, Session session)
+			:base("album", session)
 		{
 			ArtistName = artistName;
 			Title = title;

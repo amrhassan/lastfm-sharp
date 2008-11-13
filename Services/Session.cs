@@ -1,4 +1,4 @@
-// Tag.cs
+// Session.cs
 //
 //  Copyright (C) 2008 Amr Hassan
 //
@@ -22,27 +22,36 @@ using System;
 
 namespace lastfm.Services
 {
-	public class Tag : Base
+	public class Session
 	{
-		public string Name {get; private set;}    
+		public string APIKey {get; private set;}
+		public string APISecret {get; private set;}
+		public string SessionKey {get; private set;}
 		
-		public Tag(string name, Session session)
-			:base(session)
-		{
-			Name = name;
-		}
+		public bool Authenticated {get; private set;}
 		
-		protected override RequestParameters getParams ()
+		public Session(string apiKey, string apiSecret, string sessionKey)
 		{
-			RequestParameters p = base.getParams ();
-			p["tag"] = this.Name;
+			APIKey = apiKey;
+			APISecret = apiSecret;
+			SessionKey = sessionKey;
 			
-			return p;
+			Authenticated = true;
 		}
-    
-		public override string ToString ()
+		
+		public Session(string apiKey, string apiSecret)
 		{
-			return this.Name;
+			APIKey = apiKey;
+			APISecret = apiSecret;
+			
+			Authenticated = false;
+		}
+		
+		public void Authenticate(string sessionKey)
+		{
+			SessionKey = sessionKey;
+			
+			Authenticated = true;
 		}
 	}
 }

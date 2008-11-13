@@ -31,17 +31,11 @@ namespace lastfm.Services
 		public ArtistBio Bio
 		{
 			get
-			{ return new ArtistBio(Name, getAuthData()); }
+			{ return new ArtistBio(Name, Session); }
 		}
 		
-		public Artist(string name, string apiKey, string secret, string sessionKey)
-			:base("artist", new string[] {apiKey, secret, sessionKey})
-		{
-			this.Name = name;
-		}
-		
-		public Artist(string name, string[] authData)
-			:base(name, authData)
+		public Artist(string name, Session session)
+			:base(name, session)
 		{
 			Name = name;
 		}
@@ -72,7 +66,7 @@ namespace lastfm.Services
 			List<Artist> list = new List<Artist>();
       
 			foreach(string name in names)
-				list.Add(new Artist(name, getAuthData()));
+				list.Add(new Artist(name, Session));
 			
 			return list.ToArray();
 		}

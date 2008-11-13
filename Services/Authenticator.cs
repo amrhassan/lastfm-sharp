@@ -32,11 +32,11 @@ namespace lastfm.Services
 		
 		public static Authenticator Create(string apiKey, string secret)
 		{
-			return new Authenticator(apiKey, secret);
+			return new Authenticator(new Session(apiKey, secret));
 		}
 		
-		private Authenticator(string apiKey, string secret)
-			:base(apiKey, secret, "")
+		private Authenticator(Session session)
+			:base(session)
 		{
 			downloadToken();
 		}
@@ -50,7 +50,7 @@ namespace lastfm.Services
 		
 		public string GetAuthenticationURL()
 		{
-			string url = @"http://www.last.fm/api/auth/?api_key=" + APIKey + "&token=" + token;
+			string url = @"http://www.last.fm/api/auth/?api_key=" + Session.APIKey + "&token=" + token;
 			
 			return url;
 		}

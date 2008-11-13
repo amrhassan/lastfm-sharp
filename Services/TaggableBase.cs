@@ -28,8 +28,8 @@ namespace lastfm.Services
 	{
 		private string prefix {get; set;}
 		
-		public TaggableBase(string prefix, string[] authData)
-			:base(authData)
+		public TaggableBase(string prefix, Session session)
+			:base(session)
 		{
 			this.prefix = prefix;
 		}
@@ -52,18 +52,17 @@ namespace lastfm.Services
 		public void AddTags(params string[] tags)
 		{
 			foreach(string tag in tags)
-				AddTags(new Tag(tag, getAuthData()));
+				AddTags(new Tag(tag, Session));
 		}
 		
 		public Tag[] GetTags()
 		{
-			XmlDocument doc = 
-				(new Request(prefix + ".getTags", APIKey, getParams(), Secret, SessionKey)).execute();
+			XmlDocument doc = request(prefix + ".getTags");
 			
 			List<Tag> list = new List<Tag>();
 			
 			foreach(string name in this.extractAll(doc, "name"))
-				list.Add(new Tag(name, getAuthData()));
+				list.Add(new Tag(name, Session));
 			
 			return list.ToArray();
 		}
@@ -76,7 +75,7 @@ namespace lastfm.Services
 			
 			List<Tag> list = new List<Tag>();
 			foreach(string name in names)
-				list.Add(new Tag(name, getAuthData()));
+				list.Add(new Tag(name, Session));
 			
 			return list.ToArray();
 		}
@@ -109,7 +108,7 @@ namespace lastfm.Services
 		public void RemoveTags(params string[] tags)
 		{
 			foreach(string tag in tags)
-				RemoveTags(new Tag(tag, getAuthData()));
+				RemoveTags(new Tag(tag, Session));
 		}
 	}
 }
