@@ -26,6 +26,6 @@ namespace lastfm.Services
 	{
 		Small = 0,
 		Medium = 1,
-		Large = 2
+		Large = 2,
 	}
 }

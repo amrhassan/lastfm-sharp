@@ -20,7 +20,7 @@
 
 using System;
 
-namespace lastfm
+namespace lastfm.Services
 {
 	public class AuthenticationRequiredException : Exception
 	{

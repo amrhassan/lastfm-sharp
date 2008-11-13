@@ -32,10 +32,7 @@ namespace lastfm.Services
 		{ get { return new Artist(this.ArtistName, Session); } }
 		
 		public Wiki Wiki
-		{
-			get
-			{ return new TrackWiki(ArtistName, Title, Session); }
-		}
+		{ get { return new TrackWiki(this, Session); } }
     
 		public Track(string artistName, string title, Session session)
 			:base("track", session)

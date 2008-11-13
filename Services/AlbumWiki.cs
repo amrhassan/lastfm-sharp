@@ -1,4 +1,4 @@
-// ArtistBio.cs
+// AlbumWiki.cs
 //
 //  Copyright (C) 2008 Amr Hassan
 //
@@ -22,20 +22,23 @@ using System;
 
 namespace lastfm.Services
 {
-	public class ArtistBio : Wiki
+	
+	
+	public class AlbumWiki : Wiki
 	{
-		public Artist Artist { get; private set; }
+		public Album Album {get; private set;}
 		
-		public ArtistBio(Artist artist, Session session)
-			:base("artist", session)
+		public AlbumWiki(Album album, Session session)
+			:base("album", session)
 		{
-			Artist = artist;
+			Album = album;
 		}
 		
 		protected override RequestParameters getParams ()
 		{
 			RequestParameters p = base.getParams ();
-			p["artist"] = Artist.Name;
+			p["artist"] = Album.ArtistName;
+			p["album"] = Album.Title;
 			
 			return p;
 		}

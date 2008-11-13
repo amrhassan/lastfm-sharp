@@ -1,4 +1,4 @@
-// ArtistBio.cs
+// Event.cs
 //
 //  Copyright (C) 2008 Amr Hassan
 //
@@ -22,20 +22,20 @@ using System;
 
 namespace lastfm.Services
 {
-	public class ArtistBio : Wiki
+	public class Event : Base
 	{
-		public Artist Artist { get; private set; }
+		public int ID {get; private set;}
 		
-		public ArtistBio(Artist artist, Session session)
-			:base("artist", session)
+		public Event(int id, Session session)
+			:base(session)
 		{
-			Artist = artist;
+			ID = id;
 		}
 		
 		protected override RequestParameters getParams ()
 		{
 			RequestParameters p = base.getParams ();
-			p["artist"] = Artist.Name;
+			p["event"] = ID.ToString();
 			
 			return p;
 		}

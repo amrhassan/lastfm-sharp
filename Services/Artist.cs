@@ -29,10 +29,7 @@ namespace lastfm.Services
 		public string Name {get; private set;}
 		
 		public ArtistBio Bio
-		{
-			get
-			{ return new ArtistBio(Name, Session); }
-		}
+		{ get { return new ArtistBio(this, Session); } }
 		
 		public Artist(string name, Session session)
 			:base(name, session)
@@ -102,6 +99,51 @@ namespace lastfm.Services
 		public string GetImageURL()
 		{
 			return GetImageURL(ImageSize.Large);
+		}
+		
+		public Track[] GetTopTracks()
+		{
+			XmlDocument doc = request("artist.getTopTracks");
+			
+			List<Track> list = new List<Track>();
+			
+			foreach(XmlNode n in doc.GetElementsByTagName("track"))
+				list.Add(new Track(extract(n, "name", 1), extract(n, "name"), Session));
+			
+			return list.ToArray();
+		}
+		
+		public Event[] GetEvents()
+		{
+			XmlDocument doc = request("artist.getEvents");
+			
+			List<Event> list = new List<Event>();
+			foreach(string id in extractAll(doc, "id"))
+				list.Add(new Event(Int32.Parse(id), Session));
+			
+			return list.ToArray();
+		}
+		
+		public Album[] GetTopAlbums()
+		{
+			XmlDocument doc = request("artist.getTopAlbums");
+			
+			List<Album> list = new List<Album>();
+			foreach(XmlNode n in doc.GetElementsByTagName("album"))
+				list.Add(new Album(extract(n, "name", 1), extract(n, "name"), Session));
+			
+			return list.ToArray();
+		}
+		
+		public User[] GetTopFans()
+		{
+			XmlDocument doc = request("artist.getTopFans");
+			
+			List<User> list = new List<User>();
+			foreach(string name in extractAll(doc, "name"))
+				list.Add(new User(name, Session));
+			
+			return list.ToArray();
 		}
 	}
 }

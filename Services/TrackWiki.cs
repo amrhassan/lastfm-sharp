@@ -24,22 +24,19 @@ namespace lastfm.Services
 {
 	public class TrackWiki : Wiki
 	{
-		public string ArtistName {get; private set;}
-		public Artist Artist {get { return new Artist(ArtistName, Session); } }
-		public string Title {get; private set;}
+		public Track Track {get; private set;}
 
-		public TrackWiki(string artistName, string title, Session session)
+		public TrackWiki(Track track, Session session)
 			:base("track", session)
 		{
-			ArtistName = artistName;
-			Title = title;
+			Track = track;
 		}
 		
 		protected override RequestParameters getParams ()
 		{
 			RequestParameters p = base.getParams ();
-			p["track"] = Title;
-			p["artist"] = ArtistName;
+			p["track"] = Track.Title;
+			p["artist"] = Track.ArtistName;
 
 			return p;
 		}

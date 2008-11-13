@@ -103,7 +103,7 @@ namespace lastfm.Services
 		protected void requireAuthentication()
 		{
 			if(!this.Session.Authenticated)
-				throw new lastfm.AuthenticationRequiredException();
+				throw new AuthenticationRequiredException();
 		}
 	}
 }

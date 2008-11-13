@@ -1,4 +1,4 @@
-// ArtistBio.cs
+// AlbumImageSize.cs
 //
 //  Copyright (C) 2008 Amr Hassan
 //
@@ -22,22 +22,11 @@ using System;
 
 namespace lastfm.Services
 {
-	public class ArtistBio : Wiki
+	public enum AlbumImageSize
 	{
-		public Artist Artist { get; private set; }
-		
-		public ArtistBio(Artist artist, Session session)
-			:base("artist", session)
-		{
-			Artist = artist;
-		}
-		
-		protected override RequestParameters getParams ()
-		{
-			RequestParameters p = base.getParams ();
-			p["artist"] = Artist.Name;
-			
-			return p;
-		}
+		Small = 0,
+		Medium = 1,
+		Large = 2,
+		ExtraLarge = 3
 	}
 }

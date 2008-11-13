@@ -19,6 +19,8 @@
 //
 
 using System;
+using System.Xml;
+using System.Collections.Generic;
 
 namespace lastfm.Services
 {
@@ -28,6 +30,8 @@ namespace lastfm.Services
 		public string Title {get; private set;}
 		public string Name {get { return Title; } }
 		public Artist Artist {get { return new Artist(ArtistName, Session); } }
+		
+		public AlbumWiki Wiki {get { return new AlbumWiki(this, Session); } }
 		
 		public Album(string artistName, string title, Session session)
 			:base("album", session)
@@ -49,5 +53,53 @@ namespace lastfm.Services
 			
 			return p;
 		}
+		
+		public string GetMBID()
+		{
+			XmlDocument doc = request("album.getInfo");
+			
+			return extract(doc, "mbid");
+		}
+		
+		public string GetID()
+		{
+			XmlDocument doc = request("album.getInfo");
+			
+			return extract(doc, "id");
+		}
+		
+		public DateTime GetReleaseDate()
+		{
+			XmlDocument doc = request("album.getInfo");
+			
+			return DateTime.Parse(extract(doc, "releasedate"));
+		}
+		
+		public string GetImageURL(AlbumImageSize size)
+		{
+			XmlDocument doc = request("album.getInfo");
+			
+			return extractAll(doc, "image", 4)[(int)size];
+		}
+		
+		public string GetImageURL()
+		{
+			return GetImageURL(AlbumImageSize.ExtraLarge);
+		}
+		
+		public int GetListenerCount()
+		{
+			XmlDocument doc = request("album.getInfo");
+			
+			return Int32.Parse(extract(doc, "listeners"));
+		}
+		
+		public int GetPlaycount()
+		{
+			XmlDocument doc = request("album.getInfo");
+			
+			return Int32.Parse(extract(doc, "playcount"));
+		}
+		
 	}
 }
