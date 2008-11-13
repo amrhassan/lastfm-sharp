@@ -1,4 +1,4 @@
-// Session.cs
+// Authenticator.cs
 //
 //  Copyright (C) 2008 Amr Hassan
 //
@@ -24,18 +24,18 @@ using System.Collections.Generic;
 
 namespace lastfm.Services
 {	
-	public class Session : Base
+	public class Authenticator : Base
 	{
 		private string token {get; set;}
 		
 		private Dictionary<string, string> data;
 		
-		public static Session Create(string apiKey, string secret)
+		public static Authenticator Create(string apiKey, string secret)
 		{
-			return new Session(apiKey, secret);
+			return new Authenticator(apiKey, secret);
 		}
 		
-		private Session(string apiKey, string secret)
+		private Authenticator(string apiKey, string secret)
 			:base(apiKey, secret, "")
 		{
 			downloadToken();
