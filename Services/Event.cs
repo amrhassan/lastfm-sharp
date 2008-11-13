@@ -19,9 +19,12 @@
 //
 
 using System;
+using System.Xml;
+using System.Collections.Generic;
 
 namespace lastfm.Services
 {
+	// TODO: A venue class that this object returns. I'm to tired right now.. i'll go get some sleep..
 	public class Event : Base
 	{
 		public int ID {get; private set;}
@@ -38,6 +41,83 @@ namespace lastfm.Services
 			p["event"] = ID.ToString();
 			
 			return p;
+		}
+		
+		public void SetAttendance(EventAttendance attendance)
+		{
+			requireAuthentication();
+			
+			RequestParameters p = getParams();
+			int i = (int)attendance;
+			p["status"] = i.ToString();
+			request("event.attend", p);
+		}
+		
+		public string GetTitle()
+		{
+			XmlDocument doc = request("event.getInfo");
+			
+			return extract(doc, "title");
+		}
+		
+		public Artist[] GetArtists()
+		{
+			XmlDocument doc = request("event.getInfo");
+			
+			List<Artist> list = new List<Artist>();
+			foreach(string name in extractAll(doc, "artist"))
+				list.Add(new Artist(name, Session));
+			
+			return list.ToArray();
+		}
+		
+		public Artist GetHeadliner()
+		{
+			XmlDocument doc = request("event.getInfo");
+			
+			return new Artist(extract(doc, "headliner"), Session);
+		}
+		
+		public DateTime GetStartDate()
+		{
+			XmlDocument doc = request("event.getInfo");
+			
+			return DateTime.Parse(extract(doc, "startDate"));
+		}
+		
+		public string GetDescription()
+		{
+			XmlDocument doc = request("event.getInfo");
+			
+			return extract(doc, "description");
+		}
+		
+		public string GetImageURL(ImageSize size)
+		{
+			XmlDocument doc = request("event.getInfo");
+			
+			return extractAll(doc, "image")[(int)size];
+		}
+		
+		public int GetAttendantCount()
+		{
+			XmlDocument doc = request("event.getInfo");
+			
+			return Int32.Parse(extract(doc, "attendance"));
+		}
+		
+		public int GetReviewCount()
+		{
+			XmlDocument doc = request("event.getInfo");
+			
+			return Int32.Parse(extract(doc, "reviews"));
+		}
+			
+		public string GetFlickrTag()
+		{
+			XmlDocument doc = request("event.getInfo");
+			
+			return extract(doc, "tag");
 		}
 	}
 }
