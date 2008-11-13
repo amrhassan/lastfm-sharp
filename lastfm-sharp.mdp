@@ -30,7 +30,7 @@
     <File name="Services/TrackWiki.cs" subtype="Code" buildaction="Compile" />
     <File name="Services/ImageSize.cs" subtype="Code" buildaction="Compile" />
     <File name="Services/Album.cs" subtype="Code" buildaction="Compile" />
-    <File name="Services/Session.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/Authenticator.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />

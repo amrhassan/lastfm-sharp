@@ -36,7 +36,7 @@ namespace lastfm.Services
 			Title = title;
 		}
 		
-		public Album(string artistName, string title, string[] authData)
+		internal Album(string artistName, string title, string[] authData)
 			:base("album", authData)
 		{
 			ArtistName = artistName;

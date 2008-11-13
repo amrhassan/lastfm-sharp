@@ -27,7 +27,7 @@ namespace lastfm.Services
 	{
 		private string prefix {get; set;}
 		
-		public Wiki(string prefix, string[] authData)
+		internal Wiki(string prefix, string[] authData)
 			:base(authData)
 		{
 			this.prefix = prefix;

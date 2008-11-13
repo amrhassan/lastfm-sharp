@@ -37,7 +37,7 @@ namespace lastfm.Services
 			this.SessionKey = sessionKey;
 		}
 		
-		public Base(string[] authData)
+		internal Base(string[] authData)
 		{
 			this.APIKey = authData[0];
 			this.Secret = authData[1];
