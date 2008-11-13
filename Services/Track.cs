@@ -104,6 +104,9 @@ namespace lastfm.Services
 		
 		public void Ban()
 		{
+			//This method requires authentication
+			requireAuthentication();
+			
 			request("track.ban");
 		}
 		
@@ -123,6 +126,9 @@ namespace lastfm.Services
 		
 		public void Love()
 		{
+			//This method requires authentication
+			requireAuthentication();
+			
 			request("track.love");
 		}
 	}

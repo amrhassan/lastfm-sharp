@@ -36,6 +36,9 @@ namespace lastfm.Services
 		
 		public void AddTags(params Tag[] tags)
 		{
+			//This method requires authentication
+			requireAuthentication();
+			
 			if (tags.Length > 1)
 			{
 				foreach(Tag tag in tags)
@@ -57,6 +60,9 @@ namespace lastfm.Services
 		
 		public Tag[] GetTags()
 		{
+			//This method requires authentication
+			requireAuthentication();
+			
 			XmlDocument doc = request(prefix + ".getTags");
 			
 			List<Tag> list = new List<Tag>();
@@ -92,6 +98,9 @@ namespace lastfm.Services
 		
 		public void RemoveTags(params Tag[] tags)
 		{
+			//This method requires authentication
+			requireAuthentication();
+			
 			if (tags.Length > 1)
 			{
 				foreach(Tag t in tags)
@@ -107,6 +116,9 @@ namespace lastfm.Services
 		
 		public void RemoveTags(params string[] tags)
 		{
+			//This method requires authentication
+			requireAuthentication();
+			
 			foreach(string tag in tags)
 				RemoveTags(new Tag(tag, Session));
 		}

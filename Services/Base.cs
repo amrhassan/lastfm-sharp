@@ -99,5 +99,11 @@ namespace lastfm.Services
 		{
 			return extractAll(document.DocumentElement, name, limitCount);
 		}
+		
+		protected void requireAuthentication()
+		{
+			if(!this.Session.Authenticated)
+				throw new lastfm.AuthenticationRequiredException();
+		}
 	}
 }
