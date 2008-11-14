@@ -22,7 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml;
 
-namespace lastfm.Services
+namespace Lastfm.Services
 {
 	public class Track : TaggableBase
 	{

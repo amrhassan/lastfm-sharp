@@ -25,11 +25,10 @@ using System.Collections.Specialized;
 using System.Web;
 using System.Net;
 using System.Text;
-using System.Security.Cryptography;
 using System.Xml;
 using System.IO;
 
-namespace lastfm.Services
+namespace Lastfm.Services
 {
 	internal class Request
 	{
@@ -63,35 +62,13 @@ namespace lastfm.Services
 			
 			str += this.Session.APISecret;
 			
-			return this.md5(str);
+			return Utilities.md5(str);
 			
-		}
-		
-		private string md5(string text)
-		{
-			byte[] buffer = Encoding.UTF8.GetBytes(text);
-			
-			MD5CryptoServiceProvider c = new MD5CryptoServiceProvider();
-			buffer = c.ComputeHash(buffer);
-			
-			StringBuilder builder = new StringBuilder();
-			foreach(byte b in buffer)
-				builder.Append(b.ToString("x2").ToLower());
-			
-			return builder.ToString();
 		}
 
 		public XmlDocument execute()
 		{
-      string version = Assembly.GetEntryAssembly().GetName().Version.ToString();
-      
-			string values = "";
-			foreach(string key in this.Parameters.Keys)
-				values += HttpUtility.UrlEncode(key) + "=" +
-					HttpUtility.UrlEncode(this.Parameters[key]) + "&";
-			values = values.Substring(0, values.Length - 1);
-			
-			byte[] buffer = Encoding.ASCII.GetBytes(values);
+			byte[] data = Utilities.GetPostBytes(Parameters);
 			
 			/* RANT 
 			 * The most annoying thing i've ever encountered in my life.
@@ -105,14 +82,14 @@ namespace lastfm.Services
 			System.Net.ServicePointManager.Expect100Continue = false;
 			
 			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(ROOT);
-			request.ContentLength = buffer.Length;
-			request.UserAgent = "lastfm-sharp/" + version;
+			request.ContentLength = data.Length;
+			request.UserAgent = Utilities.UserAgent;
 			request.ContentType = "application/x-www-form-urlencoded";
 			request.Method = "POST";
       request.Headers["Accept-Charset"] = "utf-8";
 			
 			Stream writeStream = request.GetRequestStream();
-			writeStream.Write(buffer, 0, buffer.Length);
+			writeStream.Write(data, 0, data.Length);
 			writeStream.Close();
 			
 			HttpWebResponse webresponse;

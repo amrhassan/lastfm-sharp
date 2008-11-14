@@ -20,7 +20,7 @@
 
 using System;
 
-namespace lastfm.Services
+namespace Lastfm.Services
 {
 	public class Tag : Base
 	{

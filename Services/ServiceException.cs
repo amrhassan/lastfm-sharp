@@ -21,7 +21,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace lastfm.Services
+namespace Lastfm.Services
 {
 	public enum ServiceExceptionType
 	{

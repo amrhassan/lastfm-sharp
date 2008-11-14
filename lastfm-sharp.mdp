@@ -3,7 +3,7 @@
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="bin/Debug" assemblyKeyFile="." assembly="lastfm-sharp" />
       <Build debugmode="True" target="Library" />
-      <Execution runwithwarnings="True" consolepause="False" runtime="MsNet" clr-version="Net_2_0" />
+      <Execution runwithwarnings="True" externalconsole="True" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
       <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" definesymbols="DEBUG" generatexmldocumentation="False" codepage="65001" ctype="CSharpCompilerParameters" />
     </Configuration>
     <Configuration name="Release" ctype="DotNetProjectConfiguration">
@@ -21,7 +21,6 @@
     <File name="Services/Artist.cs" subtype="Code" buildaction="Compile" />
     <File name="Services/Base.cs" subtype="Code" buildaction="Compile" />
     <File name="Services/Request.cs" subtype="Code" buildaction="Compile" />
-    <File name="Services/RequestParameters.cs" subtype="Code" buildaction="Compile" />
     <File name="Services/Tag.cs" subtype="Code" buildaction="Compile" />
     <File name="Services/TaggableBase.cs" subtype="Code" buildaction="Compile" />
     <File name="Services/Track.cs" subtype="Code" buildaction="Compile" />
@@ -30,7 +29,6 @@
     <File name="Services/TrackWiki.cs" subtype="Code" buildaction="Compile" />
     <File name="Services/ImageSize.cs" subtype="Code" buildaction="Compile" />
     <File name="Services/Album.cs" subtype="Code" buildaction="Compile" />
-    <File name="Services/Authenticator.cs" subtype="Code" buildaction="Compile" />
     <File name="Services/Session.cs" subtype="Code" buildaction="Compile" />
     <File name="Services/AuthenticationRequiredException.cs" subtype="Code" buildaction="Compile" />
     <File name="Services/User.cs" subtype="Code" buildaction="Compile" />
@@ -38,6 +36,8 @@
     <File name="Services/AlbumImageSize.cs" subtype="Code" buildaction="Compile" />
     <File name="Services/AlbumWiki.cs" subtype="Code" buildaction="Compile" />
     <File name="Services/EventAttendance.cs" subtype="Code" buildaction="Compile" />
+    <File name="Utilities.cs" subtype="Code" buildaction="Compile" />
+    <File name="RequestParameters.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />

@@ -22,7 +22,7 @@ using System;
 using System.Xml;
 using System.Collections.Generic;
 
-namespace lastfm.Services
+namespace Lastfm.Services
 {
 	// TODO: A venue class that this object returns. I'm to tired right now.. i'll go get some sleep..
 	public class Event : Base

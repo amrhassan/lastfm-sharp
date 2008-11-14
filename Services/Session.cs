@@ -19,41 +19,49 @@
 //
 
 using System;
+using System.Xml;
 
-namespace lastfm.Services
+
+namespace Lastfm.Services
 {
 	// TODO: make serializable
 	
 	public class Session
 	{
-		public string APIKey {get; private set;}
-		public string APISecret {get; private set;}
-		public string SessionKey {get; private set;}
+		public string APIKey {get; set;}
+		public string APISecret {get; set;}
+		public string SessionKey {get; set;}
 		
-		public bool Authenticated {get; private set;}
+		public bool Authenticated
+		{
+			get { return !(SessionKey == null); }
+		}
 		
 		public Session(string apiKey, string apiSecret, string sessionKey)
 		{
 			APIKey = apiKey;
 			APISecret = apiSecret;
 			SessionKey = sessionKey;
-			
-			Authenticated = true;
 		}
 		
 		public Session(string apiKey, string apiSecret)
 		{
 			APIKey = apiKey;
 			APISecret = apiSecret;
-			
-			Authenticated = false;
 		}
 		
-		public void Authenticate(string sessionKey)
+		public Session() {}
+		
+		public void Authenticate(string username, string md5Password)
 		{
-			SessionKey = sessionKey;
+			RequestParameters p = new Lastfm.RequestParameters();
 			
-			Authenticated = true;
+			p["username"] = username;
+			p["authToken"] = Utilities.md5(username + md5Password);
+			
+			XmlDocument doc = (new Request("auth.getMobileSession", this, p)).execute();
+			
+			SessionKey = doc.GetElementsByTagName("key")[0].InnerText;
 		}
 	}
 }

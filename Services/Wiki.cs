@@ -21,7 +21,7 @@
 using System;
 using System.Xml;
 
-namespace lastfm.Services
+namespace Lastfm.Services
 {
 	public abstract class Wiki : Base
 	{
