@@ -21,7 +21,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Lastfm.Services
+namespace Lastfm
 {
 	public class RequestParameters : SortedDictionary<string, string>
 	{
