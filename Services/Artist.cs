@@ -87,7 +87,7 @@ namespace Lastfm.Services
 			return Convert.ToInt32(extract(doc, "playcount"));
 		}
 		
-		public string GetImageURL(ImageSize size)
+		public string GetImageUrl(ImageSize size)
 		{
 			XmlDocument doc = request("artist.getInfo");
 			
@@ -96,9 +96,9 @@ namespace Lastfm.Services
 			return sizes[(int)size];
 		}
 		
-		public string GetImageURL()
+		public string GetImageUrl()
 		{
-			return GetImageURL(ImageSize.Large);
+			return GetImageUrl(ImageSize.Large);
 		}
 		
 		public Track[] GetTopTracks()

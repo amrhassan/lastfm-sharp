@@ -19,6 +19,8 @@
 //
 
 using System;
+using System.Xml;
+using System.Collections.Generic;
 
 namespace Lastfm.Services
 {
@@ -43,6 +45,98 @@ namespace Lastfm.Services
 		public override string ToString ()
 		{
 			return this.Name;
+		}
+		
+		public Tag[] GetSimilar()
+		{
+			XmlDocument doc = request("tag.getSimilar");
+			
+			List<Tag> list = new List<Tag>();
+			foreach(string name in extractAll(doc, "name"))
+				list.Add(new Tag(name, Session));
+			
+			return list.ToArray();
+		}
+		
+		public Dictionary<Album, int> GetTopAlbumsWithCount()
+		{
+			XmlDocument doc = request("tag.getTopAlbums");
+			
+			Dictionary<Album, int> dic = new Dictionary<Album,int>();
+			foreach(XmlNode n in doc.GetElementsByTagName("album"))
+			{
+				Album album = new Album(extract(n, "name", 1), extract(n, "name"), Session);
+				int count = Int32.Parse(extract(n, "tagcount"));
+				
+				dic[album] = count;
+			}
+			
+			return dic;
+		}
+		
+		public Album[] GetTopAlbums()
+		{
+			XmlDocument doc = request("tag.getTopAlbums");
+			
+			List<Album> list = new List<Album>();
+			foreach(XmlNode n in doc.GetElementsByTagName("album"))
+				list.Add(new Album(extract(n, "name", 1), extract(n, "name"), Session));
+			
+			return list.ToArray();
+		}
+		
+		public Dictionary<Artist, int> GetTopArtistsWithCount()
+		{
+			XmlDocument doc = request("tag.getTopArtists");
+			
+			Dictionary<Artist, int> dic = new Dictionary<Artist,int>();			
+			foreach(XmlNode n in doc.GetElementsByTagName("artist"))
+			{
+				Artist artist = new Artist(extract(n, "name"), Session);
+				int count = Int32.Parse(extract(n, "tagcount"));
+				
+				dic[artist] = count;
+			}
+			
+			return dic;
+		}
+		
+		public Artist[] GetTopArtists()
+		{
+			XmlDocument doc = request("tag.getTopArtists");
+			
+			List<Artist> list = new List<Artist>();
+			foreach(string name in extractAll(doc, "name"))
+				list.Add(new Artist(name, Session));
+			
+			return list.ToArray();
+		}
+		
+		public Dictionary<Track, int> GetTopTracksWithCount()
+		{
+			XmlDocument doc = request("tag.getTopTracks");
+			
+			Dictionary<Track, int> dic = new Dictionary<Track,int>();			
+			foreach(XmlNode n in doc.GetElementsByTagName("track"))
+			{
+				Track track = new Track(extract(n, "name", 1), extract(n, "name"), Session);
+				int count = Int32.Parse(extract(n, "tagcount"));
+				
+				dic[track] = count;
+			}
+			
+			return dic;
+		}
+		
+		public Track[] GetTopTracks()
+		{
+			XmlDocument doc = request("tag.getTopTracks");
+			
+			List<Track> list = new List<Track>();
+			foreach(XmlNode n in doc.GetElementsByTagName("track"))
+				list.Add(new Track(extract(n, "name", 1), extract(n, "name"), Session));
+			
+			return list.ToArray();
 		}
 	}
 }

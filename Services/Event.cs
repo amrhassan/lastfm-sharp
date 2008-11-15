@@ -92,7 +92,7 @@ namespace Lastfm.Services
 			return extract(doc, "description");
 		}
 		
-		public string GetImageURL(ImageSize size)
+		public string GetImageUrl(ImageSize size)
 		{
 			XmlDocument doc = request("event.getInfo");
 			

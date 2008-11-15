@@ -26,6 +26,7 @@ namespace Lastfm.Services
 {
 	// TODO: make serializable
 	
+	[Serializable]
 	public class Session
 	{
 		public string APIKey {get; set;}

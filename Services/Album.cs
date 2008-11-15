@@ -75,16 +75,16 @@ namespace Lastfm.Services
 			return DateTime.Parse(extract(doc, "releasedate"));
 		}
 		
-		public string GetImageURL(AlbumImageSize size)
+		public string GetImageUrl(AlbumImageSize size)
 		{
 			XmlDocument doc = request("album.getInfo");
 			
 			return extractAll(doc, "image", 4)[(int)size];
 		}
 		
-		public string GetImageURL()
+		public string GetImageUrl()
 		{
-			return GetImageURL(AlbumImageSize.ExtraLarge);
+			return GetImageUrl(AlbumImageSize.ExtraLarge);
 		}
 		
 		public int GetListenerCount()
@@ -100,6 +100,14 @@ namespace Lastfm.Services
 			
 			return Int32.Parse(extract(doc, "playcount"));
 		}
+		
+		public Track[] GetTracks()
+		{
+			string url = "lastfm://playlist/album/" + this.GetID();
+			
+			return (new Playlist(url, Session)).GetTracks();
+		}
+		
 		
 	}
 }
