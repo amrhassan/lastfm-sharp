@@ -24,7 +24,7 @@ using System.Xml;
 
 namespace Lastfm.Services
 {
-	public class Artist : TaggableBase
+	public class Artist : TaggableBase, ITaggable, IEquatable<Artist>
 	{
 		public string Name {get; private set;}
 		
@@ -144,6 +144,14 @@ namespace Lastfm.Services
 				list.Add(new User(name, Session));
 			
 			return list.ToArray();
+		}
+		
+		public bool Equals(Artist artist)
+		{
+			if(artist.Name == this.Name)
+				return true;
+			else
+				return false;
 		}
 	}
 }

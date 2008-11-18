@@ -122,5 +122,41 @@ namespace Lastfm.Services
 			foreach(string tag in tags)
 				RemoveTags(new Tag(tag, Session));
 		}
+		
+		public void SetTags(string[] tags)
+		{
+			List<Tag> list = new List<Tag>();
+			foreach(string name in tags)
+				list.Add(new Tag(name, Session));
+			
+			SetTags(list.ToArray());
+		}
+		
+		public void SetTags(Tag[] tags)
+		{
+			List<Tag> newSet = new List<Tag>(tags);
+			List<Tag> current = new List<Tag>(GetTags());
+			List<Tag> toAdd = new List<Tag>();
+			List<Tag> toRemove = new List<Tag>();
+			
+			foreach(Tag tag in newSet)
+				if(!current.Contains(tag))
+					toAdd.Add(tag);
+			
+			foreach(Tag tag in current)
+				if(!newSet.Contains(tag))
+					toRemove.Add(tag);
+			
+			if (toAdd.Count > 0)
+				AddTags(toAdd.ToArray());
+			if (toRemove.Count > 0)
+				RemoveTags(toRemove.ToArray());
+		}
+		
+		public void ClearTags()
+		{
+			foreach(Tag tag in GetTags())
+				RemoveTags(tag);
+		}
 	}
 }

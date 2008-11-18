@@ -24,7 +24,7 @@ using System.Collections.Generic;
 
 namespace Lastfm.Services
 {
-	public class Tag : Base
+	public class Tag : Base, System.IEquatable<Tag>
 	{
 		public string Name {get; private set;}    
 		
@@ -137,6 +137,14 @@ namespace Lastfm.Services
 				list.Add(new Track(extract(n, "name", 1), extract(n, "name"), Session));
 			
 			return list.ToArray();
+		}
+		
+		public bool Equals(Tag tag)
+		{
+			if (tag.Name == this.Name)
+				return true;
+		 else
+				return false;
 		}
 	}
 }

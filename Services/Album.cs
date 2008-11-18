@@ -24,7 +24,7 @@ using System.Collections.Generic;
 
 namespace Lastfm.Services
 {
-	public class Album : TaggableBase
+	public class Album : TaggableBase, IEquatable<Album>
 	{
 		public string ArtistName {get; private set;}
 		public string Title {get; private set;}
@@ -105,9 +105,38 @@ namespace Lastfm.Services
 		{
 			string url = "lastfm://playlist/album/" + this.GetID();
 			
-			return (new Playlist(url, Session)).GetTracks();
+			return (new XSPF(url, Session)).GetTracks();
 		}
 		
+		public new Tag[] GetTopTags()
+		{
+			XmlDocument doc = request("album.getInfo");
+			
+			List<Tag> list = new List<Tag>();
+			foreach(string name in extractAll(doc.GetElementsByTagName("toptags")[0], "name"))
+				list.Add(new Tag(name, Session));
+			
+			return list.ToArray();
+		}
 		
+		public new Tag[] GetTopTags(int limit)
+		{
+			List<Tag> list = new List<Tag>();
+			
+			int i = 0;
+			foreach(Tag tag in GetTopTags())
+				if (i<limit)
+					list.Add(tag);
+			
+			return list.ToArray();
+		}
+		
+		public bool Equals(Album album)
+		{
+			if(album.Title == this.Title && album.ArtistName == this.ArtistName)
+				return true;
+			else
+				return false;
+		}
 	}
 }

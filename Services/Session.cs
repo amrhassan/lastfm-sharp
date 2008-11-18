@@ -24,19 +24,19 @@ using System.Xml;
 
 namespace Lastfm.Services
 {
-	// TODO: make serializable
-	
 	[Serializable]
 	public class Session
 	{
-		public string APIKey {get; set;}
-		public string APISecret {get; set;}
-		public string SessionKey {get; set;}
+		public string APIKey {get; private set;}
+		public string APISecret {get; private set;}
+		public string SessionKey {get; private set;}
 		
 		public bool Authenticated
 		{
 			get { return !(SessionKey == null); }
 		}
+		
+		private string token {get; set;}
 		
 		public Session(string apiKey, string apiSecret, string sessionKey)
 		{
@@ -51,8 +51,6 @@ namespace Lastfm.Services
 			APISecret = apiSecret;
 		}
 		
-		public Session() {}
-		
 		public void Authenticate(string username, string md5Password)
 		{
 			RequestParameters p = new Lastfm.RequestParameters();
@@ -61,6 +59,33 @@ namespace Lastfm.Services
 			p["authToken"] = Utilities.md5(username + md5Password);
 			
 			XmlDocument doc = (new Request("auth.getMobileSession", this, p)).execute();
+			
+			SessionKey = doc.GetElementsByTagName("key")[0].InnerText;
+		}
+		
+		private string getAuthenticationToken()
+		{
+			XmlDocument doc = (new Request("auth.getToken", this, new RequestParameters())).execute();
+			
+			return doc.GetElementsByTagName("token")[0].InnerText;
+		}
+		
+		public string GetWebAuthenticationUrl()
+		{
+			token = getAuthenticationToken();
+			
+			return "http://www.last.fm/api/auth/?api_key=" + APIKey + "&token=" + token;
+		}
+		
+		public void AuthenticateViaWeb()
+		{
+			RequestParameters p = new Lastfm.RequestParameters();
+			p["token"] = token;
+			
+			Request r = new Request("auth.getSession", this, p);
+			r.signIt();
+			
+			XmlDocument doc = r.execute();
 			
 			SessionKey = doc.GetElementsByTagName("key")[0].InnerText;
 		}

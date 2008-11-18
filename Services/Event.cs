@@ -25,7 +25,7 @@ using System.Collections.Generic;
 namespace Lastfm.Services
 {
 	// TODO: A venue class that this object returns. I'm to tired right now.. i'll go get some sleep..
-	public class Event : Base
+	public class Event : Base, IEquatable<Event>
 	{
 		public int ID {get; private set;}
 		
@@ -118,6 +118,14 @@ namespace Lastfm.Services
 			XmlDocument doc = request("event.getInfo");
 			
 			return extract(doc, "tag");
+		}
+		
+		public bool Equals(Event eventObject)
+		{
+			if(eventObject.ToString() == this.ToString())
+				return true;
+			else
+				return false;
 		}
 	}
 }

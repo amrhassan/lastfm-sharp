@@ -50,8 +50,14 @@ namespace Lastfm.Services
 			if (Session.Authenticated)
 			{
 				this.Parameters["sk"] = this.Session.SessionKey;
-				this.Parameters["api_sig"] = this.getSignature();
+				signIt();
 			}
+		}
+		
+		internal void signIt()
+		{
+			// because auth.getSession requires a signature without session key. 
+			this.Parameters["api_sig"] = this.getSignature();
 		}
 		
 		private string getSignature()

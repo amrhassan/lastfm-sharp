@@ -1,4 +1,4 @@
-// Playlist.cs
+// ITaggable.cs
 //
 //  Copyright (C) 2008 Amr Hassan
 //
@@ -19,38 +19,20 @@
 //
 
 using System;
-using System.Xml;
-using System.Collections.Generic;
 
 namespace Lastfm.Services
 {
-	public class Playlist : Base
+	public interface ITaggable
 	{
-		public string PlaylistUrl {get; private set; }
-		
-		public Playlist(string playlistUrl, Session session)
-			:base(session)
-		{
-			PlaylistUrl = playlistUrl;
-		}
-		
-		protected override RequestParameters getParams ()
-		{
-			RequestParameters p = base.getParams ();
-			p["playlistURL"] = PlaylistUrl;
-			
-			return p;
-		}
-		
-		public Track[] GetTracks()
-		{
-			XmlDocument doc = request("playlist.fetch");
-			
-			List<Track> list = new List<Track>();
-			foreach(XmlNode n in doc.GetElementsByTagName("track"))
-				list.Add(new Track(extract(n, "creator"), extract(n, "title"), Session));
-			
-			return list.ToArray();
-		}
+		void AddTags(params Tag[] tags);
+		void AddTags(params String[] tags);
+		Tag[] GetTags();
+		Tag[] GetTopTags();
+		Tag[] GetTopTags(int limit);
+		void RemoveTags(params string[] tags);
+		void RemoveTags(params Tag[] tags);
+		void SetTags(Tag[] tags);
+		void SetTags(string[] tags);
+		void ClearTags();
 	}
 }

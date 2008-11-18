@@ -24,7 +24,7 @@ using System.Xml;
 
 namespace Lastfm.Services
 {
-	public class Track : TaggableBase
+	public class Track : TaggableBase, IEquatable<Track>
 	{
 		public string Title {get; private set;}
 		public string ArtistName {get; private set;}
@@ -127,6 +127,14 @@ namespace Lastfm.Services
 			requireAuthentication();
 			
 			request("track.love");
+		}
+		
+		public bool Equals(Track track)
+		{
+			if(track.Title == this.Title && track.ArtistName == this.ArtistName)
+				return true;
+			else
+				return false;
 		}
 	}
 }

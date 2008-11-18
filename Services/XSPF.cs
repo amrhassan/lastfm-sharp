@@ -1,4 +1,4 @@
-// User.cs
+// XSPF.cs
 //
 //  Copyright (C) 2008 Amr Hassan
 //
@@ -19,38 +19,38 @@
 //
 
 using System;
+using System.Xml;
+using System.Collections.Generic;
 
 namespace Lastfm.Services
 {
-	public class User : Base, IEquatable<User>
+	public class XSPF : Base
 	{
-		public string Name {get; private set;}
+		public string PlaylistUrl {get; private set; }
 		
-		public User(string name, Session session)
+		public XSPF(string playlistUrl, Session session)
 			:base(session)
 		{
-			Name = name;
-		}
-		
-		public override string ToString ()
-		{
-			return Name;
+			PlaylistUrl = playlistUrl;
 		}
 		
 		protected override RequestParameters getParams ()
 		{
 			RequestParameters p = base.getParams ();
-			p["user"] = Name;
+			p["playlistURL"] = PlaylistUrl;
 			
 			return p;
 		}
 		
-		public bool Equals(User user)
+		public Track[] GetTracks()
 		{
-			if(user.Name == this.Name)
-				return true;
-			else
-				return false;
+			XmlDocument doc = request("playlist.fetch");
+			
+			List<Track> list = new List<Track>();
+			foreach(XmlNode n in doc.GetElementsByTagName("track"))
+				list.Add(new Track(extract(n, "creator"), extract(n, "title"), Session));
+			
+			return list.ToArray();
 		}
 	}
 }
