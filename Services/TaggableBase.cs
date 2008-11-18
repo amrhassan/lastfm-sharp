@@ -58,6 +58,12 @@ namespace Lastfm.Services
 				AddTags(new Tag(tag, Session));
 		}
 		
+		public void AddTags(TagCollection tags)
+		{
+			foreach(Tag tag in tags)
+				AddTags(tag);
+		}
+		
 		public Tag[] GetTags()
 		{
 			//This method requires authentication
@@ -65,12 +71,12 @@ namespace Lastfm.Services
 			
 			XmlDocument doc = request(prefix + ".getTags");
 			
-			List<Tag> list = new List<Tag>();
+			TagCollection collection = new TagCollection(Session);
 			
 			foreach(string name in this.extractAll(doc, "name"))
-				list.Add(new Tag(name, Session));
+				collection.Add(name);
 			
-			return list.ToArray();
+			return collection.ToArray();
 		}
 		
 		public Tag[] GetTopTags()
@@ -79,21 +85,22 @@ namespace Lastfm.Services
 			
 			string[] names = extractAll(doc, "name");
 			
-			List<Tag> list = new List<Tag>();
+			TagCollection collection = new TagCollection(Session);
 			foreach(string name in names)
-				list.Add(new Tag(name, Session));
+				collection.Add(name);
 			
-			return list.ToArray();
+			return collection.ToArray();
 		}
 		
 		public Tag[] GetTopTags(int limit)
 		{
 			Tag[] array = GetTopTags();
-			List<Tag> list = new List<Tag>();
-			for(int i=0; i<limit; i++)
-				list.Add(array[i]);
+			TagCollection collection = new TagCollection(Session);
 			
-			return list.ToArray();
+			for(int i=0; i<limit; i++)
+				collection.Add(array[i]);
+			
+			return collection.ToArray();
 		}
 		
 		public void RemoveTags(params Tag[] tags)
@@ -121,6 +128,12 @@ namespace Lastfm.Services
 			
 			foreach(string tag in tags)
 				RemoveTags(new Tag(tag, Session));
+		}
+		
+		public void RemoveTags(TagCollection tags)
+		{
+			foreach(Tag tag in tags)
+				RemoveTags(tag);
 		}
 		
 		public void SetTags(string[] tags)
@@ -151,6 +164,11 @@ namespace Lastfm.Services
 				AddTags(toAdd.ToArray());
 			if (toRemove.Count > 0)
 				RemoveTags(toRemove.ToArray());
+		}
+		
+		public void SetTags(TagCollection tags)
+		{
+			SetTags(tags.ToArray());
 		}
 		
 		public void ClearTags()

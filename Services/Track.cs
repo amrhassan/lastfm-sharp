@@ -136,5 +136,28 @@ namespace Lastfm.Services
 			else
 				return false;
 		}
+		
+		public void Share(Recipients recipients, string message)
+		{
+			if (recipients.Count > 1)
+			{
+				foreach(string recipient in recipients)
+				{
+					Recipients r = new Recipients();
+					r.Add(recipient);
+					Share(r, message);
+				}
+				
+				return;
+			}
+			
+			requireAuthentication();
+			
+			RequestParameters p = getParams();
+			p["recipient"] = recipients[0];
+			p["message"] = message;
+			
+			request("track.Share", p);
+		}
 	}
 }
