@@ -1,4 +1,4 @@
-// User.cs
+// Gender.cs
 //
 //  Copyright (C) 2008 Amr Hassan
 //
@@ -19,47 +19,13 @@
 //
 
 using System;
-using System.Collections.Generic;
-using System.Xml;
 
 namespace Lastfm.Services
-{
-	public class User : Base, IEquatable<User>
+{	
+	public enum Gender
 	{
-		public string Name {get; private set;}
-		
-		public User(string name, Session session)
-			:base(session)
-		{
-			Name = name;
-		}
-		
-		public override string ToString ()
-		{
-			return Name;
-		}
-		
-		protected override RequestParameters getParams ()
-		{
-			RequestParameters p = base.getParams ();
-			p["user"] = Name;
-			
-			return p;
-		}
-		
-		public bool Equals(User user)
-		{
-			if(user.Name == this.Name)
-				return true;
-			else
-				return false;
-		}
-		
-		public static AuthenticatedUser GetAuthenticatedUser(Session session)
-		{
-			return AuthenticatedUser.GetUser(session);
-		}
-		
-		
+		Male,
+		Female,
+		Unspecified
 	}
 }

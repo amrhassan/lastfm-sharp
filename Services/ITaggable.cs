@@ -26,13 +26,16 @@ namespace Lastfm.Services
 	{
 		void AddTags(params Tag[] tags);
 		void AddTags(params String[] tags);
+		void AddTags(TagCollection tags);
 		Tag[] GetTags();
 		Tag[] GetTopTags();
 		Tag[] GetTopTags(int limit);
 		void RemoveTags(params string[] tags);
 		void RemoveTags(params Tag[] tags);
+		void RemoveTags(TagCollection tags);
 		void SetTags(Tag[] tags);
 		void SetTags(string[] tags);
+		void SetTags(TagCollection tags);
 		void ClearTags();
 	}
 }

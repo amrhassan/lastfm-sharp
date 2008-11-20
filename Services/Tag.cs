@@ -146,5 +146,18 @@ namespace Lastfm.Services
 		 else
 				return false;
 		}
+		
+		public static TagSearch Search(string tagName, Session session, int itemsPerPage)
+		{
+			Dictionary<string, string> terms = new Dictionary<string,string>();
+			terms["tag"] = tagName;
+			
+			return new TagSearch(terms, session, itemsPerPage);
+		}
+		
+		public static TagSearch Search(string tagName, Session session)
+		{
+			return Tag.Search(tagName, session, 30);
+		}
 	}
 }

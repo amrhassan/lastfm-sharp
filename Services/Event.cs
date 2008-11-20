@@ -25,7 +25,7 @@ using System.Collections.Generic;
 namespace Lastfm.Services
 {
 	// TODO: A venue class that this object returns. I'm to tired right now.. i'll go get some sleep..
-	public class Event : Base, IEquatable<Event>
+	public class Event : Base, IEquatable<Event>, IShareable
 	{
 		public int ID {get; private set;}
 		
@@ -147,6 +147,28 @@ namespace Lastfm.Services
 			RequestParameters p = getParams();
 			p["recipient"] = recipients[0];
 			p["message"] = message;
+			
+			request("event.Share", p);
+		}
+		
+		public void Share(Recipients recipients)
+		{
+			if (recipients.Count > 1)
+			{
+				foreach(string recipient in recipients)
+				{
+					Recipients r = new Recipients();
+					r.Add(recipient);
+					Share(r);
+				}
+				
+				return;
+			}
+			
+			requireAuthentication();
+			
+			RequestParameters p = getParams();
+			p["recipient"] = recipients[0];
 			
 			request("event.Share", p);
 		}

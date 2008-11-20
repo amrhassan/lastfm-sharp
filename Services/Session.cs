@@ -70,7 +70,7 @@ namespace Lastfm.Services
 			return doc.GetElementsByTagName("token")[0].InnerText;
 		}
 		
-		public string GetWebAuthenticationUrl()
+		public string GetWebAuthenticationURL()
 		{
 			token = getAuthenticationToken();
 			
