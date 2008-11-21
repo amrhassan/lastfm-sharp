@@ -1,4 +1,4 @@
-// User.cs
+// Group.cs
 //
 //  Copyright (C) 2008 Amr Hassan
 //
@@ -24,45 +24,34 @@ using System.Xml;
 
 namespace Lastfm.Services
 {
-	public class User : Base, IEquatable<User>
+	
+	
+	public class Group : Base
 	{
 		public string Name {get; private set;}
 		
-		public User(string name, Session session)
+		public Group(string groupName, Session session)
 			:base(session)
 		{
-			Name = name;
-		}
-		
-		public override string ToString ()
-		{
-			return Name;
+			Name = groupName;
 		}
 		
 		protected override RequestParameters getParams ()
 		{
 			RequestParameters p = base.getParams ();
-			p["user"] = Name;
+			p["group"] = Name;
 			
 			return p;
 		}
 		
-		public bool Equals(User user)
+		public override string ToString()
 		{
-			if(user.Name == this.Name)
-				return true;
-			else
-				return false;
-		}
-		
-		public static AuthenticatedUser GetAuthenticatedUser(Session session)
-		{
-			return AuthenticatedUser.GetUser(session);
+			return Name;
 		}
 		
 		public WeeklyTrackChart GetWeeklyTrackChart()
 		{
-			XmlDocument doc = request("user.getWeeklyTrackChart");
+			XmlDocument doc = request("group.getWeeklyTrackChart");
 			
 			XmlNode n = doc.GetElementsByTagName("weeklytrackchart")[0];
 			
@@ -93,7 +82,7 @@ namespace Lastfm.Services
 			p["from"] = Utilities.DateTimeToTimestamp(span.From).ToString();
 			p["to"] = Utilities.DateTimeToTimestamp(span.To).ToString();
 			
-			XmlDocument doc = request("user.getWeeklyTrackChart", p);
+			XmlDocument doc = request("group.getWeeklyTrackChart", p);
 			
 			XmlNode n = doc.GetElementsByTagName("weeklytrackchart")[0];
 			
@@ -119,7 +108,7 @@ namespace Lastfm.Services
 		
 		public WeeklyArtistChart GetWeeklyArtistChart()
 		{
-			XmlDocument doc = request("user.getWeeklyArtistChart");
+			XmlDocument doc = request("group.getWeeklyArtistChart");
 			
 			XmlNode n = doc.GetElementsByTagName("weeklyartistchart")[0];
 			
@@ -150,7 +139,7 @@ namespace Lastfm.Services
 			p["from"] = Utilities.DateTimeToTimestamp(span.From).ToString();
 			p["to"] = Utilities.DateTimeToTimestamp(span.To).ToString();
 			
-			XmlDocument doc = request("user.getWeeklyArtistChart", p);
+			XmlDocument doc = request("group.getWeeklyArtistChart", p);
 			
 			XmlNode n = doc.GetElementsByTagName("weeklyartistchart")[0];
 			
@@ -176,7 +165,7 @@ namespace Lastfm.Services
 		
 		public WeeklyAlbumChart GetWeeklyAlbumChart()
 		{
-			XmlDocument doc = request("user.getWeeklyAlbumChart");
+			XmlDocument doc = request("group.getWeeklyAlbumChart");
 			
 			XmlNode n = doc.GetElementsByTagName("weeklyalbumchart")[0];
 			
@@ -207,7 +196,7 @@ namespace Lastfm.Services
 			p["from"] = Utilities.DateTimeToTimestamp(span.From).ToString();
 			p["to"] = Utilities.DateTimeToTimestamp(span.To).ToString();
 			
-			XmlDocument doc = request("user.getWeeklyAlbumChart", p);
+			XmlDocument doc = request("group.getWeeklyAlbumChart", p);
 			
 			XmlNode n = doc.GetElementsByTagName("weeklyalbumchart")[0];
 			
@@ -233,7 +222,7 @@ namespace Lastfm.Services
 		
 		public WeeklyChartTimeSpan[] GetWeeklyChartTimeSpans()
 		{
-			XmlDocument doc = request("user.getWeeklyChartList");
+			XmlDocument doc = request("group.getWeeklyChartList");
 			
 			List<WeeklyChartTimeSpan> list = new List<WeeklyChartTimeSpan>();
 			foreach(XmlNode node in doc.GetElementsByTagName("chart"))

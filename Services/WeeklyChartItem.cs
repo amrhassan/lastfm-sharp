@@ -27,15 +27,13 @@ namespace Lastfm.Services
 		public int Rank {get; private set;}
 		public int Playcount {get; private set;}
 		
-		public DateTime From {get; private set;}
-		public DateTime To {get; private set;}
+		public WeeklyChartTimeSpan Span {get; private set;}
 		
-		internal WeeklyChartItem(int rank, int playcount, DateTime from, DateTime to)
+		internal WeeklyChartItem(int rank, int playcount, WeeklyChartTimeSpan span)
 		{
 			Rank = rank;
 			Playcount = playcount;
-			From = from;
-			To = to;
+			Span = span;
 		}
 	}
 }

@@ -26,8 +26,8 @@ namespace Lastfm.Services
 	{
 		public Album Album {get; private set;}
 		
-		internal WeeklyAlbumChartItem(Album album, int rank, int playcount, DateTime from, DateTime to)
-			:base(rank, playcount, from, to)
+		internal WeeklyAlbumChartItem(Album album, int rank, int playcount, WeeklyChartTimeSpan span)
+			:base(rank, playcount, span)
 		{
 			Album = album;
 		}

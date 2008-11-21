@@ -28,8 +28,8 @@ namespace Lastfm.Services
 	{
 		public Track Track {get; private set;}
 		
-		internal WeeklyTrackChartItem(Track track, int rank, int playcount, DateTime from, DateTime to)
-			:base(rank, playcount, from, to)
+		internal WeeklyTrackChartItem(Track track, int rank, int playcount, WeeklyChartTimeSpan span)
+			:base(rank, playcount, span)
 		{
 			Track = track;
 		}

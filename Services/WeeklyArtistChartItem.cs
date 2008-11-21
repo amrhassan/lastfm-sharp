@@ -28,8 +28,8 @@ namespace Lastfm.Services
 	{
 		public Artist Artist {get; private set;}
 		
-		internal WeeklyArtistChartItem(Artist artist, int rank, int playcount, DateTime from, DateTime to)
-			:base(rank, playcount, from, to)
+		internal WeeklyArtistChartItem(Artist artist, int rank, int playcount, WeeklyChartTimeSpan span)
+			:base(rank, playcount, span)
 		{
 			Artist = artist;
 		}

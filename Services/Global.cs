@@ -31,10 +31,15 @@ namespace Lastfm.Services
 		{
 		}
 		
-		public TopTag[] GetTopTags()
+		public TopTag[] GetTopTags(Session session)
 		{
-			// TODO: tag.getTopTags
-			return new TopTag[] {};
+			XmlDocument doc = (new Request("tag.getTopTags", session, new RequestParameters())).execute();
+			
+			List<TopTag> list = new List<TopTag>();
+			foreach(XmlNode node in doc.GetElementsByTagName("tag"))
+				list.Add(new TopTag(new Tag(extract(node, "name"), session), Int32.Parse(extract(node, "count"))));
+			
+			return list.ToArray();
 		}
 	}
 }

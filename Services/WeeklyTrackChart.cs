@@ -27,8 +27,8 @@ namespace Lastfm.Services
 	public class WeeklyTrackChart : WeeklyChart<WeeklyTrackChartItem>
 	{
 		
-		public WeeklyTrackChart(DateTime from, DateTime to)
-			:base(from, to)
+		public WeeklyTrackChart(WeeklyChartTimeSpan span)
+			:base(span)
 		{
 		}
 	}

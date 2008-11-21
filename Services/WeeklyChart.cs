@@ -27,13 +27,11 @@ namespace Lastfm.Services
 	
 	public abstract class WeeklyChart<T> : List<T>
 	{
-		public DateTime From {get; private set;}
-		public DateTime To {get; private set;}
+		public WeeklyChartTimeSpan Span {get; private set;}
 		
-		internal WeeklyChart(DateTime from, DateTime to)
+		internal WeeklyChart(WeeklyChartTimeSpan span)
 		{
-			From = from;
-			To = to;
+			Span = span;
 		}
 	}
 }

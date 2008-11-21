@@ -159,5 +159,81 @@ namespace Lastfm.Services
 		{
 			return Tag.Search(tagName, session, 30);
 		}
+		
+		public WeeklyChartTimeSpan[] GetWeeklyChartTimeSpans()
+		{
+			XmlDocument doc = request("tag.getWeeklyChartList");
+			
+			List<WeeklyChartTimeSpan> list = new List<WeeklyChartTimeSpan>();
+			foreach(XmlNode node in doc.GetElementsByTagName("chart"))
+			{
+				long lfrom = long.Parse(node.Attributes[0].InnerText);
+				long lto = long.Parse(node.Attributes[1].InnerText);
+				
+				DateTime from = Utilities.TimestampToDateTime(lfrom);
+				DateTime to = Utilities.TimestampToDateTime(lto);
+				
+				list.Add(new WeeklyChartTimeSpan(from, to));
+			}
+			
+			return list.ToArray();
+		}
+		
+		public WeeklyArtistChart GetWeeklyArtistChart()
+		{
+			XmlDocument doc = request("tag.getWeeklyArtistChart");
+			
+			XmlNode n = doc.GetElementsByTagName("weeklyartistchart")[0];
+			
+			DateTime nfrom = Utilities.TimestampToDateTime(Int64.Parse(n.Attributes[1].InnerText));
+			DateTime nto = Utilities.TimestampToDateTime(Int64.Parse(n.Attributes[2].InnerText));
+			
+			WeeklyArtistChart chart = new WeeklyArtistChart(new WeeklyChartTimeSpan(nfrom, nto));
+			
+			foreach(XmlNode node in doc.GetElementsByTagName("artist"))
+			{
+				int rank = Int32.Parse(node.Attributes[0].InnerText);
+				int playcount = Int32.Parse(extract(node, "playcount"));
+				
+				WeeklyArtistChartItem item = 
+					new WeeklyArtistChartItem(new Artist(extract(node, "name"), Session),
+					                         rank, playcount, new WeeklyChartTimeSpan(nfrom, nto));
+				
+				chart.Add(item);
+			}
+			
+			return chart;
+		}
+		
+		public WeeklyArtistChart GetWeeklyArtistChart(WeeklyChartTimeSpan span)
+		{
+			RequestParameters p = getParams();
+			
+			p["from"] = Utilities.DateTimeToTimestamp(span.From).ToString();
+			p["to"] = Utilities.DateTimeToTimestamp(span.To).ToString();
+			
+			XmlDocument doc = request("tag.getWeeklyArtistChart", p);
+			
+			XmlNode n = doc.GetElementsByTagName("weeklyartistchart")[0];
+			
+			DateTime nfrom = Utilities.TimestampToDateTime(Int64.Parse(n.Attributes[1].InnerText));
+			DateTime nto = Utilities.TimestampToDateTime(Int64.Parse(n.Attributes[2].InnerText));
+			
+			WeeklyArtistChart chart = new WeeklyArtistChart(new WeeklyChartTimeSpan(nfrom, nto));
+			
+			foreach(XmlNode node in doc.GetElementsByTagName("artist"))
+			{
+				int rank = Int32.Parse(node.Attributes[0].InnerText);
+				int playcount = Int32.Parse(extract(node, "playcount"));
+				
+				WeeklyArtistChartItem item = 
+					new WeeklyArtistChartItem(new Artist(extract(node, "name"), Session),
+					                         rank, playcount, new WeeklyChartTimeSpan(nfrom, nto));
+				
+				chart.Add(item);
+			}
+			
+			return chart;
+		}
 	}
 }
