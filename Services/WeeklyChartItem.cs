@@ -1,4 +1,4 @@
-// Global.cs
+// WeeklyChartItem.cs
 //
 //  Copyright (C) 2008 Amr Hassan
 //
@@ -19,22 +19,23 @@
 //
 
 using System;
-using System.Xml;
-using System.Collections.Generic;
 
 namespace Lastfm.Services
 {
-	public class Global : Base
-	{	
-		public Global(Session session)
-			:base(session)
-		{
-		}
+	public abstract class WeeklyChartItem
+	{
+		public int Rank {get; private set;}
+		public int Playcount {get; private set;}
 		
-		public TopTag[] GetTopTags()
+		public DateTime From {get; private set;}
+		public DateTime To {get; private set;}
+		
+		internal WeeklyChartItem(int rank, int playcount, DateTime from, DateTime to)
 		{
-			// TODO: tag.getTopTags
-			return new TopTag[] {};
+			Rank = rank;
+			Playcount = playcount;
+			From = from;
+			To = to;
 		}
 	}
 }

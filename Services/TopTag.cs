@@ -1,4 +1,4 @@
-// Global.cs
+// TopTag.cs
 //
 //  Copyright (C) 2008 Amr Hassan
 //
@@ -19,22 +19,20 @@
 //
 
 using System;
-using System.Xml;
-using System.Collections.Generic;
 
 namespace Lastfm.Services
 {
-	public class Global : Base
-	{	
-		public Global(Session session)
-			:base(session)
-		{
-		}
+	
+	
+	public class TopTag
+	{
+		public Tag Tag {get; private set;}
+		public int Count {get; private set;}
 		
-		public TopTag[] GetTopTags()
+		public TopTag(Tag tag, int count)
 		{
-			// TODO: tag.getTopTags
-			return new TopTag[] {};
+			Tag = tag;
+			Count = count;
 		}
 	}
 }

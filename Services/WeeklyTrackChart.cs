@@ -1,4 +1,4 @@
-// Global.cs
+// WeeklyTrackChart.cs
 //
 //  Copyright (C) 2008 Amr Hassan
 //
@@ -19,22 +19,17 @@
 //
 
 using System;
-using System.Xml;
-using System.Collections.Generic;
 
 namespace Lastfm.Services
 {
-	public class Global : Base
-	{	
-		public Global(Session session)
-			:base(session)
-		{
-		}
+	
+	
+	public class WeeklyTrackChart : WeeklyChart<WeeklyTrackChartItem>
+	{
 		
-		public TopTag[] GetTopTags()
+		public WeeklyTrackChart(DateTime from, DateTime to)
+			:base(from, to)
 		{
-			// TODO: tag.getTopTags
-			return new TopTag[] {};
 		}
 	}
 }

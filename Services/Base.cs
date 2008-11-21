@@ -105,5 +105,15 @@ namespace Lastfm.Services
 			if(!this.Session.Authenticated)
 				throw new AuthenticationRequiredException();
 		}
+		
+		protected T[] sublist<T> (T[] original, int limit)
+		{
+			List<T> list = new List<T>();
+			
+			for(int i=0; i<limit; i++)
+				list.Add(original[i]);
+			
+			return list.ToArray();
+		}
 	}
 }

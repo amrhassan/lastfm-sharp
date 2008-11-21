@@ -24,7 +24,7 @@ using System.Xml;
 
 namespace Lastfm.Services
 {
-	public class AuthenticatedUser : User
+	public class AuthenticatedUser : User, IHasImage
 	{
 		private AuthenticatedUser(string username, Session session)
 			:base(username, session)

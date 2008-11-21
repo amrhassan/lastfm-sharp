@@ -250,28 +250,20 @@ namespace Lastfm.Services
 			return collection.ToArray();
 		}
 		
-		public Tag[] GetTopTags()
+		public TopTag[] GetTopTags()
 		{
 			XmlDocument doc = request("track.getTopTags");
 			
-			string[] names = extractAll(doc, "name");
+			List<TopTag> list = new List<TopTag>();
+			foreach(XmlNode n in doc.GetElementsByTagName("tag"))
+				list.Add(new TopTag(new Tag(extract(n, "name"), Session), Int32.Parse(extract(n, "count"))));
 			
-			TagCollection collection = new TagCollection(Session);
-			foreach(string name in names)
-				collection.Add(name);
-			
-			return collection.ToArray();
+			return list.ToArray();
 		}
 		
-		public Tag[] GetTopTags(int limit)
+		public TopTag[] GetTopTags(int limit)
 		{
-			Tag[] array = GetTopTags();
-			TagCollection collection = new TagCollection(Session);
-			
-			for(int i=0; i<limit; i++)
-				collection.Add(array[i]);
-			
-			return collection.ToArray();
+			return this.sublist<TopTag>(GetTopTags(), limit);
 		}
 		
 		public void RemoveTags(params Tag[] tags)

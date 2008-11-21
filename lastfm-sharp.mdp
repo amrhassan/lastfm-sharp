@@ -51,6 +51,16 @@
     <File name="Services/AuthenticatedUser.cs" subtype="Code" buildaction="Compile" />
     <File name="Services/Gender.cs" subtype="Code" buildaction="Compile" />
     <File name="Services/Playlist.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/IHasImage.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/WeeklyChartItem.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/WeeklyAlbumChartItem.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/WeeklyArtistChartItem.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/WeeklyTrackChartItem.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/WeeklyChart.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/WeeklyTrackChart.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/WeeklyArtistChart.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/WeeklyAlbumChart.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/TopTag.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />

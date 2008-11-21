@@ -28,8 +28,8 @@ namespace Lastfm.Services
 		void AddTags(params String[] tags);
 		void AddTags(TagCollection tags);
 		Tag[] GetTags();
-		Tag[] GetTopTags();
-		Tag[] GetTopTags(int limit);
+		TopTag[] GetTopTags();
+		TopTag[] GetTopTags(int limit);
 		void RemoveTags(params string[] tags);
 		void RemoveTags(params Tag[] tags);
 		void RemoveTags(TagCollection tags);

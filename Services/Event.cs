@@ -25,7 +25,7 @@ using System.Collections.Generic;
 namespace Lastfm.Services
 {
 	// TODO: A venue class that this object returns. I'm to tired right now.. i'll go get some sleep..
-	public class Event : Base, IEquatable<Event>, IShareable
+	public class Event : Base, IEquatable<Event>, IShareable, IHasImage
 	{
 		public int ID {get; private set;}
 		
@@ -92,11 +92,16 @@ namespace Lastfm.Services
 			return extract(doc, "description");
 		}
 		
-		public string GetImageUrl(ImageSize size)
+		public string GetImageURL(ImageSize size)
 		{
 			XmlDocument doc = request("event.getInfo");
 			
 			return extractAll(doc, "image")[(int)size];
+		}
+		
+		public string GetImageURL()
+		{
+			return GetImageURL(ImageSize.Large);
 		}
 		
 		public int GetAttendantCount()

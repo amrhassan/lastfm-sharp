@@ -71,5 +71,19 @@ namespace Lastfm
 			
 			return Encoding.ASCII.GetBytes(values);
 		}
+		
+		public static DateTime TimestampToDateTime(long timestamp)
+		{
+			return new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddSeconds(timestamp).ToLocalTime();
+		}
+		
+		public static long DateTimeToTimestamp(DateTime dateTime)
+		{
+			DateTime baseDate = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+			
+			TimeSpan span = dateTime.ToUniversalTime() - baseDate;
+			
+			return (long)span.TotalSeconds;
+		}
 	}
 }

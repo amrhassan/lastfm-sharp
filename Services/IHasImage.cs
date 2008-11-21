@@ -1,4 +1,4 @@
-// Global.cs
+// IHasImage.cs
 //
 //  Copyright (C) 2008 Amr Hassan
 //
@@ -19,22 +19,11 @@
 //
 
 using System;
-using System.Xml;
-using System.Collections.Generic;
 
 namespace Lastfm.Services
 {
-	public class Global : Base
-	{	
-		public Global(Session session)
-			:base(session)
-		{
-		}
-		
-		public TopTag[] GetTopTags()
-		{
-			// TODO: tag.getTopTags
-			return new TopTag[] {};
-		}
+	public interface IHasImage
+	{
+		string GetImageURL();
 	}
 }

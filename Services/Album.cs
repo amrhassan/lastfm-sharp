@@ -24,7 +24,7 @@ using System.Collections.Generic;
 
 namespace Lastfm.Services
 {
-	public class Album : Base, IEquatable<Album>
+	public class Album : Base, IEquatable<Album>, IHasImage
 	{
 		public string ArtistName {get; private set;}
 		public string Title {get; private set;}
@@ -75,16 +75,16 @@ namespace Lastfm.Services
 			return DateTime.Parse(extract(doc, "releasedate"));
 		}
 		
-		public string GetImageUrl(AlbumImageSize size)
+		public string GetImageURL(AlbumImageSize size)
 		{
 			XmlDocument doc = request("album.getInfo");
 			
 			return extractAll(doc, "image", 4)[(int)size];
 		}
 		
-		public string GetImageUrl()
+		public string GetImageURL()
 		{
-			return GetImageUrl(AlbumImageSize.ExtraLarge);
+			return GetImageURL(AlbumImageSize.ExtraLarge);
 		}
 		
 		public int GetListenerCount()
@@ -108,27 +108,32 @@ namespace Lastfm.Services
 			return (new XSPF(url, Session)).GetTracks();
 		}
 		
-		public Tag[] GetTopTags()
+		public TopTag[] GetTopTags()
 		{
 			XmlDocument doc = request("album.getInfo");
+			XmlNode node = doc.GetElementsByTagName("toptags")[0];
 			
-			List<Tag> list = new List<Tag>();
-			foreach(string name in extractAll(doc.GetElementsByTagName("toptags")[0], "name"))
-				list.Add(new Tag(name, Session));
+			List<TopTag> list = new List<TopTag>();
+			foreach(XmlNode n in ((XmlElement)node).GetElementsByTagName("tag"))
+			{
+				Tag tag = new Tag(extract(n, "name"), Session);
+				int count = Int32.Parse(extract(n, "count"));
+				
+				list.Add(new TopTag(tag, count));
+			}
 			
 			return list.ToArray();
 		}
 		
-		public Tag[] GetTopTags(int limit)
+		public TopTag[] GetTopTags(int limit)
 		{
-			List<Tag> list = new List<Tag>();
+			TopTag[] array = GetTopTags();
+			List<TopTag> collection = new List<TopTag>();
 			
-			int i = 0;
-			foreach(Tag tag in GetTopTags())
-				if (i<limit)
-					list.Add(tag);
+			for(int i=0; i<limit; i++)
+				collection.Add(array[i]);
 			
-			return list.ToArray();
+			return collection.ToArray();
 		}
 		
 		public bool Equals(Album album)
