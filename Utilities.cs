@@ -85,5 +85,12 @@ namespace Lastfm
 			
 			return (long)span.TotalSeconds;
 		}
+		
+		internal static string getPeriod(Lastfm.Services.Period period)
+		{
+			string[] values = new string[] {"overall", "3month", "6month", "12month"};
+			
+			return values[(int)period];
+		}
 	}
 }

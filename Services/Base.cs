@@ -106,11 +106,11 @@ namespace Lastfm.Services
 				throw new AuthenticationRequiredException();
 		}
 		
-		protected T[] sublist<T> (T[] original, int limit)
+		protected T[] sublist<T> (T[] original, int length)
 		{
 			List<T> list = new List<T>();
 			
-			for(int i=0; i<limit; i++)
+			for(int i=0; i<length; i++)
 				list.Add(original[i]);
 			
 			return list.ToArray();

@@ -249,5 +249,240 @@ namespace Lastfm.Services
 			
 			return list.ToArray();
 		}
+		
+		public TopTrack[] GetTopTracks(Period period)
+		{
+			RequestParameters p = getParams();
+			p["period"] = Utilities.getPeriod(period);
+			
+			XmlDocument doc = request("user.getTopTracks", p);
+			
+			List<TopTrack> list = new List<TopTrack>();
+			foreach(XmlNode node in doc.GetElementsByTagName("track"))
+			{
+				Track track = new Track(extract(node, "name", 1), extract(node, "name"), Session);
+				int count = Int32.Parse(extract(node, "playcount"));
+				
+				list.Add(new TopTrack(track, count));
+			}
+			
+			return list.ToArray();
+		}
+		
+		public TopTrack[] GetTopTracks()
+		{
+			return GetTopTracks(Period.Overall);
+		}
+		
+		public TopTag[] GetTopTags()
+		{
+			XmlDocument doc = request("user.getTopTags");
+			
+			List<TopTag> list = new List<TopTag>();
+			foreach(XmlNode node in doc.GetElementsByTagName("tag"))
+				list.Add(new TopTag(new Tag(extract(node, "name"), Session), Int32.Parse(extract(node, "count"))));
+			
+			return list.ToArray();
+		}
+				
+		public TopTag[] GetTopTags(int limit)
+		{
+			return sublist<TopTag>(GetTopTags(), limit);
+		}
+		
+		public TopArtist[] GetTopArtists(Period period)
+		{
+			RequestParameters p = getParams();
+			p["period"] = Utilities.getPeriod(period);
+			
+			XmlDocument doc = request("user.getTopArtists", p);
+			List<TopArtist> list = new List<TopArtist>();
+			
+			foreach(XmlNode node in doc.GetElementsByTagName("artist"))
+			{
+				Artist artist = new Artist(extract(node, "name"), Session);
+				int playcount = Int32.Parse(extract(node, "playcount"));
+				
+				list.Add(new TopArtist(artist, playcount));
+			}
+			
+			return list.ToArray();
+		}
+		
+		public TopArtist[] GetTopArtists()
+		{
+			return GetTopArtists(Period.Overall);
+		}
+		
+		public TopAlbum[] GetTopAlbums(Period period)
+		{
+			RequestParameters p = getParams();
+			p["period"] = Utilities.getPeriod(period);
+			
+			XmlDocument doc = request("user.getTopAlbums", p);
+			List<TopAlbum> list = new List<TopAlbum>();
+			
+			foreach(XmlNode node in doc.GetElementsByTagName("album"))
+			{
+				Album album = new Album(extract(node, "name", 1), extract(node, "name"), Session);
+				int playcount = Int32.Parse(extract(node, "playcount"));
+				
+				list.Add(new TopAlbum(album, playcount));
+			}
+			
+			return list.ToArray();
+		}
+		
+		public TopAlbum[] GetTopAlbums()
+		{
+			return GetTopAlbums(Period.Overall);
+		}
+		
+		public Event[] GetRecommendedEvents(int limit, int page)
+		{
+			// this method requires authentication
+			requireAuthentication();
+			
+			RequestParameters p = getParams();
+			p["limit"] = limit.ToString();
+			p["page"] = page.ToString();
+			
+			XmlDocument doc = request("user.getRecommendedEvents", p);
+			
+			List<Event> list = new List<Event>();
+			foreach(XmlNode node in doc.GetElementsByTagName("event"))
+				list.Add(new Event(Int32.Parse(extract(node, "id")), Session));
+			
+			return list.ToArray();
+		}
+		
+		public Event[] GetRecommendedEvents()
+		{
+			// first page, default number of items per page.
+			return GetRecommendedEvents(20, 1);
+		}
+		
+		public Track[] GetRecentTracks(int limit)
+		{
+			RequestParameters p = getParams();
+			p["limit"] = limit.ToString();
+			
+			XmlDocument doc = request("user.getRecentTracks", p);			
+			List<Track> list = new List<Track>();
+			
+			foreach(XmlNode node in doc.GetElementsByTagName("track"))
+			{
+				// skip the track that is now playing.
+				if (node.Attributes.Count > 0)					
+					continue;
+				
+				list.Add(new Track(extract(node, "artist"), extract(node, "name"), Session));
+			}
+			
+			return list.ToArray();
+		}
+		
+		public Track[] GetRecentTracks()
+		{
+			// default value is 10.
+			return GetRecentTracks(10);
+		}
+		
+		public Track GetNowPlaying()
+		{
+			// Would return null if no track is now playing.
+			
+			RequestParameters p = getParams();
+			p["limit"] = "1";
+			
+			XmlDocument doc = request("user.getRecentTracks", p);
+			XmlNode node = doc.GetElementsByTagName("track")[0];
+			
+			if (node.Attributes.Count > 0)
+				return new Track(extract(node, "artist"), extract(node, "name"), Session);
+			else
+				return null;
+		}
+		
+		public bool IsNowListening()
+		{
+			return (GetNowPlaying() != null);
+		}
+		
+		public Playlist[] GetPlaylists()
+		{
+			XmlDocument doc = request("user.getPlaylists");
+			
+			List<Playlist> list = new List<Playlist>();
+			foreach(string id in extractAll(doc, "id"))
+				list.Add(new Playlist(Int32.Parse(id), Session));
+			
+			return list.ToArray();
+		}
+		
+		public Event[] GetPastEvents(int limit, int page)
+		{
+			XmlDocument doc = request("user.getPastEvents");
+			
+			List<Event> list = new List<Event>();
+			foreach(XmlNode node in doc.GetElementsByTagName("event"))
+				list.Add(new Event(Int32.Parse(extract(node, "id")), Session));
+			
+			return list.ToArray();
+		}
+		
+		public User[] GetNeighbours()
+		{
+			XmlDocument doc = request("user.getNeighbours");
+			
+			List<User> list = new List<User>();
+			foreach(string name in extractAll(doc, "name"))
+				list.Add(new User(name, Session));
+			
+			return list.ToArray();
+		}
+		
+		public User[] GetNeighbours(int limit)
+		{
+			return sublist<User>(GetNeighbours(), limit);
+		}
+		
+		public Track[] GetLovedTracks()
+		{
+			XmlDocument doc = request("user.getLovedTracks");
+			
+			List<Track> list = new List<Track>();
+			foreach(XmlNode node in doc.GetElementsByTagName("track"))
+				list.Add(new Track(extract(node, "name", 1), extract(node, "name"), Session));
+			
+			return list.ToArray();
+		}
+		
+		public User[] GetFriends()
+		{
+			XmlDocument doc = request("user.getFriends");
+			
+			List<User> list = new List<User>();
+			foreach(string name in extractAll(doc, "name"))
+				list.Add(new User(name, Session));
+			
+			return list.ToArray();
+		}
+		
+		public User[] GetFriends(int limit)
+		{
+			return sublist<User>(GetFriends(), limit);
+		}
+		
+		public Event[] GetUpcomingEvents()
+		{
+			XmlDocument doc = request("user.getEvents");
+			
+			List<Event> list = new List<Event>();
+			foreach(string id in extractAll(doc, "id"))
+				list.Add(new Event(Int32.Parse(id), Session));
+			
+			return list.ToArray();
+		}
 	}
 }
