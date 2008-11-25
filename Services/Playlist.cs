@@ -33,6 +33,14 @@ namespace Lastfm.Services
 			:base(session)
 		{
 			ID = id;
+			User = new User(username, session);
+		}
+		
+		public Playlist(User user, int id, Session session)
+			:base(session)
+		{
+			ID = id;
+			User = user;
 		}
 		
 		protected override RequestParameters getParams ()
@@ -119,5 +127,21 @@ namespace Lastfm.Services
 			return (this.ID == playlist.ID);
 		}
 		
+		public static Playlist CreateNew(string title, string description, Session session)
+		{
+			//manually test session for authentication.
+			if(!session.Authenticated)
+				throw new AuthenticationRequiredException();
+			
+			
+			RequestParameters p = new Lastfm.RequestParameters();
+			p["title"] = title;
+			p["description"] = description;
+			
+			XmlDocument doc = (new Request("playlist.create", session, p)).execute();
+			int id = Int32.Parse(doc.GetElementsByTagName("id")[0].InnerText);
+			
+			return new Playlist(AuthenticatedUser.GetUser(session), id, session);
+		}
 	}
 }

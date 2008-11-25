@@ -24,15 +24,11 @@ namespace Lastfm.Services
 {
 	
 	
-	public class TopTag
+	public class TopTag : TopItem<Tag>
 	{
-		public Tag Tag {get; private set;}
-		public int Count {get; private set;}
-		
 		public TopTag(Tag tag, int count)
+			:base(tag, count)
 		{
-			Tag = tag;
-			Count = count;
 		}
 	}
 }

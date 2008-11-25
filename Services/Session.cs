@@ -25,7 +25,7 @@ using System.Xml;
 namespace Lastfm.Services
 {
 	[Serializable]
-	public class Session
+	public class Session : IEquatable<Session>
 	{
 		public string APIKey {get; private set;}
 		public string APISecret {get; private set;}
@@ -88,6 +88,13 @@ namespace Lastfm.Services
 			XmlDocument doc = r.execute();
 			
 			SessionKey = doc.GetElementsByTagName("key")[0].InnerText;
+		}
+		
+		public bool Equals(Session session)
+		{
+			return (session.APIKey == this.APIKey &&
+			        session.APISecret == this.APISecret &&
+			        session.SessionKey == this.SessionKey);
 		}
 	}
 }

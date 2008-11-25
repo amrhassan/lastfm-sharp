@@ -101,14 +101,19 @@ namespace Lastfm.Services
 			return GetImageURL(ImageSize.Large);
 		}
 		
-		public Track[] GetTopTracks()
+		public TopTrack[] GetTopTracks()
 		{
 			XmlDocument doc = request("artist.getTopTracks");
 			
-			List<Track> list = new List<Track>();
+			List<TopTrack> list = new List<TopTrack>();
 			
 			foreach(XmlNode n in doc.GetElementsByTagName("track"))
-				list.Add(new Track(extract(n, "name", 1), extract(n, "name"), Session));
+			{
+				Track track = new Track(extract(n, "name", 1), extract(n, "name"), Session);
+				int weight = int.Parse(extract(n, "playcount"));
+				
+				list.Add(new TopTrack(track, weight));
+			}
 			
 			return list.ToArray();
 		}
@@ -124,34 +129,41 @@ namespace Lastfm.Services
 			return list.ToArray();
 		}
 		
-		public Album[] GetTopAlbums()
+		public TopAlbum[] GetTopAlbums()
 		{
 			XmlDocument doc = request("artist.getTopAlbums");
 			
-			List<Album> list = new List<Album>();
+			List<TopAlbum> list = new List<TopAlbum>();
 			foreach(XmlNode n in doc.GetElementsByTagName("album"))
-				list.Add(new Album(extract(n, "name", 1), extract(n, "name"), Session));
+			{
+				Album album = new Album(extract(n, "name", 1), extract(n, "name"), Session);
+				int weight = int.Parse(extract(n, "playcount"));
+				
+				list.Add(new TopAlbum(album, weight));
+			}
 			
 			return list.ToArray();
 		}
 		
-		public User[] GetTopFans()
+		public TopFan[] GetTopFans()
 		{
 			XmlDocument doc = request("artist.getTopFans");
 			
-			List<User> list = new List<User>();
-			foreach(string name in extractAll(doc, "name"))
-				list.Add(new User(name, Session));
+			List<TopFan> list = new List<TopFan>();
+			foreach(XmlNode node in doc.GetElementsByTagName("user"))
+			{
+				User user = new User(extract(node, "name"), Session);
+				int weight = int.Parse(extract(node, "weight"));
+				
+				list.Add(new TopFan(user, weight));
+			}
 			
 			return list.ToArray();
 		}
 		
 		public bool Equals(Artist artist)
 		{
-			if(artist.Name == this.Name)
-				return true;
-			else
-				return false;
+			return (artist.Name == this.Name);
 		}
 		
 		public void Share(Recipients recipients, string message)

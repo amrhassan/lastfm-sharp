@@ -24,15 +24,11 @@ namespace Lastfm.Services
 {
 	
 	
-	public class TopFan
-	{
-		public User User {get; private set;}
-		public int Weight {get; private set;}
-		
+	public class TopFan : TopItem<User>
+	{		
 		public TopFan(User user, int weight)
+			:base(user, weight)
 		{
-			User = user;
-			Weight = weight;
 		}
 	}
 }

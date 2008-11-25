@@ -24,15 +24,48 @@ using System.Collections.Generic;
 
 namespace Lastfm.Services
 {
+	/// <summary>
+	/// A Last.fm album.
+	/// </summary>
 	public class Album : Base, IEquatable<Album>, IHasImage
 	{
+		/// <value>
+		/// The name of the artist
+		/// </value>
 		public string ArtistName {get; private set;}
+		
+		/// <value>
+		/// The album title.
+		/// </value>
 		public string Title {get; private set;}
+		
+		/// <value>
+		/// The album title/name.
+		/// </value>
 		public string Name {get { return Title; } }
+		
+		/// <value>
+		/// The album's artist.
+		/// </value>
 		public Artist Artist {get { return new Artist(ArtistName, Session); } }
 		
+		/// <value>
+		/// The album's wiki on Last.fm.
+		/// </value>
 		public AlbumWiki Wiki {get { return new AlbumWiki(this, Session); } }
 		
+		/// <summary>
+		/// Create an album.
+		/// </summary>
+		/// <param name="artistName">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="title">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="session">
+		/// A <see cref="Session"/>
+		/// </param>
 		public Album(string artistName, string title, Session session)
 			:base(session)
 		{
@@ -54,6 +87,12 @@ namespace Lastfm.Services
 			return p;
 		}
 		
+		/// <summary>
+		/// Returns the album's MusicBrainz ID if available.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public string GetMBID()
 		{
 			XmlDocument doc = request("album.getInfo");
@@ -61,6 +100,12 @@ namespace Lastfm.Services
 			return extract(doc, "mbid");
 		}
 		
+		/// <summary>
+		/// Returns the album ID on Last.fm.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public string GetID()
 		{
 			XmlDocument doc = request("album.getInfo");
@@ -68,6 +113,12 @@ namespace Lastfm.Services
 			return extract(doc, "id");
 		}
 		
+		/// <summary>
+		/// Returns the album's release date.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="DateTime"/>
+		/// </returns>
 		public DateTime GetReleaseDate()
 		{
 			XmlDocument doc = request("album.getInfo");
@@ -75,6 +126,15 @@ namespace Lastfm.Services
 			return DateTime.Parse(extract(doc, "releasedate"));
 		}
 		
+		/// <summary>
+		/// Returns the url to the album cover if available.
+		/// </summary>
+		/// <param name="size">
+		/// A <see cref="AlbumImageSize"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public string GetImageURL(AlbumImageSize size)
 		{
 			XmlDocument doc = request("album.getInfo");
@@ -82,11 +142,23 @@ namespace Lastfm.Services
 			return extractAll(doc, "image", 4)[(int)size];
 		}
 		
+		/// <summary>
+		/// Returns the url to the album cover if available.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public string GetImageURL()
 		{
 			return GetImageURL(AlbumImageSize.ExtraLarge);
 		}
 		
+		/// <summary>
+		/// Returns the number of listeners on Last.fm.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.Int32"/>
+		/// </returns>
 		public int GetListenerCount()
 		{
 			XmlDocument doc = request("album.getInfo");
@@ -94,6 +166,12 @@ namespace Lastfm.Services
 			return Int32.Parse(extract(doc, "listeners"));
 		}
 		
+		/// <summary>
+		/// Returns the play count on Last.fm.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.Int32"/>
+		/// </returns>
 		public int GetPlaycount()
 		{
 			XmlDocument doc = request("album.getInfo");
@@ -101,6 +179,12 @@ namespace Lastfm.Services
 			return Int32.Parse(extract(doc, "playcount"));
 		}
 		
+		/// <summary>
+		/// Returns an array of the tracks on this album.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="Track"/>
+		/// </returns>
 		public Track[] GetTracks()
 		{
 			string url = "lastfm://playlist/album/" + this.GetID();
@@ -108,6 +192,12 @@ namespace Lastfm.Services
 			return (new XSPF(url, Session)).GetTracks();
 		}
 		
+		/// <summary>
+		/// Returns the top tags for this album on Last.fm.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="TopTag"/>
+		/// </returns>
 		public TopTag[] GetTopTags()
 		{
 			XmlDocument doc = request("album.getInfo");
@@ -125,15 +215,18 @@ namespace Lastfm.Services
 			return list.ToArray();
 		}
 		
+		/// <summary>
+		/// Returns the top tags for this album on Last.fm.
+		/// </summary>
+		/// <param name="limit">
+		/// A <see cref="System.Int32"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="TopTag"/>
+		/// </returns>
 		public TopTag[] GetTopTags(int limit)
 		{
-			TopTag[] array = GetTopTags();
-			List<TopTag> collection = new List<TopTag>();
-			
-			for(int i=0; i<limit; i++)
-				collection.Add(array[i]);
-			
-			return collection.ToArray();
+			return sublist<TopTag>(GetTopTags(), limit);
 		}
 		
 		public bool Equals(Album album)
@@ -144,6 +237,21 @@ namespace Lastfm.Services
 				return false;
 		}
 		
+		/// <summary>
+		/// Search for an album on Last.fm.
+		/// </summary>
+		/// <param name="albumName">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="session">
+		/// A <see cref="Session"/>
+		/// </param>
+		/// <param name="itemsPerPage">
+		/// A <see cref="System.Int32"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="AlbumSearch"/>
+		/// </returns>
 		public static AlbumSearch Search(string albumName, Session session, int itemsPerPage)
 		{
 			Dictionary<string, string> terms = new Dictionary<string,string>();
@@ -152,12 +260,30 @@ namespace Lastfm.Services
 			return new AlbumSearch(terms, session, itemsPerPage);
 		}
 		
+		/// <summary>
+		/// Search for an album on Last.fm.
+		/// </summary>
+		/// <param name="albumName">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="session">
+		/// A <see cref="Session"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="AlbumSearch"/>
+		/// </returns>
 		public static AlbumSearch Search(string albumName, Session session)
 		{
 			// 30 is the default (and maximum) number of results per page.
 			return Album.Search(albumName, session, 30);
 		}
 		
+		/// <summary>
+		/// Add tags to this album.
+		/// </summary>
+		/// <param name="tags">
+		/// A <see cref="Tag"/>
+		/// </param>
 		public void AddTags(params Tag[] tags)
 		{
 			//This method requires authentication
@@ -172,18 +298,36 @@ namespace Lastfm.Services
 			}
 		}
 		
+		/// <summary>
+		/// Add tags to this album.
+		/// </summary>
+		/// <param name="tags">
+		/// A <see cref="System.String"/>
+		/// </param>
 		public void AddTags(params string[] tags)
 		{
 			foreach(string tag in tags)
 				AddTags(new Tag(tag, Session));
 		}
 		
+		/// <summary>
+		/// Add tags to this album.
+		/// </summary>
+		/// <param name="tags">
+		/// A <see cref="TagCollection"/>
+		/// </param>
 		public void AddTags(TagCollection tags)
 		{
 			foreach(Tag tag in tags)
 				AddTags(tag);
 		}
 		
+		/// <summary>
+		/// Returns the tags set by the authenticated user to this album.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="Tag"/>
+		/// </returns>
 		public Tag[] GetTags()
 		{
 			//This method requires authentication
@@ -199,6 +343,12 @@ namespace Lastfm.Services
 			return collection.ToArray();
 		}
 		
+		/// <summary>
+		/// Remove from your tags on this album.
+		/// </summary>
+		/// <param name="tags">
+		/// A <see cref="Tag"/>
+		/// </param>
 		public void RemoveTags(params Tag[] tags)
 		{
 			//This method requires authentication
@@ -213,6 +363,12 @@ namespace Lastfm.Services
 			}
 		}
 		
+		/// <summary>
+		/// Remove from your tags on this album.
+		/// </summary>
+		/// <param name="tags">
+		/// A <see cref="System.String"/>
+		/// </param>
 		public void RemoveTags(params string[] tags)
 		{
 			//This method requires authentication
@@ -222,12 +378,24 @@ namespace Lastfm.Services
 				RemoveTags(new Tag(tag, Session));
 		}
 		
+		/// <summary>
+		/// Remove from the authenticated user's tags on this album.
+		/// </summary>
+		/// <param name="tags">
+		/// A <see cref="TagCollection"/>
+		/// </param>
 		public void RemoveTags(TagCollection tags)
 		{
 			foreach(Tag tag in tags)
 				RemoveTags(tag);
 		}
 		
+		/// <summary>
+		/// Set the authenticated user's tags to only those tags.
+		/// </summary>
+		/// <param name="tags">
+		/// A <see cref="System.String"/>
+		/// </param>
 		public void SetTags(string[] tags)
 		{
 			List<Tag> list = new List<Tag>();
@@ -237,6 +405,12 @@ namespace Lastfm.Services
 			SetTags(list.ToArray());
 		}
 		
+		/// <summary>
+		/// Set the authenticated user's tags to only those tags.
+		/// </summary>
+		/// <param name="tags">
+		/// A <see cref="Tag"/>
+		/// </param>
 		public void SetTags(Tag[] tags)
 		{
 			List<Tag> newSet = new List<Tag>(tags);
@@ -258,6 +432,12 @@ namespace Lastfm.Services
 				RemoveTags(toRemove.ToArray());
 		}
 		
+		/// <summary>
+		/// Set the authenticated user's tags to only those tags.
+		/// </summary>
+		/// <param name="tags">
+		/// A <see cref="TagCollection"/>
+		/// </param>
 		public void SetTags(TagCollection tags)
 		{
 			SetTags(tags.ToArray());

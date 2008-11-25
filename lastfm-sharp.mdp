@@ -1,5 +1,5 @@
 <Project name="lastfm-sharp" fileversion="2.0" DefaultNamespace="Lastfm" language="C#" clr-version="Net_2_0" ctype="DotNetProject">
-  <Configurations active="Debug">
+  <Configurations active="Release">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="bin/Debug" assemblyKeyFile="." assembly="lastfm-sharp" />
       <Build debugmode="True" target="Library" />
@@ -9,7 +9,7 @@
     <Configuration name="Release" ctype="DotNetProjectConfiguration">
       <Output directory="bin/Release" assemblyKeyFile="." assembly="lastfm-sharp" />
       <Build debugmode="False" target="Library" />
-      <Execution runwithwarnings="False" consolepause="False" runtime="MsNet" clr-version="Net_2_0" />
+      <Execution runwithwarnings="True" consolepause="False" runtime="MsNet" clr-version="Net_2_0" />
       <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" generatexmldocumentation="True" codepage="65001" ctype="CSharpCompilerParameters" />
     </Configuration>
   </Configurations>
@@ -68,6 +68,7 @@
     <File name="Services/TopArtist.cs" subtype="Code" buildaction="Compile" />
     <File name="Services/Period.cs" subtype="Code" buildaction="Compile" />
     <File name="Services/TopFan.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/TopItem.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />

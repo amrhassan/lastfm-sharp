@@ -1,4 +1,4 @@
-// TopTrack.cs
+// TopItem.cs
 //
 //  Copyright (C) 2008 Amr Hassan
 //
@@ -24,11 +24,15 @@ namespace Lastfm.Services
 {
 	
 	
-	public class TopTrack : TopItem<Track>
+	public class TopItem<T>
 	{
-		public TopTrack(Track track, int playcount)
-			:base(track, playcount)
+		public T Item {get; private set;}
+		public int Weight {get; private set;}
+		
+		public TopItem(T item, int weight)
 		{
+			Item = item;
+			Weight = weight; 
 		}
 	}
 }

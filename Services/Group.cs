@@ -26,7 +26,7 @@ namespace Lastfm.Services
 {
 	
 	
-	public class Group : Base
+	public class Group : Base, IEquatable<Group>
 	{
 		public string Name {get; private set;}
 		
@@ -237,6 +237,11 @@ namespace Lastfm.Services
 			}
 			
 			return list.ToArray();
+		}
+		
+		public bool Equals(Group group)
+		{
+			return (group.Name == this.Name);
 		}
 	}
 }

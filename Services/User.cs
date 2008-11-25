@@ -49,15 +49,7 @@ namespace Lastfm.Services
 		
 		public bool Equals(User user)
 		{
-			if(user.Name == this.Name)
-				return true;
-			else
-				return false;
-		}
-		
-		public static AuthenticatedUser GetAuthenticatedUser(Session session)
-		{
-			return AuthenticatedUser.GetUser(session);
+			return (user.Name == this.Name);
 		}
 		
 		public WeeklyTrackChart GetWeeklyTrackChart()

@@ -131,10 +131,7 @@ namespace Lastfm.Services
 		
 		public bool Equals(Track track)
 		{
-			if(track.Title == this.Title && track.ArtistName == this.ArtistName)
-				return true;
-			else
-				return false;
+			return(track.Title == this.Title && track.ArtistName == this.ArtistName);
 		}
 		
 		public void Share(Recipients recipients, string message)
@@ -345,6 +342,11 @@ namespace Lastfm.Services
 				list.Add(new TopFan(new User(extract(node, "name"), Session), Int32.Parse(extract(node, "weight"))));
 			
 			return list.ToArray();
+		}
+		
+		public TopFan[] GetTopFans(int limit)
+		{
+			return sublist<TopFan>(GetTopFans(), limit);
 		}
 	}
 }

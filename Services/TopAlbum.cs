@@ -24,15 +24,12 @@ namespace Lastfm.Services
 {
 	
 	
-	public class TopAlbum
+	public class TopAlbum : TopItem<Album>
 	{
-		public int Playcount {get; private set;}
-		public Album Album {get; private set;}
 		
 		public TopAlbum(Album album, int playcount)
+			:base(album, playcount)
 		{
-			Playcount = playcount;
-			Album = album;
 		}
 	}
 }

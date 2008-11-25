@@ -58,83 +58,50 @@ namespace Lastfm.Services
 			return list.ToArray();
 		}
 		
-		public Dictionary<Album, int> GetTopAlbumsWithCount()
+		public TopAlbum[] GetTopAlbums()
 		{
 			XmlDocument doc = request("tag.getTopAlbums");
 			
-			Dictionary<Album, int> dic = new Dictionary<Album,int>();
+			List<TopAlbum> list = new List<TopAlbum>();
 			foreach(XmlNode n in doc.GetElementsByTagName("album"))
 			{
 				Album album = new Album(extract(n, "name", 1), extract(n, "name"), Session);
 				int count = Int32.Parse(extract(n, "tagcount"));
 				
-				dic[album] = count;
+				list.Add(new TopAlbum(album, count));
 			}
-			
-			return dic;
-		}
-		
-		public Album[] GetTopAlbums()
-		{
-			XmlDocument doc = request("tag.getTopAlbums");
-			
-			List<Album> list = new List<Album>();
-			foreach(XmlNode n in doc.GetElementsByTagName("album"))
-				list.Add(new Album(extract(n, "name", 1), extract(n, "name"), Session));
 			
 			return list.ToArray();
 		}
 		
-		public Dictionary<Artist, int> GetTopArtistsWithCount()
+		public TopArtist[] GetTopArtists()
 		{
 			XmlDocument doc = request("tag.getTopArtists");
 			
-			Dictionary<Artist, int> dic = new Dictionary<Artist,int>();			
-			foreach(XmlNode n in doc.GetElementsByTagName("artist"))
+			List<TopArtist> list = new List<TopArtist>();
+			foreach(XmlNode node in doc.GetElementsByTagName("artist"))
 			{
-				Artist artist = new Artist(extract(n, "name"), Session);
-				int count = Int32.Parse(extract(n, "tagcount"));
+				Artist artist = new Artist(extract(node, "name"), Session);
+				int count = int.Parse(extract(node, "tagcount"));
 				
-				dic[artist] = count;
+				list.Add(new TopArtist(artist, count));
 			}
-			
-			return dic;
-		}
-		
-		public Artist[] GetTopArtists()
-		{
-			XmlDocument doc = request("tag.getTopArtists");
-			
-			List<Artist> list = new List<Artist>();
-			foreach(string name in extractAll(doc, "name"))
-				list.Add(new Artist(name, Session));
 			
 			return list.ToArray();
 		}
 		
-		public Dictionary<Track, int> GetTopTracksWithCount()
+		public TopTrack[] GetTopTracks()
 		{
 			XmlDocument doc = request("tag.getTopTracks");
 			
-			Dictionary<Track, int> dic = new Dictionary<Track,int>();			
+			List<TopTrack> list = new List<TopTrack>();
 			foreach(XmlNode n in doc.GetElementsByTagName("track"))
 			{
+				int weight = int.Parse(extract(n, "tagcount"));
 				Track track = new Track(extract(n, "name", 1), extract(n, "name"), Session);
-				int count = Int32.Parse(extract(n, "tagcount"));
 				
-				dic[track] = count;
+				list.Add(new TopTrack(track, weight));
 			}
-			
-			return dic;
-		}
-		
-		public Track[] GetTopTracks()
-		{
-			XmlDocument doc = request("tag.getTopTracks");
-			
-			List<Track> list = new List<Track>();
-			foreach(XmlNode n in doc.GetElementsByTagName("track"))
-				list.Add(new Track(extract(n, "name", 1), extract(n, "name"), Session));
 			
 			return list.ToArray();
 		}
