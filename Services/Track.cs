@@ -335,5 +335,16 @@ namespace Lastfm.Services
 			foreach(Tag tag in GetTags())
 				RemoveTags(tag);
 		}
+		
+		public TopFan[] GetTopFans()
+		{
+			XmlDocument doc = request("track.getTopFans");
+			
+			List<TopFan> list = new List<TopFan>();
+			foreach(XmlNode node in doc.GetElementsByTagName("user"))
+				list.Add(new TopFan(new User(extract(node, "name"), Session), Int32.Parse(extract(node, "weight"))));
+			
+			return list.ToArray();
+		}
 	}
 }

@@ -415,7 +415,7 @@ namespace Lastfm.Services
 			
 			List<Playlist> list = new List<Playlist>();
 			foreach(string id in extractAll(doc, "id"))
-				list.Add(new Playlist(Int32.Parse(id), Session));
+				list.Add(new Playlist(Name, Int32.Parse(id), Session));
 			
 			return list.ToArray();
 		}

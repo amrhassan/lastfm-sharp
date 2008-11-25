@@ -19,17 +19,105 @@
 //
 
 using System;
+using System.Collections.Generic;
+using System.Xml;
 
 namespace Lastfm.Services
 {
-	public class Playlist : Base
+	public class Playlist : Base, IHasImage, System.IEquatable<Playlist>
 	{	
 		public int ID {get; private set;}
+		public User User {get; private set;}
 		
-		public Playlist(int id, Session session)
+		public Playlist(string username, int id, Session session)
 			:base(session)
 		{
 			ID = id;
 		}
+		
+		protected override RequestParameters getParams ()
+		{
+			RequestParameters p = base.getParams ();
+			p["id"] = ID.ToString();
+			
+			return p;
+		}
+		
+		public Track[] GetTracks()
+		{
+			string url = "lastfm://playlist/" + ID.ToString();
+			
+			return (new XSPF(url, Session)).GetTracks();
+		}
+		
+		public void AddTrack(Track track)
+		{
+			requireAuthentication();
+			
+			RequestParameters p = getParams();
+			p["track"] = track.Title;
+			p["artist"] = track.ArtistName;
+			
+			request("playlist.addTrack", p);
+		}
+		
+		private XmlNode getNode()
+		{
+			RequestParameters p = new Lastfm.RequestParameters();
+			p["user"] = User.Name;
+			
+			XmlDocument doc = request("user.getPlaylists", p);
+			foreach(XmlNode node in doc.GetElementsByTagName("playlist"))
+			{
+				if (Int32.Parse(extract(node, "id")) == ID)
+					return node;
+			}
+			
+			return null;			
+		}
+		
+		public string GetTitle()
+		{
+			return extract(getNode(), "title");
+		}
+		
+		public string GetDescription()
+		{
+			return extract(getNode(), "description");
+		}
+		
+		public DateTime GetCreationDate()
+		{
+			return DateTime.Parse(extract(getNode(), "date"));
+		}
+		
+		public int GetSize()
+		{
+			return Int32.Parse(extract(getNode(), "size"));
+		}
+		
+		public TimeSpan GetDuration()
+		{
+			int duration = Int32.Parse(extract(getNode(), "duration"));
+			
+			// duration is in seconds, i guess..
+			return new TimeSpan(0, 0, duration);
+		}
+		
+		public string GetImageURL(ImageSize size)
+		{
+			return extractAll(getNode(), "image")[(int)size];
+		}
+		
+		public string GetImageURL()
+		{
+			return GetImageURL(ImageSize.Large);
+		}
+		
+		public bool Equals(Playlist playlist)
+		{
+			return (this.ID == playlist.ID);
+		}
+		
 	}
 }
