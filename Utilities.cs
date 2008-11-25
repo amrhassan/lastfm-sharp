@@ -32,7 +32,7 @@ namespace Lastfm
 	{
 		public static Version AssemblyVersion
 		{
-			get{ return System.Reflection.Assembly.GetEntryAssembly().GetName().Version; }
+			get{ return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; }
 		}
 		
 		internal static string UserAgent

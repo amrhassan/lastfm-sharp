@@ -1,2 +1,5 @@
+0.1.01
+	* fixed: Utilities.AssemblyVersion now returns the right version.
+
 0.0
 	* In progress...

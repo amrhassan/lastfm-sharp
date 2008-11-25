@@ -55,7 +55,7 @@ namespace Lastfm.Services
 		public AlbumWiki Wiki {get { return new AlbumWiki(this, Session); } }
 		
 		/// <summary>
-		/// Create an album.
+		/// Createa an album object.
 		/// </summary>
 		/// <param name="artistName">
 		/// A <see cref="System.String"/>
