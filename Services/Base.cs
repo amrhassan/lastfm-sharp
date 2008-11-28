@@ -24,6 +24,9 @@ using System.Xml;
 
 namespace Lastfm.Services
 {
+	/// <summary>
+	/// A base class for most of the objects.
+	/// </summary>
 	public abstract class Base
 	{
 		protected Session Session {get; set;}

@@ -21,7 +21,10 @@
 using System;
 
 namespace Lastfm.Services
-{	
+{
+	/// <summary>
+	/// A gender of a person.
+	/// </summary>
 	public enum Gender
 	{
 		Male,

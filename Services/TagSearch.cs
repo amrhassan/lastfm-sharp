@@ -24,12 +24,27 @@ using System.Collections.Generic;
 
 namespace Lastfm.Services
 {
+	/// <summary>
+	/// Encapsulates the tag searching functions.
+	/// </summary>
+	/// <remarks>
+	/// To create an object of this class use <see cref="Search.ForTags"/>.
+	/// </remarks>
 	public class TagSearch : Search
 	{	
 		internal TagSearch(Dictionary<string, string> searchTerms, Session session, int itemsPerPage)
 			:base("tag", searchTerms, session, itemsPerPage)
 		{}
 		
+		/// <summary>
+		/// Returns a page of results.
+		/// </summary>
+		/// <param name="page">
+		/// A <see cref="System.Int32"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="Tag"/>
+		/// </returns>
 		public Tag[] GetPage(int page)
 		{
 			RequestParameters p = getParams();

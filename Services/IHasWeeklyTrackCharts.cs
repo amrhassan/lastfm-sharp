@@ -1,4 +1,4 @@
-// AuthenticationRequiredException.cs
+// IHasWeeklyTrackCharts.cs
 //
 //  Copyright (C) 2008 Amr Hassan
 //
@@ -23,14 +23,12 @@ using System;
 namespace Lastfm.Services
 {
 	/// <summary>
-	/// This exception is thrown whenever a method is called thar required an authenticated 
-	/// <see cref="Session"/> object and the given was not.
+	/// Objects that implement this have weekly track charts.
 	/// </summary>
-	public class AuthenticationRequiredException : Exception
+	public interface IHasWeeklyTrackCharts
 	{
-		internal AuthenticationRequiredException()
-			:base("This method requires an authenticated Session object.")
-		{
-		}
+		WeeklyTrackChart GetWeeklyTrackChart();
+		WeeklyTrackChart GetWeeklyTrackChart(WeeklyChartTimeSpan span);
+		WeeklyChartTimeSpan[] GetWeeklyChartTimeSpans();
 	}
 }

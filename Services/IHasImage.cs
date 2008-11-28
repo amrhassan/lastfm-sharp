@@ -22,6 +22,9 @@ using System;
 
 namespace Lastfm.Services
 {
+	/// <summary>
+	/// Objects that implement this has an image url available.
+	/// </summary>
 	public interface IHasImage
 	{
 		string GetImageURL();

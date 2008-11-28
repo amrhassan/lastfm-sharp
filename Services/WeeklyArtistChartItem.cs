@@ -22,10 +22,14 @@ using System;
 
 namespace Lastfm.Services
 {
-	
-	
+	/// <summary>
+	/// An artist in a weekly chart list.
+	/// </summary>
 	public class WeeklyArtistChartItem : WeeklyChartItem
 	{
+		/// <summary>
+		/// The concerned artist.
+		/// </summary>
 		public Artist Artist {get; private set;}
 		
 		internal WeeklyArtistChartItem(Artist artist, int rank, int playcount, WeeklyChartTimeSpan span)

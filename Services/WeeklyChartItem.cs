@@ -22,11 +22,26 @@ using System;
 
 namespace Lastfm.Services
 {
+	/// <summary>
+	/// An abstract Weekly Chart Item class.
+	/// </summary>
 	public abstract class WeeklyChartItem
 	{
+		/// <summary>
+		/// The rank of this item in the chart.
+		/// </summary>
 		public int Rank {get; private set;}
+		
+		/// <value>
+		/// The number of playcounts during the timespan of the chart.
+		/// </value>
+		/// <summary> Playcounts during.</summary>
 		public int Playcount {get; private set;}
 		
+		/// <summary>Time Span</summary>
+		/// <value>
+		/// The time span of this chart list.
+		/// </value>
 		public WeeklyChartTimeSpan Span {get; private set;}
 		
 		internal WeeklyChartItem(int rank, int playcount, WeeklyChartTimeSpan span)

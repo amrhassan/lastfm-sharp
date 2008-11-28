@@ -22,6 +22,9 @@ using System;
 
 namespace Lastfm.Services
 {
+	/// <summary>
+	/// The status of attending an event.
+	/// </summary>
 	public enum EventAttendance
 	{
 		Attending = 0,

@@ -24,9 +24,16 @@ using System.Collections.Generic;
 
 namespace Lastfm.Services
 {
-	// TODO: A venue class that this object returns. I'm to tired right now.. i'll go get some sleep..
+	// TODO: A venue class that this object returns.
+	
+	/// <summary>
+	/// A Last.fm event.
+	/// </summary>
 	public class Event : Base, IEquatable<Event>, IShareable, IHasImage
 	{
+		/// <summary>
+		/// The event ID.
+		/// </summary>
 		public int ID {get; private set;}
 		
 		public Event(int id, Session session)
@@ -43,6 +50,12 @@ namespace Lastfm.Services
 			return p;
 		}
 		
+		/// <summary>
+		/// Set the authenticated user's status for this event. 
+		/// </summary>
+		/// <param name="attendance">
+		/// A <see cref="EventAttendance"/>
+		/// </param>
 		public void SetAttendance(EventAttendance attendance)
 		{
 			requireAuthentication();
@@ -53,6 +66,12 @@ namespace Lastfm.Services
 			request("event.attend", p);
 		}
 		
+		/// <summary>
+		/// Returns the title of the event.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public string GetTitle()
 		{
 			XmlDocument doc = request("event.getInfo");
@@ -60,6 +79,12 @@ namespace Lastfm.Services
 			return extract(doc, "title");
 		}
 		
+		/// <summary>
+		/// Returns the participating artists in this event.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="Artist"/>
+		/// </returns>
 		public Artist[] GetArtists()
 		{
 			XmlDocument doc = request("event.getInfo");
@@ -71,6 +96,12 @@ namespace Lastfm.Services
 			return list.ToArray();
 		}
 		
+		/// <summary>
+		/// Returns the headliner artist.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="Artist"/>
+		/// </returns>
 		public Artist GetHeadliner()
 		{
 			XmlDocument doc = request("event.getInfo");
@@ -78,6 +109,12 @@ namespace Lastfm.Services
 			return new Artist(extract(doc, "headliner"), Session);
 		}
 		
+		/// <summary>
+		/// Returns the start time of the event.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="DateTime"/>
+		/// </returns>
 		public DateTime GetStartDate()
 		{
 			XmlDocument doc = request("event.getInfo");
@@ -85,6 +122,12 @@ namespace Lastfm.Services
 			return DateTime.Parse(extract(doc, "startDate"));
 		}
 		
+		/// <summary>
+		/// Returns the description of the evnet.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public string GetDescription()
 		{
 			XmlDocument doc = request("event.getInfo");
@@ -92,6 +135,15 @@ namespace Lastfm.Services
 			return extract(doc, "description");
 		}
 		
+		/// <summary>
+		/// Returns the url to the image of this event.
+		/// </summary>
+		/// <param name="size">
+		/// A <see cref="ImageSize"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public string GetImageURL(ImageSize size)
 		{
 			XmlDocument doc = request("event.getInfo");
@@ -99,11 +151,23 @@ namespace Lastfm.Services
 			return extractAll(doc, "image")[(int)size];
 		}
 		
+		/// <summary>
+		/// Returns the url to the image of this event.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public string GetImageURL()
 		{
 			return GetImageURL(ImageSize.Large);
 		}
 		
+		/// <summary>
+		/// Returns the number of attendees.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.Int32"/>
+		/// </returns>
 		public int GetAttendantCount()
 		{
 			XmlDocument doc = request("event.getInfo");
@@ -111,13 +175,29 @@ namespace Lastfm.Services
 			return Int32.Parse(extract(doc, "attendance"));
 		}
 		
+		/// <summary>
+		/// Returns the number of reviews for this event.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.Int32"/>
+		/// </returns>
 		public int GetReviewCount()
 		{
 			XmlDocument doc = request("event.getInfo");
 			
 			return Int32.Parse(extract(doc, "reviews"));
 		}
-			
+
+		/// <summary>
+		/// Returns the flickr tag.
+		/// </summary>
+		/// <remarks>
+		/// You can tag your image on flickr with this tag and they would be imported into
+		/// the last.fm page for this event. 
+		/// </remarks>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public string GetFlickrTag()
 		{
 			XmlDocument doc = request("event.getInfo");
@@ -133,6 +213,15 @@ namespace Lastfm.Services
 				return false;
 		}
 		
+		/// <summary>
+		/// Share this event with others.
+		/// </summary>
+		/// <param name="recipients">
+		/// A <see cref="Recipients"/>
+		/// </param>
+		/// <param name="message">
+		/// A <see cref="System.String"/>
+		/// </param>
 		public void Share(Recipients recipients, string message)
 		{
 			if (recipients.Count > 1)
@@ -156,6 +245,12 @@ namespace Lastfm.Services
 			request("event.Share", p);
 		}
 		
+		/// <summary>
+		/// Share this event with others.
+		/// </summary>
+		/// <param name="recipients">
+		/// A <see cref="Recipients"/>
+		/// </param>
 		public void Share(Recipients recipients)
 		{
 			if (recipients.Count > 1)

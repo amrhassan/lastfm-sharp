@@ -28,8 +28,14 @@ using System.Web;
 
 namespace Lastfm
 {
+	/// <summary>
+	/// General utility functions
+	/// </summary>
 	public static class Utilities
 	{
+		/// <summary>
+		/// Returns the version of this assembly.
+		/// </summary>
 		public static Version AssemblyVersion
 		{
 			get{ return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; }
@@ -40,6 +46,15 @@ namespace Lastfm
 			get { return "lastfm-sharp/" + AssemblyVersion.ToString(); }
 		}
 		
+		/// <summary>
+		/// Returns the md5 hash of a string.
+		/// </summary>
+		/// <param name="text">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public static string md5(string text)
 		{
 			byte[] buffer = Encoding.UTF8.GetBytes(text);
@@ -72,11 +87,29 @@ namespace Lastfm
 			return Encoding.ASCII.GetBytes(values);
 		}
 		
+		/// <summary>
+		/// Converts a unix timestamp to a <see cref="DateTime"/> value.
+		/// </summary>
+		/// <param name="timestamp">
+		/// A <see cref="System.Int64"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="DateTime"/>
+		/// </returns>
 		public static DateTime TimestampToDateTime(long timestamp)
 		{
 			return new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddSeconds(timestamp).ToLocalTime();
 		}
 		
+		/// <summary>
+		/// Converts a <see cref="DateTime"/> value into a unix timestamp.
+		/// </summary>
+		/// <param name="dateTime">
+		/// A <see cref="DateTime"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="System.Int64"/>
+		/// </returns>
 		public static long DateTimeToTimestamp(DateTime dateTime)
 		{
 			DateTime baseDate = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);

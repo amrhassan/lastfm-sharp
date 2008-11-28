@@ -22,6 +22,9 @@ using System;
 
 namespace Lastfm.Services
 {
+	/// <summary>
+	/// Objects that implement this can be shared with others.
+	/// </summary>
 	public interface IShareable
 	{
 		void Share(Recipients recipients, string message);

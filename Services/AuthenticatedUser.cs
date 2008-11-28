@@ -24,6 +24,13 @@ using System.Xml;
 
 namespace Lastfm.Services
 {
+	/// <summary>
+	/// The authenticated user.
+	/// </summary>
+	/// <remarks>
+	/// To create an an object of this class, you'd have to call
+	/// <see cref="AuthenticatedUser.GetUser"/>.
+	/// </remarks>
 	public class AuthenticatedUser : User, IHasImage
 	{
 		private AuthenticatedUser(string username, Session session)
@@ -31,8 +38,21 @@ namespace Lastfm.Services
 		{
 		}
 		
+		/// <summary>
+		/// Returns the authenticated user of this session.
+		/// </summary>
+		/// <param name="session">
+		/// A <see cref="Session"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="AuthenticatedUser"/>
+		/// </returns>
 		public static AuthenticatedUser GetUser(Session session)
 		{
+			//check for authentication manually
+			if(!session.Authenticated)
+				throw new AuthenticationRequiredException();
+			
 			XmlDocument doc = (new Request("user.getInfo", session, new RequestParameters())).execute();
 			
 			string name = doc.GetElementsByTagName("name")[0].InnerText;
@@ -40,6 +60,12 @@ namespace Lastfm.Services
 			return new AuthenticatedUser(name, session);
 		}
 		
+		/// <summary>
+		/// Returns the url to the authenticated user's avatar.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public string GetImageURL()
 		{
 			XmlDocument doc = request("user.getInfo");
@@ -47,6 +73,12 @@ namespace Lastfm.Services
 			return extract(doc, "image");
 		}
 		
+		/// <summary>
+		/// Returns the ISO 639 alpha-2 language code of this user.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public string GetLanguageCode()
 		{
 			XmlDocument doc = request("user.getInfo");
@@ -54,6 +86,12 @@ namespace Lastfm.Services
 			return extract(doc, "lang");
 		}
 		
+		/// <summary>
+		/// Returns the naume of the authenticated user's country.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public string GetCountryName()
 		{
 			XmlDocument doc = request("user.getInfo");
@@ -61,6 +99,12 @@ namespace Lastfm.Services
 			return extract(doc, "country");
 		}
 		
+		/// <summary>
+		/// Returns the authenticated user's age.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.Int32"/>
+		/// </returns>
 		public int GetAge()
 		{
 			XmlDocument doc = request("user.getInfo");
@@ -68,6 +112,12 @@ namespace Lastfm.Services
 			return Int32.Parse(extract(doc, "age"));
 		}
 		
+		/// <summary>
+		/// Returns the authenticated user's gender.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="Gender"/>
+		/// </returns>
 		public Gender GetGender()
 		{
 			XmlDocument doc = request("user.getInfo");
@@ -82,6 +132,12 @@ namespace Lastfm.Services
 				return Gender.Unspecified;
 		}
 		
+		/// <summary>
+		/// Returns true if the user is a subscriber, false if not.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.Boolean"/>
+		/// </returns>
 		public bool IsSubscriber()
 		{
 			XmlDocument doc = request("user.getInfo");
@@ -89,11 +145,59 @@ namespace Lastfm.Services
 			return (extract(doc, "subscriber") == "1");
 		}
 		
+		/// <summary>
+		/// Returns the user's playcount.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.Int32"/>
+		/// </returns>
 		public int GetPlaycount()
 		{
 			XmlDocument doc = request("user.getInfo");
 			
 			return Int32.Parse(extract(doc, "playcount"));
+		}
+		
+		/// <summary>
+		/// Returns the recommended events by Last.fm for this user.
+		/// </summary>
+		/// <param name="limit">
+		/// A <see cref="System.Int32"/>
+		/// </param>
+		/// <param name="page">
+		/// A <see cref="System.Int32"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="Event"/>
+		/// </returns>
+		public Event[] GetRecommendedEvents(int limit, int page)
+		{
+			// this method requires authentication
+			requireAuthentication();
+			
+			RequestParameters p = getParams();
+			p["limit"] = limit.ToString();
+			p["page"] = page.ToString();
+			
+			XmlDocument doc = request("user.getRecommendedEvents", p);
+			
+			List<Event> list = new List<Event>();
+			foreach(XmlNode node in doc.GetElementsByTagName("event"))
+				list.Add(new Event(Int32.Parse(extract(node, "id")), Session));
+			
+			return list.ToArray();
+		}
+		
+		/// <summary>
+		/// Returns the recommended events by Last.fm for this user.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="Event"/>
+		/// </returns>
+		public Event[] GetRecommendedEvents()
+		{
+			// first page, default number of items per page.
+			return GetRecommendedEvents(20, 1);
 		}
 	}
 }

@@ -22,8 +22,9 @@ using System;
 
 namespace Lastfm.Services
 {
-	
-	
+	/// <summary>
+	/// A top track in a list of top tracks.
+	/// </summary>
 	public class TopTrack : TopItem<Track>
 	{
 		public TopTrack(Track track, int playcount)

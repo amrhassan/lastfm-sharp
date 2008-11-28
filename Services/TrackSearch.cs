@@ -24,12 +24,27 @@ using System.Collections.Generic;
 
 namespace Lastfm.Services
 {
+	/// <summary>
+	/// Encapsulates the track searching functions.
+	/// </summary>
+	/// <remarks>
+	/// To create an object of this class use <see cref="Search.ForTracks"/>.
+	/// </remarks>
 	public class TrackSearch : Search
 	{
 		public TrackSearch(Dictionary<string, string> searchTerms, Session session, int itemsPerPage)
 			:base("track", searchTerms, session, itemsPerPage)
 		{}
 		
+		/// <summary>
+		/// Returns a page of results.
+		/// </summary>
+		/// <param name="page">
+		/// A <see cref="System.Int32"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="Track"/>
+		/// </returns>
 		public Track[] GetPage(int page)
 		{
 			RequestParameters p = getParams();

@@ -24,13 +24,30 @@ using System.Xml;
 
 namespace Lastfm.Services
 {
+	/// <summary>
+	/// A Last.fm track.
+	/// </summary>
 	public class Track : Base, IEquatable<Track>, IShareable, ITaggable
 	{
+		/// <summary>
+		/// The track title.
+		/// </summary>
 		public string Title {get; private set;}
+		
+		/// <summary>
+		/// The artist name.
+		/// </summary>
 		public string ArtistName {get; private set;}
+		
+		/// <summary>
+		/// The artist.
+		/// </summary>
 		public Artist Artist
 		{ get { return new Artist(this.ArtistName, Session); } }
 		
+		/// <summary>
+		/// The track wiki on Last.fm.
+		/// </summary>
 		public Wiki Wiki
 		{ get { return new TrackWiki(this, Session); } }
     
@@ -55,6 +72,12 @@ namespace Lastfm.Services
 			return p;
 		}
 		
+		/// <summary>
+		/// A unique Last.fm ID.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.Int32"/>
+		/// </returns>
 		public int GetID()
 		{
 			XmlDocument doc = request("track.getInfo");
@@ -62,6 +85,12 @@ namespace Lastfm.Services
 			return Int32.Parse(extract(doc, "id"));
 		}
 		
+		/// <summary>
+		/// Returns the duration.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="TimeSpan"/>
+		/// </returns>
 		public TimeSpan GetDuration()
 		{
 			XmlDocument doc = request("track.getInfo");
@@ -70,6 +99,12 @@ namespace Lastfm.Services
 			return new TimeSpan(0, 0, 0, 0, Int32.Parse(extract(doc, "duration")));
 		}
 		
+		/// <summary>
+		/// Returns true if the track is available for streaming.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.Boolean"/>
+		/// </returns>
 		public bool IsStreamable()
 		{
 			XmlDocument doc = request("track.getInfo");
@@ -82,6 +117,12 @@ namespace Lastfm.Services
 				return false;
 		}
 		
+		/// <summary>
+		/// Returns the album of this track.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="Album"/>
+		/// </returns>
 		public Album GetAlbum()
 		{
 			XmlDocument doc = request("track.getInfo");
@@ -99,6 +140,9 @@ namespace Lastfm.Services
 			}
 		}
 		
+		/// <summary>
+		/// Ban this track.
+		/// </summary>
 		public void Ban()
 		{
 			//This method requires authentication
@@ -107,6 +151,12 @@ namespace Lastfm.Services
 			request("track.ban");
 		}
 		
+		/// <summary>
+		/// Return similar tracks.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="Track"/>
+		/// </returns>
 		public Track[] GetSimilar()
 		{
 			XmlDocument doc = request("track.getSimilar");
@@ -121,6 +171,9 @@ namespace Lastfm.Services
 			return list.ToArray();
 		}
 		
+		/// <summary>
+		/// Love this track.
+		/// </summary>
 		public void Love()
 		{
 			//This method requires authentication
@@ -134,6 +187,15 @@ namespace Lastfm.Services
 			return(track.Title == this.Title && track.ArtistName == this.ArtistName);
 		}
 		
+		/// <summary>
+		/// Share this track with others.
+		/// </summary>
+		/// <param name="recipients">
+		/// A <see cref="Recipients"/>
+		/// </param>
+		/// <param name="message">
+		/// A <see cref="System.String"/>
+		/// </param>
 		public void Share(Recipients recipients, string message)
 		{
 			if (recipients.Count > 1)
@@ -157,6 +219,12 @@ namespace Lastfm.Services
 			request("track.Share", p);
 		}
 		
+		/// <summary>
+		/// Share this track with others.
+		/// </summary>
+		/// <param name="recipients">
+		/// A <see cref="Recipients"/>
+		/// </param>
 		public void Share(Recipients recipients)
 		{
 			if (recipients.Count > 1)
@@ -179,6 +247,24 @@ namespace Lastfm.Services
 			request("track.Share", p);
 		}
 		
+		/// <summary>
+		/// Search for tracks on Last.fm.
+		/// </summary>
+		/// <param name="artist">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="title">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="session">
+		/// A <see cref="Session"/>
+		/// </param>
+		/// <param name="itemsPerPage">
+		/// A <see cref="System.Int32"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="TrackSearch"/>
+		/// </returns>
 		public static TrackSearch Search(string artist, string title, Session session, int itemsPerPage)
 		{
 			Dictionary<string, string> terms = new Dictionary<string,string>();
@@ -188,11 +274,41 @@ namespace Lastfm.Services
 			return new TrackSearch(terms, session, itemsPerPage);
 		}
 		
+		/// <summary>
+		/// Search for tracks on Last.fm.
+		/// </summary>
+		/// <param name="artist">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="title">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="session">
+		/// A <see cref="Session"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="TrackSearch"/>
+		/// </returns>
 		public static TrackSearch Search(string artist, string title, Session session)
 		{
 			return Track.Search(artist, title, session, 30);
 		}
 		
+		/// <summary>
+		/// Search for tracks on Last.fm.
+		/// </summary>
+		/// <param name="title">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="session">
+		/// A <see cref="Session"/>
+		/// </param>
+		/// <param name="itemsPerPage">
+		/// A <see cref="System.Int32"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="TrackSearch"/>
+		/// </returns>
 		public static TrackSearch Search(string title, Session session, int itemsPerPage)
 		{
 			Dictionary<string, string> terms = new Dictionary<string,string>();
@@ -201,11 +317,29 @@ namespace Lastfm.Services
 			return new TrackSearch(terms, session, itemsPerPage);
 		}
 		
+		/// <summary>
+		/// Search for tracks on Last.fm.
+		/// </summary>
+		/// <param name="title">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="session">
+		/// A <see cref="Session"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="TrackSearch"/>
+		/// </returns>
 		public static TrackSearch Search(string title, Session session)
 		{
 			return Track.Search(title, session, 30);
 		}
 		
+		/// <summary>
+		/// Add tags to this track.
+		/// </summary>
+		/// <param name="tags">
+		/// A <see cref="Tag"/>
+		/// </param>
 		public void AddTags(params Tag[] tags)
 		{
 			//This method requires authentication
@@ -220,18 +354,36 @@ namespace Lastfm.Services
 			}
 		}
 		
+		/// <summary>
+		/// Add tags to this track.
+		/// </summary>
+		/// <param name="tags">
+		/// A <see cref="System.String"/>
+		/// </param>
 		public void AddTags(params string[] tags)
 		{
 			foreach(string tag in tags)
 				AddTags(new Tag(tag, Session));
 		}
 		
+		/// <summary>
+		/// Add tags to this track.
+		/// </summary>
+		/// <param name="tags">
+		/// A <see cref="TagCollection"/>
+		/// </param>
 		public void AddTags(TagCollection tags)
 		{
 			foreach(Tag tag in tags)
 				AddTags(tag);
 		}
 		
+		/// <summary>
+		/// Returns the tags set by the authenticated user to this track.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="Tag"/>
+		/// </returns>
 		public Tag[] GetTags()
 		{
 			//This method requires authentication
@@ -247,6 +399,12 @@ namespace Lastfm.Services
 			return collection.ToArray();
 		}
 		
+		/// <summary>
+		/// Return the top tags.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="TopTag"/>
+		/// </returns>
 		public TopTag[] GetTopTags()
 		{
 			XmlDocument doc = request("track.getTopTags");
@@ -258,11 +416,26 @@ namespace Lastfm.Services
 			return list.ToArray();
 		}
 		
+		/// <summary>
+		/// Returns the top tags.
+		/// </summary>
+		/// <param name="limit">
+		/// A <see cref="System.Int32"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="TopTag"/>
+		/// </returns>
 		public TopTag[] GetTopTags(int limit)
 		{
 			return this.sublist<TopTag>(GetTopTags(), limit);
 		}
 		
+		/// <summary>
+		/// Remove a bunch of tags from this track.
+		/// </summary>
+		/// <param name="tags">
+		/// A <see cref="Tag"/>
+		/// </param>
 		public void RemoveTags(params Tag[] tags)
 		{
 			//This method requires authentication
@@ -277,6 +450,12 @@ namespace Lastfm.Services
 			}
 		}
 		
+		/// <summary>
+		/// Remove a bunch of tags from this track.
+		/// </summary>
+		/// <param name="tags">
+		/// A <see cref="System.String"/>
+		/// </param>
 		public void RemoveTags(params string[] tags)
 		{
 			//This method requires authentication
@@ -286,12 +465,24 @@ namespace Lastfm.Services
 				RemoveTags(new Tag(tag, Session));
 		}
 		
+		/// <summary>
+		/// Remove a bunch of tags from this track.
+		/// </summary>
+		/// <param name="tags">
+		/// A <see cref="TagCollection"/>
+		/// </param>
 		public void RemoveTags(TagCollection tags)
 		{
 			foreach(Tag tag in tags)
 				RemoveTags(tag);
 		}
 		
+		/// <summary>
+		/// Set the tags of this tracks to only those tags.
+		/// </summary>
+		/// <param name="tags">
+		/// A <see cref="System.String"/>
+		/// </param>
 		public void SetTags(string[] tags)
 		{
 			List<Tag> list = new List<Tag>();
@@ -301,6 +492,12 @@ namespace Lastfm.Services
 			SetTags(list.ToArray());
 		}
 		
+		/// <summary>
+		/// Set the tags of this tracks to only those tags.
+		/// </summary>
+		/// <param name="tags">
+		/// A <see cref="Tag"/>
+		/// </param>
 		public void SetTags(Tag[] tags)
 		{
 			List<Tag> newSet = new List<Tag>(tags);
@@ -322,17 +519,32 @@ namespace Lastfm.Services
 				RemoveTags(toRemove.ToArray());
 		}
 		
+		/// <summary>
+		/// Set the tags of this tracks to only those tags.
+		/// </summary>
+		/// <param name="tags">
+		/// A <see cref="TagCollection"/>
+		/// </param>
 		public void SetTags(TagCollection tags)
 		{
 			SetTags(tags.ToArray());
 		}
 		
+		/// <summary>
+		/// Clear all the tags from this track.
+		/// </summary>
 		public void ClearTags()
 		{
 			foreach(Tag tag in GetTags())
 				RemoveTags(tag);
 		}
 		
+		/// <summary>
+		/// Returns the top fans.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="TopFan"/>
+		/// </returns>
 		public TopFan[] GetTopFans()
 		{
 			XmlDocument doc = request("track.getTopFans");
@@ -344,6 +556,15 @@ namespace Lastfm.Services
 			return list.ToArray();
 		}
 		
+		/// <summary>
+		/// Returns the top fans.
+		/// </summary>
+		/// <param name="limit">
+		/// A <see cref="System.Int32"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="TopFan"/>
+		/// </returns>
 		public TopFan[] GetTopFans(int limit)
 		{
 			return sublist<TopFan>(GetTopFans(), limit);

@@ -22,6 +22,9 @@ using System;
 
 namespace Lastfm.Services
 {
+	/// <summary>
+	/// Size of the album cover art.
+	/// </summary>
 	public enum AlbumImageSize
 	{
 		Small = 0,

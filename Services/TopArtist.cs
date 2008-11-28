@@ -22,8 +22,9 @@ using System;
 
 namespace Lastfm.Services
 {
-	
-	
+	/// <summary>
+	/// A top artist in a list of top artists.
+	/// </summary>
 	public class TopArtist : TopItem<Artist>
 	{
 		public TopArtist(Artist artist, int playcount)

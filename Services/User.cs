@@ -24,8 +24,14 @@ using System.Xml;
 
 namespace Lastfm.Services
 {
-	public class User : Base, IEquatable<User>
+	/// <summary>
+	/// A Last.fm user.
+	/// </summary>
+	public class User : Base, IEquatable<User>, IHasWeeklyTrackCharts, IHasWeeklyAlbumCharts, IHasWeeklyArtistCharts
 	{
+		/// <summary>
+		/// The user's name.
+		/// </summary>
 		public string Name {get; private set;}
 		
 		public User(string name, Session session)
@@ -52,6 +58,12 @@ namespace Lastfm.Services
 			return (user.Name == this.Name);
 		}
 		
+		/// <summary>
+		/// Returns the latest weekly track chart.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="WeeklyTrackChart"/>
+		/// </returns>
 		public WeeklyTrackChart GetWeeklyTrackChart()
 		{
 			XmlDocument doc = request("user.getWeeklyTrackChart");
@@ -78,6 +90,15 @@ namespace Lastfm.Services
 			return chart;
 		}
 		
+		/// <summary>
+		/// Returns a weekly chart specified by a certain week.
+		/// </summary>
+		/// <param name="span">
+		/// A <see cref="WeeklyChartTimeSpan"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="WeeklyTrackChart"/>
+		/// </returns>
 		public WeeklyTrackChart GetWeeklyTrackChart(WeeklyChartTimeSpan span)
 		{
 			RequestParameters p = getParams();
@@ -109,6 +130,12 @@ namespace Lastfm.Services
 			return chart;
 		}
 		
+		/// <summary>
+		/// Returns the latest weekly artist chart.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="WeeklyArtistChart"/>
+		/// </returns>
 		public WeeklyArtistChart GetWeeklyArtistChart()
 		{
 			XmlDocument doc = request("user.getWeeklyArtistChart");
@@ -135,6 +162,15 @@ namespace Lastfm.Services
 			return chart;
 		}
 		
+		/// <summary>
+		/// Returns a weekly artist chart of a specified week.
+		/// </summary>
+		/// <param name="span">
+		/// A <see cref="WeeklyChartTimeSpan"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="WeeklyArtistChart"/>
+		/// </returns>
 		public WeeklyArtistChart GetWeeklyArtistChart(WeeklyChartTimeSpan span)
 		{
 			RequestParameters p = getParams();
@@ -166,6 +202,12 @@ namespace Lastfm.Services
 			return chart;
 		}
 		
+		/// <summary>
+		/// Returns the latest weekly album chart.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="WeeklyAlbumChart"/>
+		/// </returns>
 		public WeeklyAlbumChart GetWeeklyAlbumChart()
 		{
 			XmlDocument doc = request("user.getWeeklyAlbumChart");
@@ -192,6 +234,15 @@ namespace Lastfm.Services
 			return chart;
 		}
 		
+		/// <summary>
+		/// Returns a weekly album chart of a specified week.
+		/// </summary>
+		/// <param name="span">
+		/// A <see cref="WeeklyChartTimeSpan"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="WeeklyAlbumChart"/>
+		/// </returns>
 		public WeeklyAlbumChart GetWeeklyAlbumChart(WeeklyChartTimeSpan span)
 		{
 			RequestParameters p = getParams();
@@ -223,6 +274,12 @@ namespace Lastfm.Services
 			return chart;
 		}
 		
+		/// <summary>
+		/// Returns all the vailable weeks (as an array of <see cref="WeeklyChartTimeSpan"/>)
+		/// </summary>
+		/// <returns>
+		/// A <see cref="WeeklyChartTimeSpan"/>
+		/// </returns>
 		public WeeklyChartTimeSpan[] GetWeeklyChartTimeSpans()
 		{
 			XmlDocument doc = request("user.getWeeklyChartList");
@@ -242,6 +299,15 @@ namespace Lastfm.Services
 			return list.ToArray();
 		}
 		
+		/// <summary>
+		/// Returns the top tracks listened to by this user in a specified period.
+		/// </summary>
+		/// <param name="period">
+		/// A <see cref="Period"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="TopTrack"/>
+		/// </returns>
 		public TopTrack[] GetTopTracks(Period period)
 		{
 			RequestParameters p = getParams();
@@ -261,11 +327,23 @@ namespace Lastfm.Services
 			return list.ToArray();
 		}
 		
+		/// <summary>
+		/// Returns the overall most listned-to tracks by this user.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="TopTrack"/>
+		/// </returns>
 		public TopTrack[] GetTopTracks()
 		{
 			return GetTopTracks(Period.Overall);
 		}
 		
+		/// <summary>
+		/// Returns the top tags used by this user.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="TopTag"/>
+		/// </returns>
 		public TopTag[] GetTopTags()
 		{
 			XmlDocument doc = request("user.getTopTags");
@@ -276,12 +354,30 @@ namespace Lastfm.Services
 			
 			return list.ToArray();
 		}
-				
+		
+		/// <summary>
+		/// Returns the top tags used by this user.
+		/// </summary>
+		/// <param name="limit">
+		/// A <see cref="System.Int32"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="TopTag"/>
+		/// </returns>
 		public TopTag[] GetTopTags(int limit)
 		{
 			return sublist<TopTag>(GetTopTags(), limit);
 		}
 		
+		/// <summary>
+		/// Returns the top artists listened-to by this user in a specified period.
+		/// </summary>
+		/// <param name="period">
+		/// A <see cref="Period"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="TopArtist"/>
+		/// </returns>
 		public TopArtist[] GetTopArtists(Period period)
 		{
 			RequestParameters p = getParams();
@@ -301,11 +397,26 @@ namespace Lastfm.Services
 			return list.ToArray();
 		}
 		
+		/// <summary>
+		/// Returns teh overall most listened-to artists by this user.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="TopArtist"/>
+		/// </returns>
 		public TopArtist[] GetTopArtists()
 		{
 			return GetTopArtists(Period.Overall);
 		}
 		
+		/// <summary>
+		/// Returns the most listened-to albums by this user in a specified period.
+		/// </summary>
+		/// <param name="period">
+		/// A <see cref="Period"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="TopAlbum"/>
+		/// </returns>
 		public TopAlbum[] GetTopAlbums(Period period)
 		{
 			RequestParameters p = getParams();
@@ -325,35 +436,26 @@ namespace Lastfm.Services
 			return list.ToArray();
 		}
 		
+		/// <summary>
+		/// Returne the overall most listened-to albums by this user.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="TopAlbum"/>
+		/// </returns>
 		public TopAlbum[] GetTopAlbums()
 		{
 			return GetTopAlbums(Period.Overall);
 		}
 		
-		public Event[] GetRecommendedEvents(int limit, int page)
-		{
-			// this method requires authentication
-			requireAuthentication();
-			
-			RequestParameters p = getParams();
-			p["limit"] = limit.ToString();
-			p["page"] = page.ToString();
-			
-			XmlDocument doc = request("user.getRecommendedEvents", p);
-			
-			List<Event> list = new List<Event>();
-			foreach(XmlNode node in doc.GetElementsByTagName("event"))
-				list.Add(new Event(Int32.Parse(extract(node, "id")), Session));
-			
-			return list.ToArray();
-		}
-		
-		public Event[] GetRecommendedEvents()
-		{
-			// first page, default number of items per page.
-			return GetRecommendedEvents(20, 1);
-		}
-		
+		/// <summary>
+		/// Returns the most recent played tracks for this user.
+		/// </summary>
+		/// <param name="limit">
+		/// A <see cref="System.Int32"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="Track"/>
+		/// </returns>
 		public Track[] GetRecentTracks(int limit)
 		{
 			RequestParameters p = getParams();
@@ -374,12 +476,24 @@ namespace Lastfm.Services
 			return list.ToArray();
 		}
 		
+		/// <summary>
+		/// Returns the most recent played tracks for this user.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="Track"/>
+		/// </returns>
 		public Track[] GetRecentTracks()
 		{
 			// default value is 10.
 			return GetRecentTracks(10);
 		}
 		
+		/// <summary>
+		/// Returns the track that the user's currently listening to.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="Track"/> if the user is listening to a track, or null if they're not.
+		/// </returns>
 		public Track GetNowPlaying()
 		{
 			// Would return null if no track is now playing.
@@ -396,11 +510,23 @@ namespace Lastfm.Services
 				return null;
 		}
 		
+		/// <summary>
+		/// Returns true if the user's listening right now.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.Boolean"/>
+		/// </returns>
 		public bool IsNowListening()
 		{
 			return (GetNowPlaying() != null);
 		}
 		
+		/// <summary>
+		/// Returns this user's playlists.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="Playlist"/>
+		/// </returns>
 		public Playlist[] GetPlaylists()
 		{
 			XmlDocument doc = request("user.getPlaylists");
@@ -412,6 +538,18 @@ namespace Lastfm.Services
 			return list.ToArray();
 		}
 		
+		/// <summary>
+		/// Returns the past events attended by this user.
+		/// </summary>
+		/// <param name="limit">
+		/// A <see cref="System.Int32"/>
+		/// </param>
+		/// <param name="page">
+		/// A <see cref="System.Int32"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="Event"/>
+		/// </returns>
 		public Event[] GetPastEvents(int limit, int page)
 		{
 			XmlDocument doc = request("user.getPastEvents");
@@ -423,6 +561,12 @@ namespace Lastfm.Services
 			return list.ToArray();
 		}
 		
+		/// <summary>
+		/// Returns the neighbours of this user.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="User"/>
+		/// </returns>
 		public User[] GetNeighbours()
 		{
 			XmlDocument doc = request("user.getNeighbours");
@@ -434,11 +578,26 @@ namespace Lastfm.Services
 			return list.ToArray();
 		}
 		
+		/// <summary>
+		/// Returns the neighbours of this user.
+		/// </summary>
+		/// <param name="limit">
+		/// A <see cref="System.Int32"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="User"/>
+		/// </returns>
 		public User[] GetNeighbours(int limit)
 		{
 			return sublist<User>(GetNeighbours(), limit);
 		}
 		
+		/// <summary>
+		/// Returns the most recent 50 loved tracks by this user.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="Track"/>
+		/// </returns>
 		public Track[] GetLovedTracks()
 		{
 			XmlDocument doc = request("user.getLovedTracks");
@@ -450,6 +609,12 @@ namespace Lastfm.Services
 			return list.ToArray();
 		}
 		
+		/// <summary>
+		/// Returns the user's friends.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="User"/>
+		/// </returns>
 		public User[] GetFriends()
 		{
 			XmlDocument doc = request("user.getFriends");
@@ -461,11 +626,26 @@ namespace Lastfm.Services
 			return list.ToArray();
 		}
 		
+		/// <summary>
+		/// Returns the user's friends.
+		/// </summary>
+		/// <param name="limit">
+		/// A <see cref="System.Int32"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="User"/>
+		/// </returns>
 		public User[] GetFriends(int limit)
 		{
 			return sublist<User>(GetFriends(), limit);
 		}
 		
+		/// <summary>
+		/// Returns the upcoming events for this user.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="Event"/>
+		/// </returns>
 		public Event[] GetUpcomingEvents()
 		{
 			XmlDocument doc = request("user.getEvents");

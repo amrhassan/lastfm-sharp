@@ -29,29 +29,29 @@ namespace Lastfm.Services
 	/// </summary>
 	public class Album : Base, IEquatable<Album>, IHasImage
 	{
-		/// <value>
+		/// <summary>
 		/// The name of the artist
-		/// </value>
+		/// </summary>
 		public string ArtistName {get; private set;}
 		
-		/// <value>
+		/// <summary>
 		/// The album title.
-		/// </value>
+		/// </summary>
 		public string Title {get; private set;}
 		
-		/// <value>
+		/// <summary>
 		/// The album title/name.
-		/// </value>
+		/// </summary>
 		public string Name {get { return Title; } }
 		
-		/// <value>
+		/// <summary>
 		/// The album's artist.
-		/// </value>
+		/// </summary>
 		public Artist Artist {get { return new Artist(ArtistName, Session); } }
 		
-		/// <value>
+		/// <summary>
 		/// The album's wiki on Last.fm.
-		/// </value>
+		/// </summary>
 		public AlbumWiki Wiki {get { return new AlbumWiki(this, Session); } }
 		
 		/// <summary>
@@ -443,6 +443,9 @@ namespace Lastfm.Services
 			SetTags(tags.ToArray());
 		}
 		
+		/// <summary>
+		/// Clears all the tags that the authenticated user has set to this album.
+		/// </summary>
 		public void ClearTags()
 		{
 			foreach(Tag tag in GetTags())

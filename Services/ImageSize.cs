@@ -21,7 +21,10 @@
 using System;
 
 namespace Lastfm.Services
-{	
+{
+	/// <summary>
+	/// An image size.
+	/// </summary>
 	public enum ImageSize
 	{
 		Small = 0,

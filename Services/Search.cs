@@ -24,13 +24,28 @@ using System.Collections.Generic;
 
 namespace Lastfm.Services
 {
+	/// <summary>
+	/// An abstract searching provider.
+	/// </summary>
+	/// <remarks>
+	/// Use one of its derivatives: <see cref="Lastfm.Services.AlbumSearch"/>, 
+	/// <see cref="Lastfm.Services.ArtistSearch"/>, 
+	/// <see cref="Lastfm.Services.TagSearch"/> or <see cref="Lastfm.Services.TrackSearch"/>.
+	/// </remarks>
 	public abstract class Search : Base
 	{
 		private string prefix {get; set;}
 		private Dictionary<string, string> searchTerms {get; set;}
 		protected XmlDocument lastDoc {get; set;}
 		
+		/// <value>
+		/// Number of search results per page.
+		/// </value>
 		public int ItemsPerPage {get; private set;}
+		
+		/// <value>
+		/// Number of total results.
+		/// </value>
 		public int ResultCount
 		{
 			get { return Int32.Parse(extract(lastDoc, "opensearch:totalResults")); }
@@ -57,6 +72,21 @@ namespace Lastfm.Services
 			return p;
 		}
 		
+		/// <summary>
+		/// Search for albums by name.
+		/// </summary>
+		/// <param name="albumName">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="session">
+		/// A <see cref="Session"/>
+		/// </param>
+		/// <param name="itemsPerPage">
+		/// A <see cref="System.Int32"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="AlbumSearch"/>
+		/// </returns>
 		public static AlbumSearch ForAlbums(string albumName, Session session, int itemsPerPage)
 		{
 			Dictionary<string, string> terms = new Dictionary<string,string>();
@@ -65,12 +95,39 @@ namespace Lastfm.Services
 			return new AlbumSearch(terms, session, itemsPerPage);
 		}
 		
+		/// <summary>
+		/// Search for albums by name.
+		/// </summary>
+		/// <param name="albumName">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="session">
+		/// A <see cref="Session"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="AlbumSearch"/>
+		/// </returns>
 		public static AlbumSearch ForAlbums(string albumName, Session session)
 		{
 			// 30 is the default (and maximum) number of results per page.
 			return Search.ForAlbums(albumName, session, 30);
 		}
 		
+		/// <summary>
+		/// Search for artists by name.
+		/// </summary>
+		/// <param name="artistName">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="session">
+		/// A <see cref="Session"/>
+		/// </param>
+		/// <param name="itemsPerPage">
+		/// A <see cref="System.Int32"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="ArtistSearch"/>
+		/// </returns>
 		public static ArtistSearch ForArtists(string artistName, Session session, int itemsPerPage)
 		{
 			Dictionary<string, string> terms = new Dictionary<string,string>();
@@ -79,11 +136,38 @@ namespace Lastfm.Services
 			return new ArtistSearch(terms, session, itemsPerPage);
 		}
 		
+		/// <summary>
+		/// Search for artists by name.
+		/// </summary>
+		/// <param name="artistName">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="session">
+		/// A <see cref="Session"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="ArtistSearch"/>
+		/// </returns>
 		public static ArtistSearch ForArtists(string artistName, Session session)
 		{
 			return Search.ForArtists(artistName, session, 30);
 		}
 		
+		/// <summary>
+		/// Search for tags by name.
+		/// </summary>
+		/// <param name="tagName">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="session">
+		/// A <see cref="Session"/>
+		/// </param>
+		/// <param name="itemsPerPage">
+		/// A <see cref="System.Int32"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="TagSearch"/>
+		/// </returns>
 		public static TagSearch ForTags(string tagName, Session session, int itemsPerPage)
 		{
 			Dictionary<string, string> terms = new Dictionary<string,string>();
@@ -92,11 +176,41 @@ namespace Lastfm.Services
 			return new TagSearch(terms, session, itemsPerPage);
 		}
 		
+		/// <summary>
+		/// Search for tags by name.
+		/// </summary>
+		/// <param name="tagName">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="session">
+		/// A <see cref="Session"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="TagSearch"/>
+		/// </returns>
 		public static TagSearch ForTags(string tagName, Session session)
 		{
 			return Search.ForTags(tagName, session, 30);
 		}
 		
+		/// <summary>
+		/// Search for tracks, narrowing it down by an artist name.
+		/// </summary>
+		/// <param name="artist">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="title">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="session">
+		/// A <see cref="Session"/>
+		/// </param>
+		/// <param name="itemsPerPage">
+		/// A <see cref="System.Int32"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="TrackSearch"/>
+		/// </returns>
 		public static TrackSearch ForTracks(string artist, string title, Session session, int itemsPerPage)
 		{
 			Dictionary<string, string> terms = new Dictionary<string,string>();
@@ -106,11 +220,41 @@ namespace Lastfm.Services
 			return new TrackSearch(terms, session, itemsPerPage);
 		}
 		
+		/// <summary>
+		/// Search for tracks, narrowing it down by an artist name.
+		/// </summary>
+		/// <param name="artist">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="title">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="session">
+		/// A <see cref="Session"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="TrackSearch"/>
+		/// </returns>
 		public static TrackSearch ForTracks(string artist, string title, Session session)
 		{
 			return Search.ForTracks(artist, title, session, 30);
 		}
 		
+		/// <summary>
+		/// Search for tracks by title.
+		/// </summary>
+		/// <param name="title">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="session">
+		/// A <see cref="Session"/>
+		/// </param>
+		/// <param name="itemsPerPage">
+		/// A <see cref="System.Int32"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="TrackSearch"/>
+		/// </returns>
 		public static TrackSearch ForTracks(string title, Session session, int itemsPerPage)
 		{
 			Dictionary<string, string> terms = new Dictionary<string,string>();
@@ -119,6 +263,18 @@ namespace Lastfm.Services
 			return new TrackSearch(terms, session, itemsPerPage);
 		}
 		
+		/// <summary>
+		/// Search for tracks by title.
+		/// </summary>
+		/// <param name="title">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="session">
+		/// A <see cref="Session"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="TrackSearch"/>
+		/// </returns>
 		public static TrackSearch ForTracks(string title, Session session)
 		{
 			return Search.ForTracks(title, session, 30);

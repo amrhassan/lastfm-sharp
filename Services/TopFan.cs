@@ -22,8 +22,9 @@ using System;
 
 namespace Lastfm.Services
 {
-	
-	
+	/// <summary>
+	/// A top fan in a list of top fans.
+	/// </summary>
 	public class TopFan : TopItem<User>
 	{		
 		public TopFan(User user, int weight)

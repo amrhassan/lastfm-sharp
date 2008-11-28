@@ -22,11 +22,24 @@ using System;
 
 namespace Lastfm.Services
 {
-	
-	
+	/// <summary>
+	/// A time span of a weekly chart.
+	/// </summary>
+	/// <remarks>
+	/// Usually are returned by <see cref="IHasWeeklyAlbumCharts.GetWeeklyChartTimeSpans"/>, 
+	/// <see cref="IHasWeeklyArtistCharts.GetWeeklyChartTimeSpans"/>, or 
+	/// <see cref="IHasWeeklyTrackCharts.GetWeeklyChartTimeSpans"/>.
+	/// </remarks>
 	public class WeeklyChartTimeSpan
 	{
+		/// <summary>
+		/// The beginning date.
+		/// </summary>
 		public DateTime From {get; private set;}
+		
+		/// <summary>
+		/// The end date.
+		/// </summary>
 		public DateTime To {get; private set;}
 		
 		public WeeklyChartTimeSpan(DateTime from, DateTime to)

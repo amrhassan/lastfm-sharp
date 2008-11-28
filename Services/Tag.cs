@@ -24,8 +24,11 @@ using System.Collections.Generic;
 
 namespace Lastfm.Services
 {
-	public class Tag : Base, System.IEquatable<Tag>
+	public class Tag : Base, System.IEquatable<Tag>, IHasWeeklyArtistCharts
 	{
+		/// <summary>
+		/// The tag name.
+		/// </summary>
 		public string Name {get; private set;}    
 		
 		public Tag(string name, Session session)
@@ -47,6 +50,12 @@ namespace Lastfm.Services
 			return this.Name;
 		}
 		
+		/// <summary>
+		/// Returns similar tags.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="Tag"/>
+		/// </returns>
 		public Tag[] GetSimilar()
 		{
 			XmlDocument doc = request("tag.getSimilar");
@@ -58,6 +67,12 @@ namespace Lastfm.Services
 			return list.ToArray();
 		}
 		
+		/// <summary>
+		/// Returns the top albums tagged with this tag.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="TopAlbum"/>
+		/// </returns>
 		public TopAlbum[] GetTopAlbums()
 		{
 			XmlDocument doc = request("tag.getTopAlbums");
@@ -74,6 +89,12 @@ namespace Lastfm.Services
 			return list.ToArray();
 		}
 		
+		/// <summary>
+		/// Returns the top artists tagged with this tag.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="TopArtist"/>
+		/// </returns>
 		public TopArtist[] GetTopArtists()
 		{
 			XmlDocument doc = request("tag.getTopArtists");
@@ -90,6 +111,12 @@ namespace Lastfm.Services
 			return list.ToArray();
 		}
 		
+		/// <summary>
+		/// Returns the top tracks tagged with this track.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="TopTrack"/>
+		/// </returns>
 		public TopTrack[] GetTopTracks()
 		{
 			XmlDocument doc = request("tag.getTopTracks");
@@ -114,6 +141,21 @@ namespace Lastfm.Services
 				return false;
 		}
 		
+		/// <summary>
+		/// Search for tags by name.
+		/// </summary>
+		/// <param name="tagName">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="session">
+		/// A <see cref="Session"/>
+		/// </param>
+		/// <param name="itemsPerPage">
+		/// A <see cref="System.Int32"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="TagSearch"/>
+		/// </returns>
 		public static TagSearch Search(string tagName, Session session, int itemsPerPage)
 		{
 			Dictionary<string, string> terms = new Dictionary<string,string>();
@@ -122,11 +164,29 @@ namespace Lastfm.Services
 			return new TagSearch(terms, session, itemsPerPage);
 		}
 		
+		/// <summary>
+		/// Search for tags by name.
+		/// </summary>
+		/// <param name="tagName">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="session">
+		/// A <see cref="Session"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="TagSearch"/>
+		/// </returns>
 		public static TagSearch Search(string tagName, Session session)
 		{
 			return Tag.Search(tagName, session, 30);
 		}
 		
+		/// <summary>
+		/// Returns the available weekly chart time spans (weeks) for this tag.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="WeeklyChartTimeSpan"/>
+		/// </returns>
 		public WeeklyChartTimeSpan[] GetWeeklyChartTimeSpans()
 		{
 			XmlDocument doc = request("tag.getWeeklyChartList");
@@ -146,6 +206,12 @@ namespace Lastfm.Services
 			return list.ToArray();
 		}
 		
+		/// <summary>
+		/// Returns the latest weekly artist chart. 
+		/// </summary>
+		/// <returns>
+		/// A <see cref="WeeklyArtistChart"/>
+		/// </returns>
 		public WeeklyArtistChart GetWeeklyArtistChart()
 		{
 			XmlDocument doc = request("tag.getWeeklyArtistChart");
@@ -172,6 +238,15 @@ namespace Lastfm.Services
 			return chart;
 		}
 		
+		/// <summary>
+		/// Returns the weekly artist chart for a specified time span (week).
+		/// </summary>
+		/// <param name="span">
+		/// A <see cref="WeeklyChartTimeSpan"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="WeeklyArtistChart"/>
+		/// </returns>
 		public WeeklyArtistChart GetWeeklyArtistChart(WeeklyChartTimeSpan span)
 		{
 			RequestParameters p = getParams();

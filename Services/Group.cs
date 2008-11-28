@@ -24,10 +24,14 @@ using System.Xml;
 
 namespace Lastfm.Services
 {
-	
-	
-	public class Group : Base, IEquatable<Group>
+	/// <summary>
+	/// A Last.fm Group.
+	/// </summary>
+	public class Group : Base, IEquatable<Group>, IHasWeeklyAlbumCharts, IHasWeeklyArtistCharts, IHasWeeklyTrackCharts
 	{
+		/// <summary>
+		/// Name of the group.
+		/// </summary>
 		public string Name {get; private set;}
 		
 		public Group(string groupName, Session session)
@@ -49,6 +53,12 @@ namespace Lastfm.Services
 			return Name;
 		}
 		
+		/// <summary>
+		/// Returns the latest weekly track chart for this group.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="WeeklyTrackChart"/>
+		/// </returns>
 		public WeeklyTrackChart GetWeeklyTrackChart()
 		{
 			XmlDocument doc = request("group.getWeeklyTrackChart");
@@ -75,6 +85,15 @@ namespace Lastfm.Services
 			return chart;
 		}
 		
+		/// <summary>
+		/// Returns the weekly track chart for this group in the given <see cref="Lastfm.Services.WeeklyChartTimeSpan"/>.
+		/// </summary>
+		/// <param name="span">
+		/// A <see cref="WeeklyChartTimeSpan"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="WeeklyTrackChart"/>
+		/// </returns>
 		public WeeklyTrackChart GetWeeklyTrackChart(WeeklyChartTimeSpan span)
 		{
 			RequestParameters p = getParams();
@@ -106,6 +125,12 @@ namespace Lastfm.Services
 			return chart;
 		}
 		
+		/// <summary>
+		/// Returns the latest weekly artist chart for this group.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="WeeklyArtistChart"/>
+		/// </returns>
 		public WeeklyArtistChart GetWeeklyArtistChart()
 		{
 			XmlDocument doc = request("group.getWeeklyArtistChart");
@@ -132,6 +157,16 @@ namespace Lastfm.Services
 			return chart;
 		}
 		
+		/// <summary>
+		/// Returns the weekly artist chart for this group in the given 
+		/// <see cref="Lastfm.Services.WeeklyChartTimeSpan"/>.
+		/// </summary>
+		/// <param name="span">
+		/// A <see cref="WeeklyChartTimeSpan"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="WeeklyArtistChart"/>
+		/// </returns>
 		public WeeklyArtistChart GetWeeklyArtistChart(WeeklyChartTimeSpan span)
 		{
 			RequestParameters p = getParams();
@@ -163,6 +198,12 @@ namespace Lastfm.Services
 			return chart;
 		}
 		
+		/// <summary>
+		/// Returns the latest weekly album chart for this group.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="WeeklyAlbumChart"/>
+		/// </returns>
 		public WeeklyAlbumChart GetWeeklyAlbumChart()
 		{
 			XmlDocument doc = request("group.getWeeklyAlbumChart");
@@ -189,6 +230,15 @@ namespace Lastfm.Services
 			return chart;
 		}
 		
+		/// <summary>
+		/// Returns the weekly album chart for this group in the given <see cref="Lastfm.Services.WeeklyChartTimeSpan"/>.
+		/// </summary>
+		/// <param name="span">
+		/// A <see cref="WeeklyChartTimeSpan"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="WeeklyAlbumChart"/>
+		/// </returns>
 		public WeeklyAlbumChart GetWeeklyAlbumChart(WeeklyChartTimeSpan span)
 		{
 			RequestParameters p = getParams();
@@ -220,6 +270,12 @@ namespace Lastfm.Services
 			return chart;
 		}
 		
+		/// <summary>
+		/// Returns the available timespans for charts available for this group.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="WeeklyChartTimeSpan"/>
+		/// </returns>
 		public WeeklyChartTimeSpan[] GetWeeklyChartTimeSpans()
 		{
 			XmlDocument doc = request("group.getWeeklyChartList");

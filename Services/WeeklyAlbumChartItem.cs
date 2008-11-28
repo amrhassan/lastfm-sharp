@@ -22,8 +22,14 @@ using System;
 
 namespace Lastfm.Services
 {
+	/// <summary>
+	/// An album in a weekly chart list.
+	/// </summary>
 	public class WeeklyAlbumChartItem : WeeklyChartItem
 	{
+		/// <summary>
+		/// The concerned album.
+		/// </summary>
 		public Album Album {get; private set;}
 		
 		internal WeeklyAlbumChartItem(Album album, int rank, int playcount, WeeklyChartTimeSpan span)

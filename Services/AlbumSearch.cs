@@ -24,12 +24,27 @@ using System.Collections.Generic;
 
 namespace Lastfm.Services
 {
+	/// <summary>
+	/// Encapsulates the album searching functions.
+	/// </summary>
+	/// <remarks>
+	/// To create an object of this class use <see cref="Search.ForAlbums"/>.
+	/// </remarks>
 	public class AlbumSearch : Search
 	{
 		internal AlbumSearch(Dictionary<string, string> searchTerms, Session session, int itemsPerPage)
 			:base("album", searchTerms, session, itemsPerPage)
 		{}
 		
+		/// <summary>
+		/// Returns a page of results.
+		/// </summary>
+		/// <param name="page">
+		/// A <see cref="System.Int32"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="Album"/>
+		/// </returns>
 		public Album[] GetPage(int page)
 		{
 			RequestParameters p = getParams();

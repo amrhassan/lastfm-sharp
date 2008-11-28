@@ -24,9 +24,19 @@ using System.Xml;
 
 namespace Lastfm.Services
 {
+	/// <summary>
+	/// A Last.fm user playlist.
+	/// </summary>
 	public class Playlist : Base, IHasImage, System.IEquatable<Playlist>
 	{	
+		/// <summary>
+		/// The playlist ID. A Unique identifier.
+		/// </summary>
 		public int ID {get; private set;}
+		
+		/// <summary>
+		/// The user who owns the playlist. 
+		/// </summary>
 		public User User {get; private set;}
 		
 		public Playlist(string username, int id, Session session)
@@ -51,6 +61,12 @@ namespace Lastfm.Services
 			return p;
 		}
 		
+		/// <summary>
+		/// Returns the tracks in this playlist.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="Track"/>
+		/// </returns>
 		public Track[] GetTracks()
 		{
 			string url = "lastfm://playlist/" + ID.ToString();
@@ -58,6 +74,12 @@ namespace Lastfm.Services
 			return (new XSPF(url, Session)).GetTracks();
 		}
 		
+		/// <summary>
+		/// Adds a track to this playlist.
+		/// </summary>
+		/// <param name="track">
+		/// A <see cref="Track"/>
+		/// </param>
 		public void AddTrack(Track track)
 		{
 			requireAuthentication();
@@ -84,26 +106,56 @@ namespace Lastfm.Services
 			return null;			
 		}
 		
+		/// <summary>
+		/// Returns the title of this playlist.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public string GetTitle()
 		{
 			return extract(getNode(), "title");
 		}
 		
+		/// <summary>
+		/// Returns the description of this playlist.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public string GetDescription()
 		{
 			return extract(getNode(), "description");
 		}
 		
+		/// <summary>
+		/// Returns the date of creation of this playlist.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="DateTime"/>
+		/// </returns>
 		public DateTime GetCreationDate()
 		{
 			return DateTime.Parse(extract(getNode(), "date"));
 		}
 		
+		/// <summary>
+		/// Returns the number of tracks on this playlist.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.Int32"/>
+		/// </returns>
 		public int GetSize()
 		{
 			return Int32.Parse(extract(getNode(), "size"));
 		}
 		
+		/// <summary>
+		/// Returns the total duration of the playlist.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="TimeSpan"/>
+		/// </returns>
 		public TimeSpan GetDuration()
 		{
 			int duration = Int32.Parse(extract(getNode(), "duration"));
@@ -112,11 +164,26 @@ namespace Lastfm.Services
 			return new TimeSpan(0, 0, duration);
 		}
 		
+		/// <summary>
+		/// Returns the url to the image of the playlist.
+		/// </summary>
+		/// <param name="size">
+		/// A <see cref="ImageSize"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public string GetImageURL(ImageSize size)
 		{
 			return extractAll(getNode(), "image")[(int)size];
 		}
 		
+		/// <summary>
+		/// Returns the url to the image of the playlist.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public string GetImageURL()
 		{
 			return GetImageURL(ImageSize.Large);
@@ -127,6 +194,21 @@ namespace Lastfm.Services
 			return (this.ID == playlist.ID);
 		}
 		
+		/// <summary>
+		/// Creates a new playlist for the authenticated user.
+		/// </summary>
+		/// <param name="title">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="description">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="session">
+		/// A <see cref="Session"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="Playlist"/>
+		/// </returns>
 		public static Playlist CreateNew(string title, string description, Session session)
 		{
 			//manually test session for authentication.

@@ -22,8 +22,9 @@ using System;
 
 namespace Lastfm.Services
 {
-	
-	
+	/// <summary>
+	/// A Weekly Track Chart.
+	/// </summary>
 	public class WeeklyTrackChart : WeeklyChart<WeeklyTrackChartItem>
 	{
 		

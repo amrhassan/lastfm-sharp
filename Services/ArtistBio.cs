@@ -22,8 +22,14 @@ using System;
 
 namespace Lastfm.Services
 {
+	/// <summary>
+	/// An artist's bio on Last.fm.
+	/// </summary>
 	public class ArtistBio : Wiki
 	{
+		/// <value>
+		/// The concerned artist.
+		/// </value>
 		public Artist Artist { get; private set; }
 		
 		public ArtistBio(Artist artist, Session session)

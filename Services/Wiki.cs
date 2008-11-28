@@ -23,6 +23,9 @@ using System.Xml;
 
 namespace Lastfm.Services
 {
+	/// <summary>
+	/// An abstract wiki object.
+	/// </summary>
 	public abstract class Wiki : Base
 	{
 		private string prefix {get; set;}
@@ -33,6 +36,12 @@ namespace Lastfm.Services
 			this.prefix = prefix;
 		}
 		
+		/// <summary>
+		/// Returns the date that the current version of the wiki was published on.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="DateTime"/>
+		/// </returns>
 		public DateTime GetPublishedDate()
 		{
 			XmlDocument doc = request(prefix + ".getInfo");
@@ -40,6 +49,12 @@ namespace Lastfm.Services
 			return DateTime.Parse(extract(doc, "published"));
 		}
 		
+		/// <summary>
+		/// Returns the summary of the content.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public string GetSummary()
 		{
 			// TODO: Clean the string before return
@@ -49,6 +64,12 @@ namespace Lastfm.Services
 			return extract(doc, "summary");
 		}
 		
+		/// <summary>
+		/// Returns the entire content of the current version.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public string getContent()
 		{
 			// TODO: Clean the string first

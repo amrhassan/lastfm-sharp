@@ -22,8 +22,14 @@ using System;
 
 namespace Lastfm.Services
 {
+	/// <summary>
+	/// A track wiki on Last.fm.
+	/// </summary>
 	public class TrackWiki : Wiki
 	{
+		/// <value>
+		/// The concerned track.
+		/// </value>
 		public Track Track {get; private set;}
 
 		public TrackWiki(Track track, Session session)

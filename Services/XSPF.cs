@@ -24,8 +24,16 @@ using System.Collections.Generic;
 
 namespace Lastfm.Services
 {
+	/// <summary>
+	/// A Last.fm XSPF playlist.
+	/// </summary>
 	public class XSPF : Base
 	{
+		/// <value>
+		/// The Last.fm playlist url.
+		/// </value>
+		/// <summary>Playlist URL</summary>
+		
 		public string PlaylistUrl {get; private set; }
 		
 		public XSPF(string playlistUrl, Session session)
@@ -42,6 +50,12 @@ namespace Lastfm.Services
 			return p;
 		}
 		
+		/// <summary>
+		/// Returns the tracks on this XSPF playlist.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="Track"/>
+		/// </returns>
 		public Track[] GetTracks()
 		{
 			XmlDocument doc = request("playlist.fetch");

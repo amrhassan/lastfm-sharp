@@ -22,11 +22,19 @@ using System;
 
 namespace Lastfm.Services
 {
-	
-	
+	/// <summary>
+	/// A top item in a list of top items.
+	/// </summary>
 	public class TopItem<T>
 	{
+		/// <summary>
+		/// The concerned item.
+		/// </summary>
 		public T Item {get; private set;}
+		
+		/// <summary>
+		/// The weight of this item in the list. A playcount, tagcount or a percentage.
+		/// </summary>
 		public int Weight {get; private set;}
 		
 		public TopItem(T item, int weight)

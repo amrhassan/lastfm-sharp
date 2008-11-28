@@ -41,9 +41,19 @@ namespace Lastfm.Services
 		ExpiredToken = 15
 	}
 	
+	/// <summary>
+	/// A Last.fm web service exception
+	/// </summary>
 	public class ServiceException : Exception
 	{
+		/// <summary>
+		/// The exception type.
+		/// </value>
 		public ServiceExceptionType Type {get; private set;}
+		
+		/// <summary>
+		/// The description of the exception.
+		/// </value>
 		public string Description {get; private set;}
 		
 		public ServiceException(ServiceExceptionType type, string description) : base()

@@ -22,8 +22,9 @@ using System;
 
 namespace Lastfm.Services
 {
-	
-	
+	/// <summary>
+	/// A period of time value.
+	/// </summary>
 	public enum Period
 	{
 		Overall,

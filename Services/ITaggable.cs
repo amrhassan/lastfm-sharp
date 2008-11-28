@@ -22,6 +22,9 @@ using System;
 
 namespace Lastfm.Services
 {
+	/// <summary>
+	/// Objects that implement this can be tagged on Last.fm.
+	/// </summary>
 	public interface ITaggable
 	{
 		void AddTags(params Tag[] tags);

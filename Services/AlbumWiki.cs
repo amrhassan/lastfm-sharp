@@ -22,10 +22,14 @@ using System;
 
 namespace Lastfm.Services
 {
-	
-	
+	/// <summary>
+	/// A Last.fm's wiki page for an album.
+	/// </summary>
 	public class AlbumWiki : Wiki
 	{
+		/// <summary>
+		/// The concerned album.
+		/// </summary>
 		public Album Album {get; private set;}
 		
 		public AlbumWiki(Album album, Session session)

@@ -24,6 +24,9 @@ using System.Collections.Generic;
 
 namespace Lastfm.Services
 {
+	/// <summary>
+	/// Global functions that don't fit anywhere else.
+	/// </summary>
 	public class Global : Base
 	{	
 		public Global(Session session)
@@ -31,13 +34,22 @@ namespace Lastfm.Services
 		{
 		}
 		
-		public TopTag[] GetTopTags(Session session)
+		/// <summary>
+		/// Returns the most popular tags on Last.fm.
+		/// </summary>
+		/// <param name="session">
+		/// A <see cref="Session"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="TopTag"/>
+		/// </returns>
+		public TopTag[] GetTopTags()
 		{
-			XmlDocument doc = (new Request("tag.getTopTags", session, new RequestParameters())).execute();
+			XmlDocument doc = request("tag.getTopTags");
 			
 			List<TopTag> list = new List<TopTag>();
 			foreach(XmlNode node in doc.GetElementsByTagName("tag"))
-				list.Add(new TopTag(new Tag(extract(node, "name"), session), Int32.Parse(extract(node, "count"))));
+				list.Add(new TopTag(new Tag(extract(node, "name"), Session), Int32.Parse(extract(node, "count"))));
 			
 			return list.ToArray();
 		}

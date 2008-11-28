@@ -23,10 +23,14 @@ using System.Collections.Generic;
 
 namespace Lastfm.Services
 {
-	
-	
+	/// <summary>
+	/// An abstract weekly chart.
+	/// </summary>
 	public abstract class WeeklyChart<T> : List<T>
 	{
+		/// <summary>
+		/// The time span (certain week) of this chart.
+		/// </summary>
 		public WeeklyChartTimeSpan Span {get; private set;}
 		
 		internal WeeklyChart(WeeklyChartTimeSpan span)

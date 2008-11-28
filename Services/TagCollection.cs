@@ -24,6 +24,9 @@ using System.Collections.Generic;
 
 namespace Lastfm.Services
 {
+	/// <summary>
+	/// A collection of tags.
+	/// </summary>
 	public class TagCollection : List<Tag>
 	{
 		private Session session {get; set;}
@@ -34,11 +37,23 @@ namespace Lastfm.Services
 			this.session = session;
 		}
 		
+		/// <summary>
+		/// Add a tag name.
+		/// </summary>
+		/// <param name="tag">
+		/// A <see cref="System.String"/>
+		/// </param>
 		public void Add(string tag)
 		{
 			base.Add(new Tag(tag, session));
 		}
 		
+		/// <summary>
+		/// Add a tag.
+		/// </summary>
+		/// <param name="tag">
+		/// A <see cref="Tag"/>
+		/// </param>
 		new public void Add(Tag tag)
 		{
 			base.Add(tag);

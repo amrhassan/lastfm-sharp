@@ -22,8 +22,9 @@ using System;
 
 namespace Lastfm.Services
 {
-	
-	
+	/// <summary>
+	/// A top tag in a list of top tags.
+	/// </summary>
 	public class TopTag : TopItem<Tag>
 	{
 		public TopTag(Tag tag, int count)

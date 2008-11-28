@@ -56,6 +56,11 @@ namespace Lastfm.Services
 	/// session.AuthenticateViaWeb();
 	/// 
 	/// </code>
+	/// 
+	/// Please note that a Session object is inhertied among objects. For example
+	/// if you create an <see cref="Lastfm.Artist"/> object with an authenticated session and
+	/// used the artists returned by <see cref="Lastfm.Artist.GetSimilar"/> they would also have an
+	/// unauthenticated session.
 	/// </remarks>
 	[Serializable]
 	public class Session : IEquatable<Session>
@@ -88,13 +93,15 @@ namespace Lastfm.Services
 		/// <see cref="Session.GetWebAuthenticationURL"/> and let the user authenticate by theirselves then
 		/// call <see cref="Session.AuthenticateViaWeb"/> to complete the process.
 		/// </remarks>
-
 		public string SessionKey
 		{
 			get;
 			private set;
 		}
 		
+		/// <summary>
+		/// Returns true if the session is authenticated.
+		/// </summary>
 		public bool Authenticated
 		{
 			get { return !(SessionKey == null); }
@@ -115,6 +122,15 @@ namespace Lastfm.Services
 			APISecret = apiSecret;
 		}
 		
+		/// <summary>
+		/// Authenticate this session using a username and a md5 hash of the password.
+		/// </summary>
+		/// <param name="username">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="md5Password">
+		/// A <see cref="System.String"/>
+		/// </param>
 		public void Authenticate(string username, string md5Password)
 		{
 			RequestParameters p = new Lastfm.RequestParameters();
@@ -134,6 +150,15 @@ namespace Lastfm.Services
 			return doc.GetElementsByTagName("token")[0].InnerText;
 		}
 		
+		/// <summary>
+		/// Returns the url for web authentication.
+		/// </summary>
+		/// <remarks>
+		/// <see cref="Session.AuthenticateViaWeb"/> should be called when the user is done. 
+		/// </remarks>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public string GetWebAuthenticationURL()
 		{
 			token = getAuthenticationToken();
@@ -141,6 +166,9 @@ namespace Lastfm.Services
 			return "http://www.last.fm/api/auth/?api_key=" + APIKey + "&token=" + token;
 		}
 		
+		/// <summary>
+		/// Complete the web authentication.
+		/// </summary>
 		public void AuthenticateViaWeb()
 		{
 			RequestParameters p = new Lastfm.RequestParameters();
