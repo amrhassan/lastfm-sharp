@@ -94,6 +94,9 @@ namespace Lastfm.Services
 			request.Method = "POST";
       request.Headers["Accept-Charset"] = "utf-8";
 			
+			if (ProxySupport.Proxy != null)
+				request.Proxy = ProxySupport.Proxy;
+			
 			Stream writeStream = request.GetRequestStream();
 			writeStream.Write(data, 0, data.Length);
 			writeStream.Close();
