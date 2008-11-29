@@ -23,6 +23,9 @@ using System.Collections.Generic;
 
 namespace Lastfm
 {
+	/// <summary>
+	/// A collection of parameters passed on to a request.
+	/// </summary>
 	public class RequestParameters : SortedDictionary<string, string>
 	{
 		public RequestParameters() : base() {}
