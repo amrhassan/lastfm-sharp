@@ -30,11 +30,6 @@ namespace Lastfm.Services
 	public class Album : Base, IEquatable<Album>, IHasImage
 	{
 		/// <summary>
-		/// The name of the artist
-		/// </summary>
-		public string ArtistName {get; private set;}
-		
-		/// <summary>
 		/// The album title.
 		/// </summary>
 		public string Title {get; private set;}
@@ -47,7 +42,7 @@ namespace Lastfm.Services
 		/// <summary>
 		/// The album's artist.
 		/// </summary>
-		public Artist Artist {get { return new Artist(ArtistName, Session); } }
+		public Artist Artist {get; private set; }
 		
 		/// <summary>
 		/// The album's wiki on Last.fm.
@@ -69,19 +64,26 @@ namespace Lastfm.Services
 		public Album(string artistName, string title, Session session)
 			:base(session)
 		{
-			ArtistName = artistName;
+			Artist = new Artist(artistName, Session);
+			Title = title;
+		}
+		
+		public Album(Artist artist, string title, Session session)
+			:base(session)
+		{
+			Artist = artist;
 			Title = title;
 		}
 		
 		public override string ToString ()
 		{
-			return ArtistName + " - " + Title;
+			return Artist.Name + " - " + Title;
 		}
 		
 		protected override RequestParameters getParams ()
 		{
 			RequestParameters p = base.getParams ();
-			p["artist"] = ArtistName;
+			p["artist"] = Artist.Name;
 			p["album"] = Title;
 			
 			return p;
@@ -231,7 +233,7 @@ namespace Lastfm.Services
 		
 		public bool Equals(Album album)
 		{
-			if(album.Title == this.Title && album.ArtistName == this.ArtistName)
+			if(album.Title == this.Title && album.Artist.Name == this.Artist.Name)
 				return true;
 			else
 				return false;

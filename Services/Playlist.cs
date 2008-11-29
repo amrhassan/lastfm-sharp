@@ -86,7 +86,7 @@ namespace Lastfm.Services
 			
 			RequestParameters p = getParams();
 			p["track"] = track.Title;
-			p["artist"] = track.ArtistName;
+			p["artist"] = track.Artist.Name;
 			
 			request("playlist.addTrack", p);
 		}

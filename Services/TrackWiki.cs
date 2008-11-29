@@ -42,7 +42,7 @@ namespace Lastfm.Services
 		{
 			RequestParameters p = base.getParams ();
 			p["track"] = Track.Title;
-			p["artist"] = Track.ArtistName;
+			p["artist"] = Track.Artist.Name;
 
 			return p;
 		}

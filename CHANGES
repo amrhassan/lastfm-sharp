@@ -4,6 +4,8 @@
 	0.1.02
 		* added: proxy support.
 		* added: most of the documentation.
+	0.1.03
+		* added: Library class.
 
 0.0
 	* In progress...

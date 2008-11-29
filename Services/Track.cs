@@ -35,15 +35,9 @@ namespace Lastfm.Services
 		public string Title {get; private set;}
 		
 		/// <summary>
-		/// The artist name.
-		/// </summary>
-		public string ArtistName {get; private set;}
-		
-		/// <summary>
 		/// The artist.
 		/// </summary>
-		public Artist Artist
-		{ get { return new Artist(this.ArtistName, Session); } }
+		public Artist Artist {get; private set;}
 		
 		/// <summary>
 		/// The track wiki on Last.fm.
@@ -55,7 +49,14 @@ namespace Lastfm.Services
 			:base(session)
 		{
 			Title = title;
-			ArtistName = artistName;
+			Artist = new Artist(artistName, Session);
+		}
+		
+		public Track(Artist artist, string title, Session session)
+			:base(session)
+		{
+			Title = title;
+			Artist = artist;
 		}
 		
 		public override string ToString ()
@@ -66,7 +67,7 @@ namespace Lastfm.Services
 		protected override RequestParameters getParams ()
 		{
 			RequestParameters p = base.getParams ();
-			p["artist"] = ArtistName;
+			p["artist"] = Artist.Name;
 			p["track"] = Title;
 			
 			return p;
@@ -184,7 +185,7 @@ namespace Lastfm.Services
 		
 		public bool Equals(Track track)
 		{
-			return(track.Title == this.Title && track.ArtistName == this.ArtistName);
+			return(track.Title == this.Title && track.Artist.Name == this.Artist.Name);
 		}
 		
 		/// <summary>

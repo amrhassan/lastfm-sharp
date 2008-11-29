@@ -34,6 +34,14 @@ namespace Lastfm.Services
 		/// </summary>
 		public string Name {get; private set;}
 		
+		/// <summary>
+		/// Returns the user's library.
+		/// </summary>
+		public Library Library
+		{
+			get { return new Library(this, Session); }
+		}
+		
 		public User(string name, Session session)
 			:base(session)
 		{

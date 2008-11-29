@@ -1,4 +1,4 @@
-// AlbumWiki.cs
+// LibraryItem.cs
 //
 //  Copyright (C) 2008 Amr Hassan
 //
@@ -19,32 +19,36 @@
 //
 
 using System;
+using System.Xml;
+using System.Collections.Generic;
 
-namespace Lastfm.Services
+namespace Lastfm
 {
 	/// <summary>
-	/// A Last.fm's wiki page for an album.
+	/// An item in a user's library.
 	/// </summary>
-	public class AlbumWiki : Wiki
+	public class LibraryItem<T>
 	{
-		/// <summary>
-		/// The concerned album.
-		/// </summary>
-		public Album Album {get; private set;}
+		/// <value>
+		/// The concerned item.
+		/// </value>
+		public T Item {get; private set;}
 		
-		public AlbumWiki(Album album, Session session)
-			:base("album", session)
-		{
-			Album = album;
-		}
+		/// <value>
+		/// How many times the user have played it.
+		/// </value>
+		public int Playcount {get; private set;}
 		
-		protected override RequestParameters getParams ()
+		/// <value>
+		/// How many tags have the user set to it.
+		/// </value>
+		public int Tagcount {get; private set;}
+		
+		public LibraryItem(T item, int playcount, int tagcount)
 		{
-			RequestParameters p = base.getParams ();
-			p["artist"] = Album.Artist.Name;
-			p["album"] = Album.Title;
-			
-			return p;
+			Item = item;
+			Playcount = playcount;
+			Tagcount = tagcount;
 		}
 	}
 }
