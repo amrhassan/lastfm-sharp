@@ -664,5 +664,47 @@ namespace Lastfm.Services
 			
 			return list.ToArray();
 		}
+		
+		/// <summary>
+		/// Compare this user with another.
+		/// </summary>
+		/// <param name="anotherUser">
+		/// A <see cref="User"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="Tasteometer"/>
+		/// </returns>
+		public Tasteometer Compare(User anotherUser)
+		{
+			return new Tasteometer(this, anotherUser, Session);
+		}
+		
+		/// <summary>
+		/// Compare this user with a list of artists.
+		/// </summary>
+		/// <param name="artists">
+		/// A <see cref="IEnumerable`1"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="Tasteometer"/>
+		/// </returns>
+		public Tasteometer Compare(IEnumerable<Artist> artists)
+		{
+			return new Tasteometer(this, artists, Session);
+		}
+		
+		/// <summary>
+		/// Compare this user with a myspace profile.
+		/// </summary>
+		/// <param name="myspaceURL">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="Tasteometer"/>
+		/// </returns>
+		public Tasteometer Compare(string myspaceURL)
+		{
+			return new Tasteometer(this, myspaceURL, Session);
+		}
 	}
 }

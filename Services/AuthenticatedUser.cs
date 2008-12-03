@@ -87,16 +87,16 @@ namespace Lastfm.Services
 		}
 		
 		/// <summary>
-		/// Returns the naume of the authenticated user's country.
+		/// Returns the user's country.
 		/// </summary>
 		/// <returns>
-		/// A <see cref="System.String"/>
+		/// A <see cref="Country"/>
 		/// </returns>
-		public string GetCountryName()
+		public Country GetCountry()
 		{
 			XmlDocument doc = request("user.getInfo");
 			
-			return extract(doc, "country");
+			return new Country(extract(doc, "country"), Session);
 		}
 		
 		/// <summary>

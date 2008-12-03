@@ -453,5 +453,31 @@ namespace Lastfm.Services
 			foreach(Tag tag in GetTags())
 				RemoveTags(tag);
 		}
+		
+		/// <summary>
+		/// Returns an album by it's MusicBrainz id.
+		/// </summary>
+		/// <param name="mbid">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="session">
+		/// A <see cref="Session"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="Album"/>
+		/// </returns>
+		public static Album GetByMBID(string mbid, Session session)
+		{
+			RequestParameters p = new Lastfm.RequestParameters();
+			p["mbid"] = mbid;
+			
+			XmlDocument doc = (new Request("album.getInfo", session, p)).execute();
+			
+			string title = doc.GetElementsByTagName("name")[0].InnerText;
+			string artist = doc.GetElementsByTagName("artist")[0].InnerText;
+			
+			return new Album(artist, title, session);
+		}
+				
 	}
 }

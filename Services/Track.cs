@@ -570,5 +570,43 @@ namespace Lastfm.Services
 		{
 			return sublist<TopFan>(GetTopFans(), limit);
 		}
+		
+		/// <summary>
+		/// Returns the track's MusicBrainz id.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
+		public string GetMBID()
+		{
+			XmlDocument doc = request("track.getInfo");
+			
+			return doc.GetElementsByTagName("mbid")[0].InnerText;
+		}
+		
+		/// <summary>
+		/// Returns a track by its MusicBrainz id.
+		/// </summary>
+		/// <param name="mbid">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="session">
+		/// A <see cref="Session"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="Track"/>
+		/// </returns>
+		public static Track GetByMBID(string mbid, Session session)
+		{
+			RequestParameters p = new Lastfm.RequestParameters();
+			p["mbid"] = mbid;
+			
+			XmlDocument doc = (new Request("track.getInfo", session, p)).execute();
+			
+			string title = doc.GetElementsByTagName("name")[0].InnerText;
+			string artist = doc.GetElementsByTagName("name")[1].InnerText;
+			
+			return new Track(artist, title, session);
+		}
 	}
 }

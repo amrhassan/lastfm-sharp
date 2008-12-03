@@ -22,7 +22,7 @@ using System;
 using System.Xml;
 using System.Collections.Generic;
 
-namespace Lastfm
+namespace Lastfm.Services
 {
 	/// <summary>
 	/// An item in a user's library.

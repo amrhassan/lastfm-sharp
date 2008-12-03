@@ -6,6 +6,10 @@
 		* added: most of the documentation.
 	0.1.03
 		* added: Library class.
+	0.1.04
+		* added: Tasteometer class.
+		* chaged: User.GetCountryName to User.GetCountry.
+		* added: Country class.
 
 0.0
 	* In progress...
