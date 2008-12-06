@@ -24,7 +24,7 @@ using System.Collections.Generic;
 
 namespace Lastfm.Services
 {
-	public class Tag : Base, System.IEquatable<Tag>, IHasWeeklyArtistCharts
+	public class Tag : Base, System.IEquatable<Tag>, IHasWeeklyArtistCharts, IHasURL
 	{
 		/// <summary>
 		/// The tag name.
@@ -37,7 +37,7 @@ namespace Lastfm.Services
 			Name = name;
 		}
 		
-		protected override RequestParameters getParams ()
+		internal override RequestParameters getParams ()
 		{
 			RequestParameters p = base.getParams ();
 			p["tag"] = this.Name;
@@ -277,5 +277,15 @@ namespace Lastfm.Services
 			
 			return chart;
 		}
+		
+		public string GetURL(SiteLanguage language)
+		{
+			string domain = getSiteDomain(language);
+			
+			return "http://" + domain + "/tag/" + urlSafe(Name);
+		}
+		
+		public string URL
+		{ get { return GetURL(SiteLanguage.English); } }
 	}
 }

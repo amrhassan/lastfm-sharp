@@ -62,7 +62,7 @@ namespace Lastfm.Services
 			lastDoc = request(prefix + ".search");
 		}
 		
-		protected override RequestParameters getParams ()
+		internal override RequestParameters getParams ()
 		{
 			RequestParameters p = base.getParams ();
 			p["limit"] = ItemsPerPage.ToString();

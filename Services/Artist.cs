@@ -27,7 +27,7 @@ namespace Lastfm.Services
 	/// <summary>
 	/// An artist on Last.fm
 	/// </summary>
-	public class Artist : Base, ITaggable, IEquatable<Artist>, IShareable, IHasImage
+	public class Artist : Base, ITaggable, IEquatable<Artist>, IShareable, IHasImage, IHasURL
 	{
 		/// <summary>
 		/// The name of the artist.
@@ -51,7 +51,7 @@ namespace Lastfm.Services
 			return this.Name;
 		}
 		
-		protected override RequestParameters getParams ()
+		internal override RequestParameters getParams ()
 		{
 			RequestParameters p = base.getParams();
 			p["artist"] = this.Name;
@@ -587,5 +587,15 @@ namespace Lastfm.Services
 			
 			return extract(doc, "mbid");
 		}
+		
+		public string GetURL(SiteLanguage language)
+		{
+			string domain = getSiteDomain(language);
+			
+			return "http://" + domain + "/music/" + urlSafe(Name);
+		}
+		
+		public string URL
+		{ get { return GetURL(SiteLanguage.English); } }
 	}
 }

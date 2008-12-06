@@ -25,7 +25,7 @@ namespace Lastfm.Services
 	/// <summary>
 	/// A track wiki on Last.fm.
 	/// </summary>
-	public class TrackWiki : Wiki
+	public class TrackWiki : Wiki, IHasURL
 	{
 		/// <value>
 		/// The concerned track.
@@ -38,7 +38,7 @@ namespace Lastfm.Services
 			Track = track;
 		}
 		
-		protected override RequestParameters getParams ()
+		internal override RequestParameters getParams ()
 		{
 			RequestParameters p = base.getParams ();
 			p["track"] = Track.Title;
@@ -46,5 +46,13 @@ namespace Lastfm.Services
 
 			return p;
 		}
+		
+		public string GetURL(SiteLanguage language)
+		{
+			return Track.GetURL(language) + "/+wiki";
+		}
+		
+		public string URL
+		{ get { return GetURL(SiteLanguage.English); } }
 	}
 }

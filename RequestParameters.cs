@@ -20,14 +20,29 @@
 
 using System;
 using System.Collections.Generic;
+using System.Web;
+using System.Text;
 
 namespace Lastfm
 {
-	/// <summary>
-	/// A collection of parameters passed on to a request.
-	/// </summary>
-	public class RequestParameters : SortedDictionary<string, string>
+	internal class RequestParameters : SortedDictionary<string, string>
 	{
 		public RequestParameters() : base() {}
+
+		public override string ToString()
+		{
+			string values = "";
+			foreach(string key in this.Keys)
+				values += HttpUtility.UrlEncode(key) + "=" +
+					HttpUtility.UrlEncode(this[key]) + "&";
+			values = values.Substring(0, values.Length - 1);
+			
+			return values;
+		}
+		
+		public byte[] ToBytes()
+		{	
+			return Encoding.ASCII.GetBytes(ToString());
+		}
 	}
 }

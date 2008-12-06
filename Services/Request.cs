@@ -74,7 +74,7 @@ namespace Lastfm.Services
 
 		public XmlDocument execute()
 		{
-			byte[] data = Utilities.GetPostBytes(Parameters);
+			byte[] data = Parameters.ToBytes();
 			
 			/* RANT 
 			 * The most annoying thing i've ever encountered in my life.

@@ -27,7 +27,8 @@ namespace Lastfm.Services
 	/// <summary>
 	/// A Last.fm user.
 	/// </summary>
-	public class User : Base, IEquatable<User>, IHasWeeklyTrackCharts, IHasWeeklyAlbumCharts, IHasWeeklyArtistCharts
+	public class User : Base, IEquatable<User>, IHasWeeklyTrackCharts, IHasWeeklyAlbumCharts,
+	IHasWeeklyArtistCharts, IHasURL
 	{
 		/// <summary>
 		/// The user's name.
@@ -53,7 +54,7 @@ namespace Lastfm.Services
 			return Name;
 		}
 		
-		protected override RequestParameters getParams ()
+		internal override RequestParameters getParams ()
 		{
 			RequestParameters p = base.getParams ();
 			p["user"] = Name;
@@ -319,7 +320,7 @@ namespace Lastfm.Services
 		public TopTrack[] GetTopTracks(Period period)
 		{
 			RequestParameters p = getParams();
-			p["period"] = Utilities.getPeriod(period);
+			p["period"] = getPeriod(period);
 			
 			XmlDocument doc = request("user.getTopTracks", p);
 			
@@ -389,7 +390,7 @@ namespace Lastfm.Services
 		public TopArtist[] GetTopArtists(Period period)
 		{
 			RequestParameters p = getParams();
-			p["period"] = Utilities.getPeriod(period);
+			p["period"] = getPeriod(period);
 			
 			XmlDocument doc = request("user.getTopArtists", p);
 			List<TopArtist> list = new List<TopArtist>();
@@ -428,7 +429,7 @@ namespace Lastfm.Services
 		public TopAlbum[] GetTopAlbums(Period period)
 		{
 			RequestParameters p = getParams();
-			p["period"] = Utilities.getPeriod(period);
+			p["period"] = getPeriod(period);
 			
 			XmlDocument doc = request("user.getTopAlbums", p);
 			List<TopAlbum> list = new List<TopAlbum>();
@@ -706,5 +707,15 @@ namespace Lastfm.Services
 		{
 			return new Tasteometer(this, myspaceURL, Session);
 		}
+		
+		public string GetURL(SiteLanguage language)
+		{
+			string domain = getSiteDomain(language);
+			
+			return "http://" + domain + "/user/" + urlSafe(Name);
+		}
+		
+		public string URL
+		{ get { return GetURL(SiteLanguage.English); } }
 	}
 }

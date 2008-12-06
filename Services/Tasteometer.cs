@@ -34,7 +34,7 @@ namespace Lastfm.Services
 		private string secondType {get; set;}
 		private string secondValue {get; set;}
 		
-		protected override RequestParameters getParams ()
+		internal override RequestParameters getParams ()
 		{
 			RequestParameters p = base.getParams ();
 			p["type1"] = firstType;

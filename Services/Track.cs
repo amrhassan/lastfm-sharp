@@ -27,7 +27,7 @@ namespace Lastfm.Services
 	/// <summary>
 	/// A Last.fm track.
 	/// </summary>
-	public class Track : Base, IEquatable<Track>, IShareable, ITaggable
+	public class Track : Base, IEquatable<Track>, IShareable, ITaggable, IHasURL
 	{
 		/// <summary>
 		/// The track title.
@@ -64,7 +64,7 @@ namespace Lastfm.Services
 			return this.Artist + " - " + this.Title;
 		}
     
-		protected override RequestParameters getParams ()
+		internal override RequestParameters getParams ()
 		{
 			RequestParameters p = base.getParams ();
 			p["artist"] = Artist.Name;
@@ -607,6 +607,21 @@ namespace Lastfm.Services
 			string artist = doc.GetElementsByTagName("name")[1].InnerText;
 			
 			return new Track(artist, title, session);
+		}
+		
+		public string GetURL(SiteLanguage language)
+		{
+			string domain = getSiteDomain(language);
+			
+			return "http://" + domain + "/music/" + urlSafe(Artist.Name) + "/_/" + urlSafe(Title);
+		}
+		
+		public string URL
+		{ get { return GetURL(SiteLanguage.English); } }
+		
+		public void AddToPlaylist(Playlist playlist)
+		{
+			playlist.AddTrack(this);
 		}
 	}
 }

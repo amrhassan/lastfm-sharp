@@ -38,12 +38,20 @@ namespace Lastfm.Services
 			Artist = artist;
 		}
 		
-		protected override RequestParameters getParams ()
+		internal override RequestParameters getParams ()
 		{
 			RequestParameters p = base.getParams ();
 			p["artist"] = Artist.Name;
 			
 			return p;
 		}
+		
+		public string GetURL(SiteLanguage language)
+		{
+			return Artist.GetURL(language) + "/+wiki";
+		}
+		
+		public string URL
+		{ get { return GetURL(SiteLanguage.English); } }
 	}
 }

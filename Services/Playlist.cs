@@ -27,7 +27,7 @@ namespace Lastfm.Services
 	/// <summary>
 	/// A Last.fm user playlist.
 	/// </summary>
-	public class Playlist : Base, IHasImage, System.IEquatable<Playlist>
+	public class Playlist : Base, IHasImage, System.IEquatable<Playlist>, IHasURL
 	{	
 		/// <summary>
 		/// The playlist ID. A Unique identifier.
@@ -53,7 +53,7 @@ namespace Lastfm.Services
 			User = user;
 		}
 		
-		protected override RequestParameters getParams ()
+		internal override RequestParameters getParams ()
 		{
 			RequestParameters p = base.getParams ();
 			p["id"] = ID.ToString();
@@ -225,5 +225,19 @@ namespace Lastfm.Services
 			
 			return new Playlist(AuthenticatedUser.GetUser(session), id, session);
 		}
+		
+		public string GetURL(SiteLanguage language)
+		{
+			string url = ((XmlElement)getNode()).GetElementsByTagName("url")[0].InnerText;
+			
+			string domain = getSiteDomain(language);
+			
+			url = url.Substring(url.IndexOf("user/"));
+			
+			return "http://" + domain + "/" + url;
+		}
+		
+		public string URL
+		{ get { return GetURL(SiteLanguage.English); } }
 	}
 }

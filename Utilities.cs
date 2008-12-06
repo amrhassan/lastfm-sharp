@@ -25,6 +25,7 @@ using System.Text;
 using System.Security.Cryptography;
 using System.Net;
 using System.Web;
+using Lastfm.Services;
 
 namespace Lastfm
 {
@@ -69,61 +70,18 @@ namespace Lastfm
 			return builder.ToString();
 		}
 		
-		internal static string ParametersToString(RequestParameters collection)
-		{
-			string values = "";
-			foreach(string key in collection.Keys)
-				values += HttpUtility.UrlEncode(key) + "=" +
-					HttpUtility.UrlEncode(collection[key]) + "&";
-			values = values.Substring(0, values.Length - 1);
-			
-			return values;
-		}
-		
-		internal static byte[] GetPostBytes(RequestParameters collection)
-		{
-			string values = Utilities.ParametersToString(collection);
-			
-			return Encoding.ASCII.GetBytes(values);
-		}
-		
-		/// <summary>
-		/// Converts a unix timestamp to a <see cref="DateTime"/> value.
-		/// </summary>
-		/// <param name="timestamp">
-		/// A <see cref="System.Int64"/>
-		/// </param>
-		/// <returns>
-		/// A <see cref="DateTime"/>
-		/// </returns>
-		public static DateTime TimestampToDateTime(long timestamp)
+		internal static DateTime TimestampToDateTime(long timestamp)
 		{
 			return new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddSeconds(timestamp).ToLocalTime();
 		}
 		
-		/// <summary>
-		/// Converts a <see cref="DateTime"/> value into a unix timestamp.
-		/// </summary>
-		/// <param name="dateTime">
-		/// A <see cref="DateTime"/>
-		/// </param>
-		/// <returns>
-		/// A <see cref="System.Int64"/>
-		/// </returns>
-		public static long DateTimeToTimestamp(DateTime dateTime)
+		internal static long DateTimeToTimestamp(DateTime dateTime)
 		{
 			DateTime baseDate = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
 			
 			TimeSpan span = dateTime.ToUniversalTime() - baseDate;
 			
 			return (long)span.TotalSeconds;
-		}
-		
-		internal static string getPeriod(Lastfm.Services.Period period)
-		{
-			string[] values = new string[] {"overall", "3month", "6month", "12month"};
-			
-			return values[(int)period];
 		}
 	}
 }

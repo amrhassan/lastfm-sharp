@@ -27,7 +27,8 @@ namespace Lastfm.Services
 	/// <summary>
 	/// A Last.fm Group.
 	/// </summary>
-	public class Group : Base, IEquatable<Group>, IHasWeeklyAlbumCharts, IHasWeeklyArtistCharts, IHasWeeklyTrackCharts
+	public class Group : Base, IEquatable<Group>, IHasWeeklyAlbumCharts, IHasWeeklyArtistCharts,
+	IHasWeeklyTrackCharts, IHasURL
 	{
 		/// <summary>
 		/// Name of the group.
@@ -40,7 +41,7 @@ namespace Lastfm.Services
 			Name = groupName;
 		}
 		
-		protected override RequestParameters getParams ()
+		internal override RequestParameters getParams ()
 		{
 			RequestParameters p = base.getParams ();
 			p["group"] = Name;
@@ -299,5 +300,15 @@ namespace Lastfm.Services
 		{
 			return (group.Name == this.Name);
 		}
+		
+		public string GetURL(SiteLanguage language)
+		{
+			string domain = getSiteDomain(language);
+			
+			return "http://" + domain + "/group/" + urlSafe(Name);
+		}
+		
+		public string URL
+		{ get { return GetURL(SiteLanguage.English); } }
 	}
 }

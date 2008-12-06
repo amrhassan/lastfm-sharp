@@ -42,7 +42,7 @@ namespace Lastfm.Services
 			PlaylistUrl = playlistUrl;
 		}
 		
-		protected override RequestParameters getParams ()
+		internal override RequestParameters getParams ()
 		{
 			RequestParameters p = base.getParams ();
 			p["playlistURL"] = PlaylistUrl;

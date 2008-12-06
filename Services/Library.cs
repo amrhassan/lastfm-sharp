@@ -27,7 +27,7 @@ namespace Lastfm.Services
 	/// <summary>
 	/// A user's library.
 	/// </summary>
-	public class Library : Base
+	public class Library : Base, IHasURL
 	{
 		/// <summary>
 		/// The user who owns the library.
@@ -46,7 +46,7 @@ namespace Lastfm.Services
 			this.User = new User(username, Session);
 		}
 		
-		protected override RequestParameters getParams()
+		internal override RequestParameters getParams()
 		{
 			RequestParameters p = base.getParams ();
 			p["user"] = User.Name;
@@ -303,5 +303,13 @@ namespace Lastfm.Services
 			
 			return Int32.Parse(doc.GetElementsByTagName("albums")[0].Attributes.GetNamedItem("totalPages").InnerText);
 		}
+		
+		public string GetURL(SiteLanguage language)
+		{	
+			return User.GetURL(language) + "/library";
+		}
+		
+		public string URL
+		{ get { return GetURL(SiteLanguage.English); } }
 	}
 }

@@ -52,7 +52,7 @@ namespace Lastfm.Services
 				Name = name;
 		}
 		
-		protected override RequestParameters getParams ()
+		internal override RequestParameters getParams ()
 		{
 			RequestParameters p = base.getParams ();
 			p["country"] = Name;

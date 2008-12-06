@@ -29,7 +29,7 @@ namespace Lastfm.Services
 	/// <summary>
 	/// A Last.fm event.
 	/// </summary>
-	public class Event : Base, IEquatable<Event>, IShareable, IHasImage
+	public class Event : Base, IEquatable<Event>, IShareable, IHasImage, IHasURL
 	{
 		/// <summary>
 		/// The event ID.
@@ -42,7 +42,7 @@ namespace Lastfm.Services
 			ID = id;
 		}
 		
-		protected override RequestParameters getParams ()
+		internal override RequestParameters getParams ()
 		{
 			RequestParameters p = base.getParams ();
 			p["event"] = ID.ToString();
@@ -272,5 +272,15 @@ namespace Lastfm.Services
 			
 			request("event.Share", p);
 		}
+		
+		public string GetURL(SiteLanguage language)
+		{
+			string domain = getSiteDomain(language);
+			
+			return "http://" + domain + "/event/" + ID.ToString();
+		}
+		
+		public string URL
+		{ get { return GetURL(SiteLanguage.English); } }
 	}
 }

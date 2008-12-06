@@ -27,7 +27,7 @@ namespace Lastfm.Services
 	/// <summary>
 	/// A Last.fm album.
 	/// </summary>
-	public class Album : Base, IEquatable<Album>, IHasImage
+	public class Album : Base, IEquatable<Album>, IHasImage, IHasURL
 	{
 		/// <summary>
 		/// The album title.
@@ -80,7 +80,7 @@ namespace Lastfm.Services
 			return Artist.Name + " - " + Title;
 		}
 		
-		protected override RequestParameters getParams ()
+		internal override RequestParameters getParams ()
 		{
 			RequestParameters p = base.getParams ();
 			p["artist"] = Artist.Name;
@@ -478,6 +478,15 @@ namespace Lastfm.Services
 			
 			return new Album(artist, title, session);
 		}
-				
+		
+		public string GetURL(SiteLanguage language)
+		{
+			string domain = getSiteDomain(language);
+			
+			return "http://" + domain + "/music/" + urlSafe(Artist.Name) + "/" + urlSafe(Name);
+		}
+		
+		public string URL
+		{ get { return GetURL(SiteLanguage.English); } }
 	}
 }

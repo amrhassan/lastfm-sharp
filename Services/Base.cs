@@ -21,6 +21,7 @@
 using System;
 using System.Collections.Generic;
 using System.Xml;
+using System.Web;
 
 namespace Lastfm.Services
 {
@@ -36,13 +37,13 @@ namespace Lastfm.Services
 			Session = session;
 		}
 		
-		protected virtual RequestParameters getParams()
+		internal virtual RequestParameters getParams()
 		{
 			// OVERRIDE ME
 			return new RequestParameters();
 		}
     
-		protected XmlDocument request(string methodName, RequestParameters parameters)
+		internal XmlDocument request(string methodName, RequestParameters parameters)
 		{
 			return (new Request(methodName, Session, parameters)).execute();
 		}
@@ -117,6 +118,38 @@ namespace Lastfm.Services
 				list.Add(original[i]);
 			
 			return list.ToArray();
+		}
+		
+		protected string urlSafe(string text)
+		{
+			return HttpUtility.UrlEncode(HttpUtility.UrlEncode(text));
+		}
+		
+		protected string getPeriod(Period period)
+		{
+			string[] values = new string[] {"overall", "3month", "6month", "12month"};
+			
+			return values[(int)period];
+		}
+		
+		protected string getSiteDomain(SiteLanguage language)
+		{
+			Dictionary<SiteLanguage, string> domains = new Dictionary<SiteLanguage,string>();
+			
+			domains.Add(SiteLanguage.English, "www.last.fm");
+			domains.Add(SiteLanguage.German, "www.lastfm.de");
+			domains.Add(SiteLanguage.Spanish, "www.lastfm.es");
+			domains.Add(SiteLanguage.French, "www.lastfm.fr");
+			domains.Add(SiteLanguage.Italian, "www.lastfm.it");
+			domains.Add(SiteLanguage.Polish, "www.lastfm.pl");
+			domains.Add(SiteLanguage.Portuguese, "www.lastfm.com.br");
+			domains.Add(SiteLanguage.Swedish, "www.lastfm.se");
+			domains.Add(SiteLanguage.Turkish, "www.lastfm.com.tr");
+			domains.Add(SiteLanguage.Russian, "www.lastfm.ru");
+			domains.Add(SiteLanguage.Japanese, "www.lastfm.jp");
+			domains.Add(SiteLanguage.Chinese, "cn.last.fm");
+			
+			return "http://" + domains[language];
 		}
 	}
 }

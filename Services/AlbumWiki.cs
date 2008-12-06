@@ -25,7 +25,7 @@ namespace Lastfm.Services
 	/// <summary>
 	/// A Last.fm's wiki page for an album.
 	/// </summary>
-	public class AlbumWiki : Wiki
+	public class AlbumWiki : Wiki, IHasURL
 	{
 		/// <summary>
 		/// The concerned album.
@@ -38,7 +38,7 @@ namespace Lastfm.Services
 			Album = album;
 		}
 		
-		protected override RequestParameters getParams ()
+		internal override RequestParameters getParams ()
 		{
 			RequestParameters p = base.getParams ();
 			p["artist"] = Album.Artist.Name;
@@ -46,5 +46,13 @@ namespace Lastfm.Services
 			
 			return p;
 		}
+		
+		public string GetURL(SiteLanguage language)
+		{
+			return Album.GetURL(language) + "/+wiki";
+		}
+		
+		public string URL
+		{ get { return GetURL(SiteLanguage.English); } }
 	}
 }
