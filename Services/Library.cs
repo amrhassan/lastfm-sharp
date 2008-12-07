@@ -48,12 +48,18 @@ namespace Lastfm.Services
 		
 		internal override RequestParameters getParams()
 		{
-			RequestParameters p = base.getParams ();
+			RequestParameters p = new Lastfm.RequestParameters();
 			p["user"] = User.Name;
 			
 			return p;
 		}
 		
+		/// <summary>
+		/// String representation of the object.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public override string ToString()
 		{
 			return "The library of " + User.Name;
@@ -107,208 +113,40 @@ namespace Lastfm.Services
 		}
 		
 		/// <summary>
-		/// Returns albums from the library.
+		/// The albums in the library.
 		/// </summary>
-		/// <param name="page">
-		/// A <see cref="System.Int32"/>
-		/// </param>
-		/// <param name="limit">
-		/// A <see cref="System.Int32"/>
-		/// </param>
-		/// <returns>
-		/// A <see cref="LibraryItem`1"/>
-		/// </returns>
-		public LibraryItem<Album>[] GetAlbums(int page, int limit)
-		{
-			RequestParameters p = getParams();
-			
-			p["limit"] = limit.ToString();
-			p["page"] = page.ToString();
-			
-			XmlDocument doc = request("library.getAlbums", p);
+		public LibraryAlbums Albums
+		{ get { return new LibraryAlbums(this, Session); } }
+		
+		/// <summary>
+		/// The tracks in the library.
+		/// </summary>
+		public LibraryTracks Tracks
+		{ get { return new LibraryTracks(this, Session); } }
 
-			List<LibraryItem<Album>> list = new List<LibraryItem<Album>>();
-			
-			foreach(XmlNode node in doc.GetElementsByTagName("album"))
-			{
-				int playcount = 0;
-				try
-				{ playcount = Int32.Parse(extract(node, "playcount")); }
-				catch (FormatException)
-				{}
-				
-				int tagcount = 0;
-				try
-				{ tagcount = Int32.Parse(extract(node, "tagcount")); }
-				catch (FormatException)
-				{}
-				
-				Album album = new Album(extract(node, "name", 1), extract(node, "name"), Session);
-				list.Add(new LibraryItem<Album>(album, playcount, tagcount));
-			}
-			
-			return list.ToArray();
-		}
+		/// <summary>
+		/// The artists in the library.
+		/// </summary>
+		public LibraryArtists Artists
+		{ get { return new LibraryArtists(this, Session); } }
 		
 		/// <summary>
-		/// Returns albums from the library.
+		/// Returns the Last.fm page of this object.
 		/// </summary>
-		/// <param name="page">
-		/// A <see cref="System.Int32"/>
+		/// <param name="language">
+		/// A <see cref="SiteLanguage"/>
 		/// </param>
 		/// <returns>
-		/// A <see cref="LibraryItem`1"/>
+		/// A <see cref="System.String"/>
 		/// </returns>
-		public LibraryItem<Album>[] GetAlbums(int page)
-		{
-			// max limit is 49.
-			return GetAlbums(page, 49);
-		}
-		
-		/// <summary>
-		/// Returns tracks from the library.
-		/// </summary>
-		/// <param name="page">
-		/// A <see cref="System.Int32"/>
-		/// </param>
-		/// <param name="limit">
-		/// A <see cref="System.Int32"/>
-		/// </param>
-		/// <returns>
-		/// A <see cref="LibraryItem`1"/>
-		/// </returns>
-		public LibraryItem<Track>[] GetTracks(int page, int limit)
-		{
-			RequestParameters p = getParams();
-			
-			p["limit"] = limit.ToString();
-			p["page"] = page.ToString();
-			
-			XmlDocument doc = request("library.getTracks", p);
-
-			List<LibraryItem<Track>> list = new List<LibraryItem<Track>>();
-			
-			foreach(XmlNode node in doc.GetElementsByTagName("track"))
-			{
-				int playcount = 0;
-				try
-				{ playcount = Int32.Parse(extract(node, "playcount")); }
-				catch (FormatException)
-				{}
-				
-				int tagcount = 0;
-				try
-				{ tagcount = Int32.Parse(extract(node, "tagcount")); }
-				catch (FormatException)
-				{}
-				
-				Track track = new Track(extract(node, "name", 1), extract(node, "name"), Session);
-				list.Add(new LibraryItem<Track>(track, playcount, tagcount));
-			}
-			
-			return list.ToArray();
-		}
-		
-		/// <summary>
-		/// Returns tracks from the library.
-		/// </summary>
-		/// <param name="page">
-		/// A <see cref="System.Int32"/>
-		/// </param>
-		/// <returns>
-		/// A <see cref="LibraryItem`1"/>
-		/// </returns>
-		public LibraryItem<Track>[] GetTracks(int page)
-		{
-			// max limit is 49.
-			return GetTracks(page, 49);
-		}
-		
-		/// <summary>
-		/// Returns artists from the library.
-		/// </summary>
-		/// <param name="page">
-		/// A <see cref="System.Int32"/>
-		/// </param>
-		/// <param name="limit">
-		/// A <see cref="System.Int32"/>
-		/// </param>
-		/// <returns>
-		/// A <see cref="LibraryItem`1"/>
-		/// </returns>
-		public LibraryItem<Artist>[] GetArtists(int page, int limit)
-		{
-			RequestParameters p = getParams();
-			
-			p["limit"] = limit.ToString();
-			p["page"] = page.ToString();
-			
-			XmlDocument doc = request("library.getTracks", p);
-
-			List<LibraryItem<Artist>> list = new List<LibraryItem<Artist>>();
-			
-			foreach(XmlNode node in doc.GetElementsByTagName("artist"))
-			{
-				int playcount = 0;
-				try
-				{ playcount = Int32.Parse(extract(node, "playcount")); }
-				catch (FormatException)
-				{}
-				
-				int tagcount = 0;
-				try
-				{ tagcount = Int32.Parse(extract(node, "tagcount")); }
-				catch (FormatException)
-				{}
-				
-				Artist artist = new Artist(extract(node, "name"), Session);
-				list.Add(new LibraryItem<Artist>(artist, playcount, tagcount));
-			}
-			
-			return list.ToArray();
-		}
-		
-		/// <summary>
-		/// Returns artists from the library.
-		/// </summary>
-		/// <param name="page">
-		/// A <see cref="System.Int32"/>
-		/// </param>
-		/// <returns>
-		/// A <see cref="LibraryItem`1"/>
-		/// </returns>
-		public LibraryItem<Artist>[] GetArtists(int page)
-		{
-			// max limit is 49
-			return GetArtists(page, 49);
-		}
-		
-		public int GetTotalArtistPages()
-		{
-			XmlDocument doc = request("library.getArtists");
-			
-			return Int32.Parse(doc.GetElementsByTagName("artists")[0].Attributes.GetNamedItem("totalPages").InnerText);
-		}
-		
-		public int GetTotalTrackPages()
-		{
-			XmlDocument doc = request("library.getTracks");
-			
-			return Int32.Parse(doc.GetElementsByTagName("tracks")[0].Attributes.GetNamedItem("totalPages").InnerText);
-		}
-		
-		public int GetTotalAlbumPages()
-		{
-			XmlDocument doc = request("library.getAlbums");
-			
-			return Int32.Parse(doc.GetElementsByTagName("albums")[0].Attributes.GetNamedItem("totalPages").InnerText);
-		}
-		
 		public string GetURL(SiteLanguage language)
 		{	
 			return User.GetURL(language) + "/library";
 		}
-		
+
+		/// <summary>
+		/// The object's Last.fm page url.
+		/// </summary>
 		public string URL
 		{ get { return GetURL(SiteLanguage.English); } }
 	}

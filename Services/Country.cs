@@ -54,12 +54,18 @@ namespace Lastfm.Services
 		
 		internal override RequestParameters getParams ()
 		{
-			RequestParameters p = base.getParams ();
+			RequestParameters p = new Lastfm.RequestParameters();
 			p["country"] = Name;
 			
 			return p;
 		}
 		
+		/// <summary>
+		/// String representation of the object.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public override string ToString()
 		{
 			return Name;

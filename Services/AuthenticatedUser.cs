@@ -161,43 +161,13 @@ namespace Lastfm.Services
 		/// <summary>
 		/// Returns the recommended events by Last.fm for this user.
 		/// </summary>
-		/// <param name="limit">
-		/// A <see cref="System.Int32"/>
-		/// </param>
-		/// <param name="page">
-		/// A <see cref="System.Int32"/>
-		/// </param>
-		/// <returns>
-		/// A <see cref="Event"/>
-		/// </returns>
-		public Event[] GetRecommendedEvents(int limit, int page)
-		{
-			// this method requires authentication
-			requireAuthentication();
-			
-			RequestParameters p = getParams();
-			p["limit"] = limit.ToString();
-			p["page"] = page.ToString();
-			
-			XmlDocument doc = request("user.getRecommendedEvents", p);
-			
-			List<Event> list = new List<Event>();
-			foreach(XmlNode node in doc.GetElementsByTagName("event"))
-				list.Add(new Event(Int32.Parse(extract(node, "id")), Session));
-			
-			return list.ToArray();
-		}
+		public RecommendedEvents RecommendedEvents
+		{ get { return new RecommendedEvents(this, Session); } }
 		
 		/// <summary>
-		/// Returns the recommended events by Last.fm for this user.
+		/// The recommended artists for this user.
 		/// </summary>
-		/// <returns>
-		/// A <see cref="Event"/>
-		/// </returns>
-		public Event[] GetRecommendedEvents()
-		{
-			// first page, default number of items per page.
-			return GetRecommendedEvents(20, 1);
-		}
+		public RecommendedArtists RecommendedArtists
+		{ get { return new RecommendedArtists(this, Session); } }
 	}
 }

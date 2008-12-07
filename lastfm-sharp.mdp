@@ -9,6 +9,7 @@
     <Configuration name="Release" ctype="DotNetProjectConfiguration">
       <CustomCommands>
         <Command type="AfterBuild" command="sh ./gen_doc.sh" workingdir="${TargetDir}" />
+        <Command type="AfterBuild" command="cp -vf CHANGES ./bin/Release/" workingdir="${ProjectDir}" />
       </CustomCommands>
       <Output directory="bin/Release" assemblyKeyFile="." assembly="lastfm-sharp" />
       <Build debugmode="False" target="Library" />
@@ -82,6 +83,17 @@
     <File name="Services/Country.cs" subtype="Code" buildaction="Compile" />
     <File name="Services/IHasURL.cs" subtype="Code" buildaction="Compile" />
     <File name="Services/SiteLanguage.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/Pages.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/GroupMembers.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/RecommendedArtists.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/RecommendedEvents.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/PastEvents.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/LibraryAlbums.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/LibraryAlbum.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/LibraryArtist.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/LibraryTrack.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/LibraryArtists.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/LibraryTracks.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />

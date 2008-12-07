@@ -44,7 +44,7 @@ namespace Lastfm.Services
 		
 		internal override RequestParameters getParams ()
 		{
-			RequestParameters p = base.getParams ();
+			RequestParameters p = new Lastfm.RequestParameters();
 			p["event"] = ID.ToString();
 			
 			return p;
@@ -205,6 +205,15 @@ namespace Lastfm.Services
 			return extract(doc, "tag");
 		}
 		
+		/// <summary>
+		/// Check to see if this object equals another.
+		/// </summary>
+		/// <param name="eventObject">
+		/// A <see cref="Event"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="System.Boolean"/>
+		/// </returns>
 		public bool Equals(Event eventObject)
 		{
 			if(eventObject.ToString() == this.ToString())
@@ -273,13 +282,25 @@ namespace Lastfm.Services
 			request("event.Share", p);
 		}
 		
+		/// <summary>
+		/// Returns the Last.fm page of this object.
+		/// </summary>
+		/// <param name="language">
+		/// A <see cref="SiteLanguage"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public string GetURL(SiteLanguage language)
 		{
 			string domain = getSiteDomain(language);
 			
 			return "http://" + domain + "/event/" + ID.ToString();
 		}
-		
+
+		/// <summary>
+		/// The object's Last.fm page url.
+		/// </summary>
 		public string URL
 		{ get { return GetURL(SiteLanguage.English); } }
 	}

@@ -49,6 +49,12 @@ namespace Lastfm.Services
 			Name = name;
 		}
 		
+		/// <summary>
+		/// String representation of the object.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public override string ToString ()
 		{
 			return Name;
@@ -56,12 +62,21 @@ namespace Lastfm.Services
 		
 		internal override RequestParameters getParams ()
 		{
-			RequestParameters p = base.getParams ();
+			RequestParameters p = new Lastfm.RequestParameters();
 			p["user"] = Name;
 			
 			return p;
 		}
 		
+		/// <summary>
+		/// Check to see if this object equals another.
+		/// </summary>
+		/// <param name="user">
+		/// A <see cref="User"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="System.Boolean"/>
+		/// </returns>
 		public bool Equals(User user)
 		{
 			return (user.Name == this.Name);
@@ -550,25 +565,8 @@ namespace Lastfm.Services
 		/// <summary>
 		/// Returns the past events attended by this user.
 		/// </summary>
-		/// <param name="limit">
-		/// A <see cref="System.Int32"/>
-		/// </param>
-		/// <param name="page">
-		/// A <see cref="System.Int32"/>
-		/// </param>
-		/// <returns>
-		/// A <see cref="Event"/>
-		/// </returns>
-		public Event[] GetPastEvents(int limit, int page)
-		{
-			XmlDocument doc = request("user.getPastEvents");
-			
-			List<Event> list = new List<Event>();
-			foreach(XmlNode node in doc.GetElementsByTagName("event"))
-				list.Add(new Event(Int32.Parse(extract(node, "id")), Session));
-			
-			return list.ToArray();
-		}
+		public PastEvents PastEvents
+		{ get { return new PastEvents(this, Session); } }
 		
 		/// <summary>
 		/// Returns the neighbours of this user.
@@ -708,6 +706,15 @@ namespace Lastfm.Services
 			return new Tasteometer(this, myspaceURL, Session);
 		}
 		
+		/// <summary>
+		/// Returns the Last.fm page of this object.
+		/// </summary>
+		/// <param name="language">
+		/// A <see cref="SiteLanguage"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public string GetURL(SiteLanguage language)
 		{
 			string domain = getSiteDomain(language);
@@ -715,6 +722,9 @@ namespace Lastfm.Services
 			return "http://" + domain + "/user/" + urlSafe(Name);
 		}
 		
+		/// <summary>
+		/// The object's Last.fm page url.
+		/// </summary>
 		public string URL
 		{ get { return GetURL(SiteLanguage.English); } }
 	}

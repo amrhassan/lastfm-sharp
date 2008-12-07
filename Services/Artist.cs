@@ -46,6 +46,12 @@ namespace Lastfm.Services
 			Name = name;
 		}
     
+		/// <summary>
+		/// String representation of the object.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public override string ToString ()
 		{
 			return this.Name;
@@ -53,7 +59,7 @@ namespace Lastfm.Services
 		
 		internal override RequestParameters getParams ()
 		{
-			RequestParameters p = base.getParams();
+			RequestParameters p = new Lastfm.RequestParameters();
 			p["artist"] = this.Name;
 			
 			return p;
@@ -238,6 +244,15 @@ namespace Lastfm.Services
 			return list.ToArray();
 		}
 		
+		/// <summary>
+		/// Check to see if this object equals another.
+		/// </summary>
+		/// <param name="artist">
+		/// A <see cref="Artist"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="System.Boolean"/>
+		/// </returns>
 		public bool Equals(Artist artist)
 		{
 			return (artist.Name == this.Name);
@@ -588,14 +603,42 @@ namespace Lastfm.Services
 			return extract(doc, "mbid");
 		}
 		
+		/// <summary>
+		/// Returns the Last.fm page of this object.
+		/// </summary>
+		/// <param name="language">
+		/// A <see cref="SiteLanguage"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public string GetURL(SiteLanguage language)
 		{
 			string domain = getSiteDomain(language);
 			
 			return "http://" + domain + "/music/" + urlSafe(Name);
 		}
-		
+
+		/// <summary>
+		/// The object's Last.fm page url.
+		/// </summary>
 		public string URL
 		{ get { return GetURL(SiteLanguage.English); } }
+		
+		/// <summary>
+		/// Returns true if the artist's music is available for streaming.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.Boolean"/>
+		/// </returns>
+		public bool IsStreamable()
+		{
+			XmlDocument doc = request("artist.getInfo");
+			
+			if (extract(doc, "streamable") == "1")
+				return true;
+			else
+				return false;
+		}
 	}
 }

@@ -68,6 +68,18 @@ namespace Lastfm.Services
 			Title = title;
 		}
 		
+		/// <summary>
+		/// Create an album.
+		/// </summary>
+		/// <param name="artist">
+		/// A <see cref="Artist"/>
+		/// </param>
+		/// <param name="title">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="session">
+		/// A <see cref="Session"/>
+		/// </param>
 		public Album(Artist artist, string title, Session session)
 			:base(session)
 		{
@@ -75,6 +87,12 @@ namespace Lastfm.Services
 			Title = title;
 		}
 		
+		/// <summary>
+		/// String representation of the object.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public override string ToString ()
 		{
 			return Artist.Name + " - " + Title;
@@ -82,7 +100,7 @@ namespace Lastfm.Services
 		
 		internal override RequestParameters getParams ()
 		{
-			RequestParameters p = base.getParams ();
+			RequestParameters p = new Lastfm.RequestParameters();
 			p["artist"] = Artist.Name;
 			p["album"] = Title;
 			
@@ -231,6 +249,15 @@ namespace Lastfm.Services
 			return sublist<TopTag>(GetTopTags(), limit);
 		}
 		
+		/// <summary>
+		/// Check to see if this object equals another.
+		/// </summary>
+		/// <param name="album">
+		/// A <see cref="Album"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="System.Boolean"/>
+		/// </returns>
 		public bool Equals(Album album)
 		{
 			if(album.Title == this.Title && album.Artist.Name == this.Artist.Name)
@@ -479,6 +506,15 @@ namespace Lastfm.Services
 			return new Album(artist, title, session);
 		}
 		
+		/// <summary>
+		/// Returns the Last.fm page of this object.
+		/// </summary>
+		/// <param name="language">
+		/// A <see cref="SiteLanguage"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public string GetURL(SiteLanguage language)
 		{
 			string domain = getSiteDomain(language);
@@ -486,6 +522,9 @@ namespace Lastfm.Services
 			return "http://" + domain + "/music/" + urlSafe(Artist.Name) + "/" + urlSafe(Name);
 		}
 		
+		/// <value>
+		/// The Last.fm page of this object.
+		/// </value>
 		public string URL
 		{ get { return GetURL(SiteLanguage.English); } }
 	}

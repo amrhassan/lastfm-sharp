@@ -36,7 +36,7 @@ namespace Lastfm.Services
 	{
 		private string prefix {get; set;}
 		private Dictionary<string, string> searchTerms {get; set;}
-		protected XmlDocument lastDoc {get; set;}
+		internal XmlDocument lastDoc {get; set;}
 		
 		/// <value>
 		/// Number of search results per page.
@@ -51,7 +51,7 @@ namespace Lastfm.Services
 			get { return Int32.Parse(extract(lastDoc, "opensearch:totalResults")); }
 		}
 		
-		protected Search(string prefix, Dictionary<string, string> searchTerms,
+		protected internal Search(string prefix, Dictionary<string, string> searchTerms,
 		                 Session session, int itemsPerPage)
 			:base(session)
 		{
@@ -64,7 +64,7 @@ namespace Lastfm.Services
 		
 		internal override RequestParameters getParams ()
 		{
-			RequestParameters p = base.getParams ();
+			RequestParameters p = new Lastfm.RequestParameters();
 			p["limit"] = ItemsPerPage.ToString();
 			foreach(string key in searchTerms.Keys)
 				p[key] = searchTerms[key];

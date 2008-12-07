@@ -36,7 +36,7 @@ namespace Lastfm.Services
 		
 		internal override RequestParameters getParams ()
 		{
-			RequestParameters p = base.getParams ();
+			RequestParameters p = new Lastfm.RequestParameters();
 			p["type1"] = firstType;
 			p["type2"] = secondType;
 			p["value1"] = firstValue;

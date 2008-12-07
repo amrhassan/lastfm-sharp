@@ -39,12 +39,18 @@ namespace Lastfm.Services
 		
 		internal override RequestParameters getParams ()
 		{
-			RequestParameters p = base.getParams ();
+			RequestParameters p = new Lastfm.RequestParameters();
 			p["tag"] = this.Name;
 			
 			return p;
 		}
     
+		/// <summary>
+		/// String representation of the object.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public override string ToString ()
 		{
 			return this.Name;
@@ -133,6 +139,15 @@ namespace Lastfm.Services
 			return list.ToArray();
 		}
 		
+		/// <summary>
+		/// Check to see if this object equals another.
+		/// </summary>
+		/// <param name="tag">
+		/// A <see cref="Tag"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="System.Boolean"/>
+		/// </returns>
 		public bool Equals(Tag tag)
 		{
 			if (tag.Name == this.Name)
@@ -278,13 +293,25 @@ namespace Lastfm.Services
 			return chart;
 		}
 		
+		/// <summary>
+		/// Returns the Last.fm page of this object.
+		/// </summary>
+		/// <param name="language">
+		/// A <see cref="SiteLanguage"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public string GetURL(SiteLanguage language)
 		{
 			string domain = getSiteDomain(language);
 			
 			return "http://" + domain + "/tag/" + urlSafe(Name);
 		}
-		
+
+		/// <summary>
+		/// The object's Last.fm page url.
+		/// </summary>
 		public string URL
 		{ get { return GetURL(SiteLanguage.English); } }
 	}

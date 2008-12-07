@@ -29,10 +29,7 @@ namespace Lastfm.Services
 	/// </summary>
 	public class LibraryItem<T>
 	{
-		/// <value>
-		/// The concerned item.
-		/// </value>
-		public T Item {get; private set;}
+		protected internal T item {get; private set;}
 		
 		/// <value>
 		/// How many times the user have played it.
@@ -46,7 +43,7 @@ namespace Lastfm.Services
 		
 		public LibraryItem(T item, int playcount, int tagcount)
 		{
-			Item = item;
+			this.item = item;
 			Playcount = playcount;
 			Tagcount = tagcount;
 		}

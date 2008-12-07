@@ -59,7 +59,7 @@ namespace Lastfm.Services
 	/// 
 	/// Please note that a Session object is inhertied among objects. For example
 	/// if you create an <see cref="Lastfm.Artist"/> object with an authenticated session and
-	/// used the artists returned by <see cref="Lastfm.Artist.GetSimilar"/> they would also have an
+	/// used the artists returned by <see cref="Artist.GetSimilar"/> they would also have an
 	/// unauthenticated session.
 	/// </remarks>
 	[Serializable]
@@ -182,6 +182,15 @@ namespace Lastfm.Services
 			SessionKey = doc.GetElementsByTagName("key")[0].InnerText;
 		}
 		
+		/// <summary>
+		/// Check to see if this object equals another.
+		/// </summary>
+		/// <param name="session">
+		/// A <see cref="Session"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="System.Boolean"/>
+		/// </returns>
 		public bool Equals(Session session)
 		{
 			return (session.APIKey == this.APIKey &&

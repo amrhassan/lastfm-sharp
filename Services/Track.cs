@@ -59,6 +59,12 @@ namespace Lastfm.Services
 			Artist = artist;
 		}
 		
+		/// <summary>
+		/// String representation of the object.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public override string ToString ()
 		{
 			return this.Artist + " - " + this.Title;
@@ -66,7 +72,7 @@ namespace Lastfm.Services
     
 		internal override RequestParameters getParams ()
 		{
-			RequestParameters p = base.getParams ();
+			RequestParameters p = new Lastfm.RequestParameters();
 			p["artist"] = Artist.Name;
 			p["track"] = Title;
 			
@@ -183,6 +189,15 @@ namespace Lastfm.Services
 			request("track.love");
 		}
 		
+		/// <summary>
+		/// Check to see if this object equals another.
+		/// </summary>
+		/// <param name="track">
+		/// A <see cref="Track"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="System.Boolean"/>
+		/// </returns>
 		public bool Equals(Track track)
 		{
 			return(track.Title == this.Title && track.Artist.Name == this.Artist.Name);
@@ -609,16 +624,34 @@ namespace Lastfm.Services
 			return new Track(artist, title, session);
 		}
 		
+		/// <summary>
+		/// Returns the Last.fm page of this object.
+		/// </summary>
+		/// <param name="language">
+		/// A <see cref="SiteLanguage"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public string GetURL(SiteLanguage language)
 		{
 			string domain = getSiteDomain(language);
 			
 			return "http://" + domain + "/music/" + urlSafe(Artist.Name) + "/_/" + urlSafe(Title);
 		}
-		
+
+		/// <summary>
+		/// The object's Last.fm page url.
+		/// </summary>
 		public string URL
 		{ get { return GetURL(SiteLanguage.English); } }
 		
+		/// <summary>
+		/// Add this track to a <see cref="Playlist"/>
+		/// </summary>
+		/// <param name="playlist">
+		/// A <see cref="Playlist"/>
+		/// </param>
 		public void AddToPlaylist(Playlist playlist)
 		{
 			playlist.AddTrack(this);

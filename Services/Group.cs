@@ -43,12 +43,18 @@ namespace Lastfm.Services
 		
 		internal override RequestParameters getParams ()
 		{
-			RequestParameters p = base.getParams ();
+			RequestParameters p = new Lastfm.RequestParameters();
 			p["group"] = Name;
 			
 			return p;
 		}
 		
+		/// <summary>
+		/// String representation of the object.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public override string ToString()
 		{
 			return Name;
@@ -301,6 +307,15 @@ namespace Lastfm.Services
 			return (group.Name == this.Name);
 		}
 		
+		/// <summary>
+		/// Returns the Last.fm page of this object.
+		/// </summary>
+		/// <param name="language">
+		/// A <see cref="SiteLanguage"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public string GetURL(SiteLanguage language)
 		{
 			string domain = getSiteDomain(language);
@@ -308,7 +323,16 @@ namespace Lastfm.Services
 			return "http://" + domain + "/group/" + urlSafe(Name);
 		}
 		
+		/// <summary>
+		/// The object's Last.fm page url.
+		/// </summary>
 		public string URL
 		{ get { return GetURL(SiteLanguage.English); } }
+		
+		/// <value>
+		/// The members in this group.
+		/// </value>
+		public GroupMembers Members
+		{ get { return new GroupMembers(this, Session); } }
 	}
 }

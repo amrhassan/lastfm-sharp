@@ -12,6 +12,8 @@
 		* added: Country class.
 	0.1.05
 		* added: IHasURL interface and implemented it.
+	0.1.06
+		* added: PastEvents, RecommendedEvents, GroupMembers classes, LibraryAlbums, LibraryArtists and LibraryTracks.
 
 0.0
 	* In progress...

@@ -53,7 +53,7 @@ namespace Lastfm.Services
 		
 		/// <summary>
 		/// The description of the exception.
-		/// </value>
+		/// </summary>
 		public string Description {get; private set;}
 		
 		public ServiceException(ServiceExceptionType type, string description) : base()

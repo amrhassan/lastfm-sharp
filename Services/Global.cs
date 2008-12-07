@@ -34,6 +34,12 @@ namespace Lastfm.Services
 		{
 		}
 		
+		internal override RequestParameters getParams ()
+		{
+			return new Lastfm.RequestParameters();
+		}
+
+		
 		/// <summary>
 		/// Returns the most popular tags on Last.fm.
 		/// </summary>

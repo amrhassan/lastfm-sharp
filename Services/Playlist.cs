@@ -55,7 +55,7 @@ namespace Lastfm.Services
 		
 		internal override RequestParameters getParams ()
 		{
-			RequestParameters p = base.getParams ();
+			RequestParameters p = new Lastfm.RequestParameters();
 			p["id"] = ID.ToString();
 			
 			return p;
@@ -226,6 +226,15 @@ namespace Lastfm.Services
 			return new Playlist(AuthenticatedUser.GetUser(session), id, session);
 		}
 		
+		/// <summary>
+		/// Returns the Last.fm page of this object.
+		/// </summary>
+		/// <param name="language">
+		/// A <see cref="SiteLanguage"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public string GetURL(SiteLanguage language)
 		{
 			string url = ((XmlElement)getNode()).GetElementsByTagName("url")[0].InnerText;
@@ -236,7 +245,10 @@ namespace Lastfm.Services
 			
 			return "http://" + domain + "/" + url;
 		}
-		
+
+		/// <summary>
+		/// The object's Last.fm page url.
+		/// </summary>
 		public string URL
 		{ get { return GetURL(SiteLanguage.English); } }
 	}

@@ -37,43 +37,39 @@ namespace Lastfm.Services
 			Session = session;
 		}
 		
-		internal virtual RequestParameters getParams()
-		{
-			// OVERRIDE ME
-			return new RequestParameters();
-		}
+		internal abstract RequestParameters getParams();
     
 		internal XmlDocument request(string methodName, RequestParameters parameters)
 		{
 			return (new Request(methodName, Session, parameters)).execute();
 		}
     
-		protected XmlDocument request(string methodName)
+		internal XmlDocument request(string methodName)
 		{
 			return (new Request(methodName, Session, getParams())).execute();
 		}
 		
-		protected string extract(XmlNode node, string name, int index)
+		internal string extract(XmlNode node, string name, int index)
 		{
 			return ((XmlElement)node).GetElementsByTagName(name)[index].InnerText;
 		}
 		
-		protected string extract(XmlNode node, string name)
+		internal string extract(XmlNode node, string name)
 		{
 			return extract((XmlElement)node, name, 0);
 		}
 		
-		protected string extract(XmlDocument document, string name)
+		internal string extract(XmlDocument document, string name)
 		{
 			return extract(document.DocumentElement, name);
 		}
 		
-		protected string extract(XmlDocument document, string name, int index)
+		internal string extract(XmlDocument document, string name, int index)
 		{
 			return extract(document.DocumentElement, name, index);
 		}
 		
-    protected string[] extractAll(XmlNode node, string name, int limitCount)
+		internal string[] extractAll(XmlNode node, string name, int limitCount)
 		{
 			string[] s = extractAll(node, name);
 			List<string> l = new List<string>();
@@ -84,7 +80,7 @@ namespace Lastfm.Services
 			return l.ToArray();
 		}
     
-		protected string[] extractAll(XmlNode node, string name)
+		internal string[] extractAll(XmlNode node, string name)
 		{
 			List<string> list = new List<string>();
 			
@@ -94,23 +90,23 @@ namespace Lastfm.Services
 			return list.ToArray();
 		}
 		
-		protected string[] extractAll(XmlDocument document, string name)
+		internal string[] extractAll(XmlDocument document, string name)
 		{
 			return extractAll(document.DocumentElement, name);
 		}
 		
-		protected string[] extractAll(XmlDocument document, string name, int limitCount)
+		internal string[] extractAll(XmlDocument document, string name, int limitCount)
 		{
 			return extractAll(document.DocumentElement, name, limitCount);
 		}
 		
-		protected void requireAuthentication()
+		internal void requireAuthentication()
 		{
 			if(!this.Session.Authenticated)
 				throw new AuthenticationRequiredException();
 		}
 		
-		protected T[] sublist<T> (T[] original, int length)
+		internal T[] sublist<T> (T[] original, int length)
 		{
 			List<T> list = new List<T>();
 			
@@ -120,19 +116,19 @@ namespace Lastfm.Services
 			return list.ToArray();
 		}
 		
-		protected string urlSafe(string text)
+		internal string urlSafe(string text)
 		{
 			return HttpUtility.UrlEncode(HttpUtility.UrlEncode(text));
 		}
 		
-		protected string getPeriod(Period period)
+		internal string getPeriod(Period period)
 		{
 			string[] values = new string[] {"overall", "3month", "6month", "12month"};
 			
 			return values[(int)period];
 		}
 		
-		protected string getSiteDomain(SiteLanguage language)
+		internal string getSiteDomain(SiteLanguage language)
 		{
 			Dictionary<SiteLanguage, string> domains = new Dictionary<SiteLanguage,string>();
 			
