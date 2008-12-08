@@ -27,14 +27,20 @@ namespace Lastfm.Services
 	/// <summary>
 	/// Encapsulates the track searching functions.
 	/// </summary>
-	/// <remarks>
-	/// To create an object of this class use <see cref="Search.ForTracks"/>.
-	/// </remarks>
-	public class TrackSearch : Search
+	public class TrackSearch : Search<Track>
 	{
-		public TrackSearch(Dictionary<string, string> searchTerms, Session session, int itemsPerPage)
-			:base("track", searchTerms, session, itemsPerPage)
-		{}
+		public TrackSearch(string artist, string title, Session session)
+			:base("track", session)
+		{
+			this.searchTerms["artist"] = artist;
+			this.searchTerms["track"] = title;
+		}
+		
+		public TrackSearch(string title, Session session)
+			:base("track", session)
+		{
+			this.searchTerms["track"] = title;
+		}
 		
 		/// <summary>
 		/// Returns a page of results.
@@ -45,15 +51,18 @@ namespace Lastfm.Services
 		/// <returns>
 		/// A <see cref="Track"/>
 		/// </returns>
-		public Track[] GetPage(int page)
+		public override Track[] GetPage(int page)
 		{
+			if (page < 1)
+				throw new InvalidPageException(page, 1);
+			
 			RequestParameters p = getParams();
 			p["page"] = page.ToString();
 			
-			lastDoc = request("track.search", p);
+			XmlDocument doc = request(prefix + ".search", p);
 			
 			List<Track> list = new List<Track>();			
-			foreach(XmlNode n in lastDoc.GetElementsByTagName("track"))
+			foreach(XmlNode n in doc.GetElementsByTagName("track"))
 				list.Add(new Track(extract(n, "artist"), extract(n, "name"), Session));
 			
 			return list.ToArray();

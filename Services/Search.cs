@@ -32,40 +32,22 @@ namespace Lastfm.Services
 	/// <see cref="Lastfm.Services.ArtistSearch"/>, 
 	/// <see cref="Lastfm.Services.TagSearch"/> or <see cref="Lastfm.Services.TrackSearch"/>.
 	/// </remarks>
-	public abstract class Search : Base
+	public abstract class Search<T> : Base
 	{
-		private string prefix {get; set;}
-		private Dictionary<string, string> searchTerms {get; set;}
-		internal XmlDocument lastDoc {get; set;}
+		protected internal string prefix {get; set;}
+		protected internal Dictionary<string, string> searchTerms {get; set;}
 		
-		/// <value>
-		/// Number of search results per page.
-		/// </value>
-		public int ItemsPerPage {get; private set;}
-		
-		/// <value>
-		/// Number of total results.
-		/// </value>
-		public int ResultCount
-		{
-			get { return Int32.Parse(extract(lastDoc, "opensearch:totalResults")); }
-		}
-		
-		protected internal Search(string prefix, Dictionary<string, string> searchTerms,
-		                 Session session, int itemsPerPage)
+		protected internal Search(string prefix, Session session)
 			:base(session)
 		{
 			this.prefix = prefix;
-			this.searchTerms = searchTerms;
-			this.ItemsPerPage = itemsPerPage;
-			
-			lastDoc = request(prefix + ".search");
+			this.searchTerms = new Dictionary<string,string>();
 		}
 		
 		internal override RequestParameters getParams ()
 		{
 			RequestParameters p = new Lastfm.RequestParameters();
-			p["limit"] = ItemsPerPage.ToString();
+			
 			foreach(string key in searchTerms.Keys)
 				p[key] = searchTerms[key];
 			
@@ -73,211 +55,58 @@ namespace Lastfm.Services
 		}
 		
 		/// <summary>
-		/// Search for albums by name.
+		/// Returne the total number of results.
 		/// </summary>
-		/// <param name="albumName">
-		/// A <see cref="System.String"/>
-		/// </param>
-		/// <param name="session">
-		/// A <see cref="Session"/>
-		/// </param>
-		/// <param name="itemsPerPage">
+		/// <returns>
+		/// A <see cref="System.Int32"/>
+		/// </returns>
+		public int GetResultCount()
+		{
+			return Int32.Parse(extract(request(prefix + ".search"), "opensearch:totalResults"));
+		}
+		
+		/// <summary>
+		/// Returns the number of items per page.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.Int32"/>
+		/// </returns>
+		public int GetItemsPerPage()
+		{
+			return int.Parse(extract(request(prefix + ".search"), "opensearch:itemsPerPage"));
+		}
+		
+		/// <summary>
+		/// Returns a page of reuslts.
+		/// </summary>
+		/// <param name="page">
 		/// A <see cref="System.Int32"/>
 		/// </param>
 		/// <returns>
-		/// A <see cref="AlbumSearch"/>
+		/// A <see cref="T"/>
 		/// </returns>
-		public static AlbumSearch ForAlbums(string albumName, Session session, int itemsPerPage)
-		{
-			Dictionary<string, string> terms = new Dictionary<string,string>();
-			terms["album"] = albumName;
-			
-			return new AlbumSearch(terms, session, itemsPerPage);
-		}
-		
+		public abstract T[] GetPage(int page);
+
 		/// <summary>
-		/// Search for albums by name.
+		/// Specify how many items are returned in a page.
 		/// </summary>
-		/// <param name="albumName">
-		/// A <see cref="System.String"/>
-		/// </param>
-		/// <param name="session">
-		/// A <see cref="Session"/>
-		/// </param>
-		/// <returns>
-		/// A <see cref="AlbumSearch"/>
-		/// </returns>
-		public static AlbumSearch ForAlbums(string albumName, Session session)
-		{
-			// 30 is the default (and maximum) number of results per page.
-			return Search.ForAlbums(albumName, session, 30);
-		}
-		
-		/// <summary>
-		/// Search for artists by name.
-		/// </summary>
-		/// <param name="artistName">
-		/// A <see cref="System.String"/>
-		/// </param>
-		/// <param name="session">
-		/// A <see cref="Session"/>
-		/// </param>
 		/// <param name="itemsPerPage">
 		/// A <see cref="System.Int32"/>
 		/// </param>
-		/// <returns>
-		/// A <see cref="ArtistSearch"/>
-		/// </returns>
-		public static ArtistSearch ForArtists(string artistName, Session session, int itemsPerPage)
+		public void SpecifyItemsPerPage(int itemsPerPage)
 		{
-			Dictionary<string, string> terms = new Dictionary<string,string>();
-			terms["artist"] = artistName;
-			
-			return new ArtistSearch(terms, session, itemsPerPage);
+			this.searchTerms["limit"] = itemsPerPage.ToString();
 		}
 		
 		/// <summary>
-		/// Search for artists by name.
+		/// I'm Feeling Lucky.
 		/// </summary>
-		/// <param name="artistName">
-		/// A <see cref="System.String"/>
-		/// </param>
-		/// <param name="session">
-		/// A <see cref="Session"/>
-		/// </param>
 		/// <returns>
-		/// A <see cref="ArtistSearch"/>
+		/// A <see cref="T"/>
 		/// </returns>
-		public static ArtistSearch ForArtists(string artistName, Session session)
+		public T GetFirstMatch()
 		{
-			return Search.ForArtists(artistName, session, 30);
-		}
-		
-		/// <summary>
-		/// Search for tags by name.
-		/// </summary>
-		/// <param name="tagName">
-		/// A <see cref="System.String"/>
-		/// </param>
-		/// <param name="session">
-		/// A <see cref="Session"/>
-		/// </param>
-		/// <param name="itemsPerPage">
-		/// A <see cref="System.Int32"/>
-		/// </param>
-		/// <returns>
-		/// A <see cref="TagSearch"/>
-		/// </returns>
-		public static TagSearch ForTags(string tagName, Session session, int itemsPerPage)
-		{
-			Dictionary<string, string> terms = new Dictionary<string,string>();
-			terms["tag"] = tagName;
-			
-			return new TagSearch(terms, session, itemsPerPage);
-		}
-		
-		/// <summary>
-		/// Search for tags by name.
-		/// </summary>
-		/// <param name="tagName">
-		/// A <see cref="System.String"/>
-		/// </param>
-		/// <param name="session">
-		/// A <see cref="Session"/>
-		/// </param>
-		/// <returns>
-		/// A <see cref="TagSearch"/>
-		/// </returns>
-		public static TagSearch ForTags(string tagName, Session session)
-		{
-			return Search.ForTags(tagName, session, 30);
-		}
-		
-		/// <summary>
-		/// Search for tracks, narrowing it down by an artist name.
-		/// </summary>
-		/// <param name="artist">
-		/// A <see cref="System.String"/>
-		/// </param>
-		/// <param name="title">
-		/// A <see cref="System.String"/>
-		/// </param>
-		/// <param name="session">
-		/// A <see cref="Session"/>
-		/// </param>
-		/// <param name="itemsPerPage">
-		/// A <see cref="System.Int32"/>
-		/// </param>
-		/// <returns>
-		/// A <see cref="TrackSearch"/>
-		/// </returns>
-		public static TrackSearch ForTracks(string artist, string title, Session session, int itemsPerPage)
-		{
-			Dictionary<string, string> terms = new Dictionary<string,string>();
-			terms["track"] = title;
-			terms["artist"] = artist;
-			
-			return new TrackSearch(terms, session, itemsPerPage);
-		}
-		
-		/// <summary>
-		/// Search for tracks, narrowing it down by an artist name.
-		/// </summary>
-		/// <param name="artist">
-		/// A <see cref="System.String"/>
-		/// </param>
-		/// <param name="title">
-		/// A <see cref="System.String"/>
-		/// </param>
-		/// <param name="session">
-		/// A <see cref="Session"/>
-		/// </param>
-		/// <returns>
-		/// A <see cref="TrackSearch"/>
-		/// </returns>
-		public static TrackSearch ForTracks(string artist, string title, Session session)
-		{
-			return Search.ForTracks(artist, title, session, 30);
-		}
-		
-		/// <summary>
-		/// Search for tracks by title.
-		/// </summary>
-		/// <param name="title">
-		/// A <see cref="System.String"/>
-		/// </param>
-		/// <param name="session">
-		/// A <see cref="Session"/>
-		/// </param>
-		/// <param name="itemsPerPage">
-		/// A <see cref="System.Int32"/>
-		/// </param>
-		/// <returns>
-		/// A <see cref="TrackSearch"/>
-		/// </returns>
-		public static TrackSearch ForTracks(string title, Session session, int itemsPerPage)
-		{
-			Dictionary<string, string> terms = new Dictionary<string,string>();
-			terms["track"] = title;
-			
-			return new TrackSearch(terms, session, itemsPerPage);
-		}
-		
-		/// <summary>
-		/// Search for tracks by title.
-		/// </summary>
-		/// <param name="title">
-		/// A <see cref="System.String"/>
-		/// </param>
-		/// <param name="session">
-		/// A <see cref="Session"/>
-		/// </param>
-		/// <returns>
-		/// A <see cref="TrackSearch"/>
-		/// </returns>
-		public static TrackSearch ForTracks(string title, Session session)
-		{
-			return Search.ForTracks(title, session, 30);
+			return GetPage(1)[0];
 		}
 	}
 }

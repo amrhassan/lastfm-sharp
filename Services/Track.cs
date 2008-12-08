@@ -275,62 +275,12 @@ namespace Lastfm.Services
 		/// <param name="session">
 		/// A <see cref="Session"/>
 		/// </param>
-		/// <param name="itemsPerPage">
-		/// A <see cref="System.Int32"/>
-		/// </param>
-		/// <returns>
-		/// A <see cref="TrackSearch"/>
-		/// </returns>
-		public static TrackSearch Search(string artist, string title, Session session, int itemsPerPage)
-		{
-			Dictionary<string, string> terms = new Dictionary<string,string>();
-			terms["track"] = title;
-			terms["artist"] = artist;
-			
-			return new TrackSearch(terms, session, itemsPerPage);
-		}
-		
-		/// <summary>
-		/// Search for tracks on Last.fm.
-		/// </summary>
-		/// <param name="artist">
-		/// A <see cref="System.String"/>
-		/// </param>
-		/// <param name="title">
-		/// A <see cref="System.String"/>
-		/// </param>
-		/// <param name="session">
-		/// A <see cref="Session"/>
-		/// </param>
 		/// <returns>
 		/// A <see cref="TrackSearch"/>
 		/// </returns>
 		public static TrackSearch Search(string artist, string title, Session session)
 		{
-			return Track.Search(artist, title, session, 30);
-		}
-		
-		/// <summary>
-		/// Search for tracks on Last.fm.
-		/// </summary>
-		/// <param name="title">
-		/// A <see cref="System.String"/>
-		/// </param>
-		/// <param name="session">
-		/// A <see cref="Session"/>
-		/// </param>
-		/// <param name="itemsPerPage">
-		/// A <see cref="System.Int32"/>
-		/// </param>
-		/// <returns>
-		/// A <see cref="TrackSearch"/>
-		/// </returns>
-		public static TrackSearch Search(string title, Session session, int itemsPerPage)
-		{
-			Dictionary<string, string> terms = new Dictionary<string,string>();
-			terms["track"] = title;
-			
-			return new TrackSearch(terms, session, itemsPerPage);
+			return new TrackSearch(artist, title, session);
 		}
 		
 		/// <summary>
@@ -347,7 +297,7 @@ namespace Lastfm.Services
 		/// </returns>
 		public static TrackSearch Search(string title, Session session)
 		{
-			return Track.Search(title, session, 30);
+			return new TrackSearch(title, session);
 		}
 		
 		/// <summary>

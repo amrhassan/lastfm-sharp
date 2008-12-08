@@ -30,11 +30,14 @@ namespace Lastfm.Services
 	/// <remarks>
 	/// To create an object of this class use <see cref="Search.ForTags"/>.
 	/// </remarks>
-	public class TagSearch : Search
+	public class TagSearch : Search<Tag>
 	{	
-		internal TagSearch(Dictionary<string, string> searchTerms, Session session, int itemsPerPage)
-			:base("tag", searchTerms, session, itemsPerPage)
-		{}
+		
+		public TagSearch(string name, Session session)
+			:base("tag", session)
+		{
+			this.searchTerms["tag"] = name;
+		}
 		
 		/// <summary>
 		/// Returns a page of results.
@@ -45,15 +48,18 @@ namespace Lastfm.Services
 		/// <returns>
 		/// A <see cref="Tag"/>
 		/// </returns>
-		public Tag[] GetPage(int page)
+		public override Tag[] GetPage(int page)
 		{
+			if (page < 1)
+				throw new InvalidPageException(page, 1);
+			
 			RequestParameters p = getParams();
 			p["page"] = page.ToString();
 			
-			lastDoc = request("tag.search", p);
+			XmlDocument doc = request(prefix + ".search", p);
 			
 			List<Tag> list = new List<Tag>();			
-			foreach(XmlNode n in lastDoc.GetElementsByTagName("tag"))
+			foreach(XmlNode n in doc.GetElementsByTagName("tag"))
 				list.Add(new Tag(extract(n, "name"), Session));
 			
 			return list.ToArray();

@@ -281,30 +281,9 @@ namespace Lastfm.Services
 		/// <returns>
 		/// A <see cref="AlbumSearch"/>
 		/// </returns>
-		public static AlbumSearch Search(string albumName, Session session, int itemsPerPage)
-		{
-			Dictionary<string, string> terms = new Dictionary<string,string>();
-			terms["album"] = albumName;
-			
-			return new AlbumSearch(terms, session, itemsPerPage);
-		}
-		
-		/// <summary>
-		/// Search for an album on Last.fm.
-		/// </summary>
-		/// <param name="albumName">
-		/// A <see cref="System.String"/>
-		/// </param>
-		/// <param name="session">
-		/// A <see cref="Session"/>
-		/// </param>
-		/// <returns>
-		/// A <see cref="AlbumSearch"/>
-		/// </returns>
 		public static AlbumSearch Search(string albumName, Session session)
 		{
-			// 30 is the default (and maximum) number of results per page.
-			return Album.Search(albumName, session, 30);
+			return new AlbumSearch(albumName, session);
 		}
 		
 		/// <summary>

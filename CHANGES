@@ -14,6 +14,8 @@
 		* added: IHasURL interface and implemented it.
 	0.1.06
 		* added: PastEvents, RecommendedEvents, GroupMembers classes, LibraryAlbums, LibraryArtists and LibraryTracks.
+	0.1.07
+		* changed: Redesigned ArtistSearch, TrackSearch, AlbumSearch and TagSearch classes.
 
 0.0
 	* In progress...

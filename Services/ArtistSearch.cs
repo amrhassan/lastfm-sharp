@@ -27,14 +27,14 @@ namespace Lastfm.Services
 	/// <summary>
 	/// Encapsulates the artist searching functions.
 	/// </summary>
-	/// <remarks>
-	/// To create an object of this class use <see cref="Search.ForArtists"/>.
-	/// </remarks>
-	public class ArtistSearch : Search
+	public class ArtistSearch : Search<Artist>
 	{	
-		internal ArtistSearch(Dictionary<string, string> searchTerms, Session session, int itemsPerPage)
-			:base("artist", searchTerms, session, itemsPerPage)
-		{}
+		
+		public ArtistSearch(string name, Session session)
+			:base("artist", session)
+		{
+			this.searchTerms["artist"] = name;
+		}
 		
 		/// <summary>
 		/// Returns a page of results.
@@ -45,15 +45,18 @@ namespace Lastfm.Services
 		/// <returns>
 		/// A <see cref="Artist"/>
 		/// </returns>
-		public Artist[] GetPage(int page)
+		public override Artist[] GetPage(int page)
 		{
+			if (page < 1)
+				throw new InvalidPageException(page, 1);
+			
 			RequestParameters p = getParams();
 			p["page"] = page.ToString();
 			
-			lastDoc = request("artist.search", p);
+			XmlDocument doc = request(prefix + ".search", p);
 			
 			List<Artist> list = new List<Artist>();			
-			foreach(XmlNode n in lastDoc.GetElementsByTagName("artist"))
+			foreach(XmlNode n in doc.GetElementsByTagName("artist"))
 				list.Add(new Artist(extract(n, "name"), Session));
 			
 			return list.ToArray();

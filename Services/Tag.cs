@@ -159,30 +159,7 @@ namespace Lastfm.Services
 		/// <summary>
 		/// Search for tags by name.
 		/// </summary>
-		/// <param name="tagName">
-		/// A <see cref="System.String"/>
-		/// </param>
-		/// <param name="session">
-		/// A <see cref="Session"/>
-		/// </param>
-		/// <param name="itemsPerPage">
-		/// A <see cref="System.Int32"/>
-		/// </param>
-		/// <returns>
-		/// A <see cref="TagSearch"/>
-		/// </returns>
-		public static TagSearch Search(string tagName, Session session, int itemsPerPage)
-		{
-			Dictionary<string, string> terms = new Dictionary<string,string>();
-			terms["tag"] = tagName;
-			
-			return new TagSearch(terms, session, itemsPerPage);
-		}
-		
-		/// <summary>
-		/// Search for tags by name.
-		/// </summary>
-		/// <param name="tagName">
+		/// <param name="name">
 		/// A <see cref="System.String"/>
 		/// </param>
 		/// <param name="session">
@@ -191,9 +168,9 @@ namespace Lastfm.Services
 		/// <returns>
 		/// A <see cref="TagSearch"/>
 		/// </returns>
-		public static TagSearch Search(string tagName, Session session)
+		public static TagSearch Search(string name, Session session)
 		{
-			return Tag.Search(tagName, session, 30);
+			return new TagSearch(name, session);
 		}
 		
 		/// <summary>

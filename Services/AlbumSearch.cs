@@ -27,15 +27,14 @@ namespace Lastfm.Services
 	/// <summary>
 	/// Encapsulates the album searching functions.
 	/// </summary>
-	/// <remarks>
-	/// To create an object of this class use <see cref="Search.ForAlbums"/>.
-	/// </remarks>
-	public class AlbumSearch : Search
-	{
-		internal AlbumSearch(Dictionary<string, string> searchTerms, Session session, int itemsPerPage)
-			:base("album", searchTerms, session, itemsPerPage)
-		{}
-		
+	public class AlbumSearch : Search<Album>
+	{		
+		public AlbumSearch(string albumName, Session session)
+			:base("album", session)
+		{
+			searchTerms["album"] = albumName;
+		}
+			
 		/// <summary>
 		/// Returns a page of results.
 		/// </summary>
@@ -45,15 +44,18 @@ namespace Lastfm.Services
 		/// <returns>
 		/// A <see cref="Album"/>
 		/// </returns>
-		public Album[] GetPage(int page)
+		public override Album[] GetPage(int page)
 		{
+			if (page < 1)
+				throw new InvalidPageException(page, 1);
+			
 			RequestParameters p = getParams();
 			p["page"] = page.ToString();
 			
-			lastDoc = request("album.search", p);
+			XmlDocument doc = request(prefix + ".search", p);
 			
 			List<Album> list = new List<Album>();			
-			foreach(XmlNode n in lastDoc.GetElementsByTagName("album"))
+			foreach(XmlNode n in doc.GetElementsByTagName("album"))
 				list.Add(new Album(extract(n, "artist"), extract(n, "name"), Session));
 			
 			return list.ToArray();

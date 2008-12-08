@@ -30,7 +30,7 @@ namespace Lastfm.Services
 		public override Event[] GetPage (int page)
 		{
 			if(page < 1)
-				throw new Exception("The first page is 1.");
+				throw new InvalidPageException(page, 1);
 			
 			RequestParameters p = getParams();
 			p["page"] = page.ToString();

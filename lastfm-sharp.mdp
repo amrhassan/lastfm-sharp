@@ -94,6 +94,7 @@
     <File name="Services/LibraryTrack.cs" subtype="Code" buildaction="Compile" />
     <File name="Services/LibraryArtists.cs" subtype="Code" buildaction="Compile" />
     <File name="Services/LibraryTracks.cs" subtype="Code" buildaction="Compile" />
+    <File name="Services/InvalidPageException.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />

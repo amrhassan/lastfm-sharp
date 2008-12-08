@@ -327,35 +327,12 @@ namespace Lastfm.Services
 		/// <param name="session">
 		/// A <see cref="Session"/>
 		/// </param>
-		/// <param name="itemsPerPage">
-		/// A <see cref="System.Int32"/>
-		/// </param>
-		/// <returns>
-		/// A <see cref="ArtistSearch"/>
-		/// </returns>
-		public static ArtistSearch Search(string artistName, Session session, int itemsPerPage)
-		{
-			Dictionary<string, string> terms = new Dictionary<string,string>();
-			terms["artist"] = artistName;
-			
-			return new ArtistSearch(terms, session, itemsPerPage);
-		}
-		
-		/// <summary>
-		/// Search for artists on Last.fm.
-		/// </summary>
-		/// <param name="artistName">
-		/// A <see cref="System.String"/>
-		/// </param>
-		/// <param name="session">
-		/// A <see cref="Session"/>
-		/// </param>
 		/// <returns>
 		/// A <see cref="ArtistSearch"/>
 		/// </returns>
 		public static ArtistSearch Search(string artistName, Session session)
 		{
-			return Artist.Search(artistName, session, 30);
+			return new ArtistSearch(artistName, session);
 		}
 		
 		/// <summary>
