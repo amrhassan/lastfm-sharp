@@ -1,4 +1,5 @@
-// Global.cs
+// IHasURL.cs created with MonoDevelop
+// User: amr at 12:20 AM 12/6/2008
 //
 //  Copyright (C) 2008 Amr Hassan
 //
@@ -19,45 +20,28 @@
 //
 
 using System;
-using System.Xml;
-using System.Collections.Generic;
 
 namespace Lastfm.Services
 {
 	/// <summary>
-	/// Global functions that don't fit anywhere else.
+	/// Objects that implement this have url pages at Last.fm
 	/// </summary>
-	public class Global : Base
-	{	
-		public Global(Session session)
-			:base(session)
-		{
-		}
-		
-		internal override RequestParameters getParams ()
-		{
-			return new Lastfm.RequestParameters();
-		}
-
-		
+	public interface IHasURL
+	{
 		/// <summary>
-		/// Returns the most popular tags on Last.fm.
+		/// Returns the Last.fm page of this object.
 		/// </summary>
-		/// <param name="session">
-		/// A <see cref="Session"/>
+		/// <param name="language">
+		/// A <see cref="SiteLanguage"/>
 		/// </param>
 		/// <returns>
-		/// A <see cref="TopTag"/>
+		/// A <see cref="System.String"/>
 		/// </returns>
-		public TopTag[] GetTopTags()
-		{
-			XmlDocument doc = request("tag.getTopTags");
-			
-			List<TopTag> list = new List<TopTag>();
-			foreach(XmlNode node in doc.GetElementsByTagName("tag"))
-				list.Add(new TopTag(new Tag(extract(node, "name"), Session), Int32.Parse(extract(node, "count"))));
-			
-			return list.ToArray();
-		}
+		string GetURL(SiteLanguage language);
+		
+		/// <value>
+		/// The Last.fm page of this object.
+		/// </value>
+		string URL { get; }
 	}
 }

@@ -1,4 +1,5 @@
-// ProxySupport.cs
+// InvalidPageException.cs created with MonoDevelop
+// User: amr at 9:46 PM 12/8/2008
 //
 //  Copyright (C) 2008 Amr Hassan
 //
@@ -19,28 +20,18 @@
 //
 
 using System;
-using System.Net;
 
-namespace Lastfm
+namespace Lastfm.Services
 {
 	/// <summary>
-	/// Proxy support.
+	/// Gets thrown when an invalid page value is provided.
 	/// </summary>
-	public static class ProxySupport
+	public class InvalidPageException : Exception
 	{
-		/// <summary>
-		/// A <see cref="IWebProxy"/>.
-		/// </summary>
-		/// <value>
-		/// A web proxy to be used in making all the calls to Last.fm.
-		/// </value>
-		/// <remarks>
-		/// To enable using a proxy server, set this value to a <see cref="IWebProxy"/>, like <see cref="WebProxy"/>.
-		/// To disable using a proxy server, set it to null.
-		/// 
-		/// Default value is null.
-		/// </remarks>
 		
-		public static IWebProxy Proxy {get; set;}
+		public InvalidPageException(int givenPage, int shouldBe)
+			:base("The first page should be " + shouldBe.ToString())
+		{
+		}
 	}
 }

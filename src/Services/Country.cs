@@ -27,7 +27,7 @@ namespace Lastfm.Services
 	/// <summary>
 	/// A country on Last.fm.
 	/// </summary>
-	public class Country : Base
+	public class Country : Base, IHasURL
 	{
 		/// <value>
 		/// The country's name.
@@ -356,5 +356,30 @@ namespace Lastfm.Services
 		{
 			return sublist<TopTrack>(GetTopTracks(), limit);
 		}
+		
+		/// <summary>
+		/// Returns the country's page url on Last.fm.
+		/// </summary>
+		/// <param name="language">
+		/// A <see cref="SiteLanguage"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
+		public string GetURL(SiteLanguage language)
+		{
+			string domain = getSiteDomain(language);
+			
+			return "http://" + domain + "/place/" + urlSafe(Name);
+		}
+		
+		/// <value>
+		/// The country's page url on Last.fm.
+		/// </value>
+		public string URL {
+			get { return this.GetURL(SiteLanguage.English); }
+		}
+
+
 	}
 }

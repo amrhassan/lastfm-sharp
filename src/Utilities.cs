@@ -34,17 +34,9 @@ namespace Lastfm
 	/// </summary>
 	public static class Utilities
 	{
-		/// <summary>
-		/// Returns the version of this assembly.
-		/// </summary>
-		public static Version AssemblyVersion
-		{
-			get{ return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; }
-		}
-		
 		internal static string UserAgent
 		{
-			get { return "lastfm-sharp/" + AssemblyVersion.ToString(); }
+			get { return "lastfm-sharp/" + Lastfm.Lib.Version.ToString(); }
 		}
 		
 		/// <summary>

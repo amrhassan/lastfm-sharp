@@ -1,0 +1,22 @@
+<Combine releaseversion="0.1.08" name="liblastfm-sharp" fileversion="2.0">
+  <Configurations active="Debug">
+    <Configuration name="Debug" ctype="CombineConfiguration">
+      <Entry build="True" name="liblastfm-sharp" configuration="Debug" />
+      <Entry build="True" name="Packages" configuration="" />
+    </Configuration>
+    <Configuration name="Release" ctype="CombineConfiguration">
+      <Entry build="True" name="liblastfm-sharp" configuration="Release" />
+      <Entry build="True" name="Packages" configuration="" />
+    </Configuration>
+  </Configurations>
+  <StartMode startupentry="liblastfm-sharp" single="True">
+    <Execute type="None" entry="liblastfm-sharp" />
+    <Execute type="None" entry="liblastfm-sharp" />
+    <Execute type="None" entry="Packages" />
+  </StartMode>
+  <MonoDevelop.ChangeLogAddIn.ChangeLogInfo policy="NoChangeLog" />
+  <Entries>
+    <Entry filename="src/liblastfm-sharp.mdp" />
+    <Entry filename="Packages.mdse" />
+  </Entries>
+</Combine>

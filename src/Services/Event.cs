@@ -23,9 +23,7 @@ using System.Xml;
 using System.Collections.Generic;
 
 namespace Lastfm.Services
-{
-	// TODO: A venue class that this object returns.
-	
+{	
 	/// <summary>
 	/// A Last.fm event.
 	/// </summary>
@@ -303,5 +301,21 @@ namespace Lastfm.Services
 		/// </summary>
 		public string URL
 		{ get { return GetURL(SiteLanguage.English); } }
+
+		/// <value>
+		/// The venue where the event is being held.
+		/// </value>
+		public Venue Venue
+		{
+			get
+			{
+				XmlDocument doc = request("event.getInfo");
+								
+				string url = ((XmlElement)doc.GetElementsByTagName("venue")[0]).GetElementsByTagName("url")[0].InnerText;
+				int id = int.Parse(url.Substring(url.LastIndexOf('/') + 1));						
+				
+				return new Venue(id, Session);
+			}
+		}
 	}
 }

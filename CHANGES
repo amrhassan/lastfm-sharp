@@ -16,6 +16,10 @@
 		* added: PastEvents, RecommendedEvents, GroupMembers classes, LibraryAlbums, LibraryArtists and LibraryTracks.
 	0.1.07
 		* changed: Redesigned ArtistSearch, TrackSearch, AlbumSearch and TagSearch classes.
+	0.1.08
+		* added: capping the number of calls to the last.fm servers to one per second at most.
+		* added: Venue and VenueSearch classes.
+		* moved: Utilities.AssemblyVersion and ProxySupport.Proxy to Lib.Version and Lib.Proxy.
 
 0.0
 	* In progress...

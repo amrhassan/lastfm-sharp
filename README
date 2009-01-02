@@ -1,0 +1,5 @@
+To install this package:
+
+1	./configure
+2	make
+3	make install

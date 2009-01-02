@@ -275,9 +275,6 @@ namespace Lastfm.Services
 		/// <param name="session">
 		/// A <see cref="Session"/>
 		/// </param>
-		/// <param name="itemsPerPage">
-		/// A <see cref="System.Int32"/>
-		/// </param>
 		/// <returns>
 		/// A <see cref="AlbumSearch"/>
 		/// </returns>

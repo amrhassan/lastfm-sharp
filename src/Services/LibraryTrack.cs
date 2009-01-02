@@ -1,4 +1,5 @@
-// RequestParameters.cs
+// LibraryTrack.cs created with MonoDevelop
+// User: amr at 4:04 AM 12/7/2008
 //
 //  Copyright (C) 2008 Amr Hassan
 //
@@ -19,30 +20,21 @@
 //
 
 using System;
-using System.Collections.Generic;
-using System.Web;
-using System.Text;
 
-namespace Lastfm
+namespace Lastfm.Services
 {
-	internal class RequestParameters : SortedDictionary<string, string>
+	/// <summary>
+	/// A <see cref="Track"/> in a <see cref="Library"/>.
+	/// </summary>
+	public class LibraryTrack : LibraryItem<Track>
 	{
-		public RequestParameters() : base() {}
-
-		public override string ToString()
-		{
-			string values = "";
-			foreach(string key in this.Keys)
-				values += HttpUtility.UrlEncode(key) + "=" +
-					HttpUtility.UrlEncode(this[key]) + "&";
-			values = values.Substring(0, values.Length - 1);
-			
-			return values;
-		}
+		public LibraryTrack(Track track, int playcount, int tagcount)
+			:base(track, playcount, tagcount)
+		{}
 		
-		public byte[] ToBytes()
-		{	
-			return Encoding.ASCII.GetBytes(ToString());
-		}
+		/// <summary>
+		/// The track.
+		/// </summary>
+		public Track Track { get { return this.item; } } 
 	}
 }

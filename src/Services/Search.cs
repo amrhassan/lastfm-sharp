@@ -27,17 +27,12 @@ namespace Lastfm.Services
 	/// <summary>
 	/// An abstract searching provider.
 	/// </summary>
-	/// <remarks>
-	/// Use one of its derivatives: <see cref="Lastfm.Services.AlbumSearch"/>, 
-	/// <see cref="Lastfm.Services.ArtistSearch"/>, 
-	/// <see cref="Lastfm.Services.TagSearch"/> or <see cref="Lastfm.Services.TrackSearch"/>.
-	/// </remarks>
 	public abstract class Search<T> : Base
 	{
 		protected internal string prefix {get; set;}
 		protected internal Dictionary<string, string> searchTerms {get; set;}
 		
-		protected internal Search(string prefix, Session session)
+		internal Search(string prefix, Session session)
 			:base(session)
 		{
 			this.prefix = prefix;

@@ -72,7 +72,7 @@ namespace Lastfm.Services
 		/// </returns>
 		public string getContent()
 		{
-			// TODO: Clean the string first
+			// FIXME: Clean the string first
       
 			XmlDocument doc = request(prefix + ".getInfo");
       

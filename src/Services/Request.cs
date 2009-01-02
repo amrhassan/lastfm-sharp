@@ -27,6 +27,7 @@ using System.Net;
 using System.Text;
 using System.Xml;
 using System.IO;
+using System.Threading;
 
 namespace Lastfm.Services
 {
@@ -38,6 +39,8 @@ namespace Lastfm.Services
 		public Session Session {get; private set;}
 		
 		public RequestParameters Parameters {get; private set;}
+		
+		internal static DateTime? lastCallTime {get; set;}
 		
 		public Request(string methodName, Session session, RequestParameters parameters)
 		{
@@ -71,9 +74,24 @@ namespace Lastfm.Services
 			return Utilities.md5(str);
 			
 		}
+		
+		private void delay()
+		{
+			// If the last call was less than one second ago, it would delay execution for a second.
+			
+			if (Request.lastCallTime == null)
+				Request.lastCallTime = new Nullable<DateTime>(DateTime.Now);
+			
+			if (DateTime.Now.Subtract(Request.lastCallTime.Value) > new TimeSpan(0, 0, 1))
+				Thread.Sleep(1000);
+		}
 
 		public XmlDocument execute()
 		{
+			// delays the execution if necessary.
+			this.delay();
+			
+			// Go on normally from here.
 			byte[] data = Parameters.ToBytes();
 			
 			/* RANT 
@@ -94,8 +112,8 @@ namespace Lastfm.Services
 			request.Method = "POST";
       request.Headers["Accept-Charset"] = "utf-8";
 			
-			if (ProxySupport.Proxy != null)
-				request.Proxy = ProxySupport.Proxy;
+			if (Lib.Proxy != null)
+				request.Proxy = Lib.Proxy;
 			
 			Stream writeStream = request.GetRequestStream();
 			writeStream.Write(data, 0, data.Length);
