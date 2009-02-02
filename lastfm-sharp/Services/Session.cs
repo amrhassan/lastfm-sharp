@@ -72,7 +72,7 @@ namespace Lastfm.Services
 		/// <remarks>
 		/// To acquire one, please see http://www.last.fm/api/account
 		/// </remarks>
-		public string APIKey {get; private set;}
+		public string APIKey {get; set;}
 		
 		/// <summary>API Secret</summary>
 		/// <value>
@@ -81,7 +81,7 @@ namespace Lastfm.Services
 		/// <remarks>
 		/// To acquire one, please see http://www.last.fm/api/account
 		/// </remarks>
-		public string APISecret {get; private set;}
+		public string APISecret {get; set;}
 		
 		/// <summary>Session Key</summary>
 		/// <value>
@@ -94,10 +94,7 @@ namespace Lastfm.Services
 		/// call <see cref="Session.AuthenticateViaWeb"/> to complete the process.
 		/// </remarks>
 		public string SessionKey
-		{
-			get;
-			private set;
-		}
+		{ get; set;}
 		
 		/// <summary>
 		/// Returns true if the session is authenticated.
