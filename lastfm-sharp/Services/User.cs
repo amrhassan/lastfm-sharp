@@ -94,8 +94,8 @@ namespace Lastfm.Services
 			
 			XmlNode n = doc.GetElementsByTagName("weeklytrackchart")[0];
 			
-			DateTime nfrom = Utilities.TimestampToDateTime(Int64.Parse(n.Attributes[1].InnerText), DateTimeKind.Utc);
-			DateTime nto = Utilities.TimestampToDateTime(Int64.Parse(n.Attributes[2].InnerText), DateTimeKind.Utc);
+			DateTime nfrom = Utilities.TimestampToDateTime(Int64.Parse(n.Attributes[1].InnerText));
+			DateTime nto = Utilities.TimestampToDateTime(Int64.Parse(n.Attributes[2].InnerText));
 			
 			WeeklyTrackChart chart = new WeeklyTrackChart(new WeeklyChartTimeSpan(nfrom, nto));
 			
@@ -127,15 +127,15 @@ namespace Lastfm.Services
 		{
 			RequestParameters p = getParams();
 			
-			p["from"] = Utilities.DateTimeToUTCTimestamp(span.From).ToString();
-			p["to"] = Utilities.DateTimeToUTCTimestamp(span.To).ToString();
+			p["from"] = Utilities.DateTimeToTimestamp(span.From).ToString();
+			p["to"] = Utilities.DateTimeToTimestamp(span.To).ToString();
 			
 			XmlDocument doc = request("user.getWeeklyTrackChart", p);
 			
 			XmlNode n = doc.GetElementsByTagName("weeklytrackchart")[0];
 			
-			DateTime nfrom = Utilities.TimestampToDateTime(Int64.Parse(n.Attributes[1].InnerText), DateTimeKind.Utc);
-			DateTime nto = Utilities.TimestampToDateTime(Int64.Parse(n.Attributes[2].InnerText), DateTimeKind.Utc);
+			DateTime nfrom = Utilities.TimestampToDateTime(Int64.Parse(n.Attributes[1].InnerText));
+			DateTime nto = Utilities.TimestampToDateTime(Int64.Parse(n.Attributes[2].InnerText));
 			
 			WeeklyTrackChart chart = new WeeklyTrackChart(new WeeklyChartTimeSpan(nfrom, nto));
 			
@@ -166,8 +166,8 @@ namespace Lastfm.Services
 			
 			XmlNode n = doc.GetElementsByTagName("weeklyartistchart")[0];
 			
-			DateTime nfrom = Utilities.TimestampToDateTime(Int64.Parse(n.Attributes[1].InnerText), DateTimeKind.Utc);
-			DateTime nto = Utilities.TimestampToDateTime(Int64.Parse(n.Attributes[2].InnerText), DateTimeKind.Utc);
+			DateTime nfrom = Utilities.TimestampToDateTime(Int64.Parse(n.Attributes[1].InnerText));
+			DateTime nto = Utilities.TimestampToDateTime(Int64.Parse(n.Attributes[2].InnerText));
 			
 			WeeklyArtistChart chart = new WeeklyArtistChart(new WeeklyChartTimeSpan(nfrom, nto));
 			
@@ -199,15 +199,15 @@ namespace Lastfm.Services
 		{
 			RequestParameters p = getParams();
 			
-			p["from"] = Utilities.DateTimeToUTCTimestamp(span.From).ToString();
-			p["to"] = Utilities.DateTimeToUTCTimestamp(span.To).ToString();
+			p["from"] = Utilities.DateTimeToTimestamp(span.From).ToString();
+			p["to"] = Utilities.DateTimeToTimestamp(span.To).ToString();
 			
 			XmlDocument doc = request("user.getWeeklyArtistChart", p);
 			
 			XmlNode n = doc.GetElementsByTagName("weeklyartistchart")[0];
 			
-			DateTime nfrom = Utilities.TimestampToDateTime(Int64.Parse(n.Attributes[1].InnerText), DateTimeKind.Utc);
-			DateTime nto = Utilities.TimestampToDateTime(Int64.Parse(n.Attributes[2].InnerText), DateTimeKind.Utc);
+			DateTime nfrom = Utilities.TimestampToDateTime(Int64.Parse(n.Attributes[1].InnerText));
+			DateTime nto = Utilities.TimestampToDateTime(Int64.Parse(n.Attributes[2].InnerText));
 			
 			WeeklyArtistChart chart = new WeeklyArtistChart(new WeeklyChartTimeSpan(nfrom, nto));
 			
@@ -238,8 +238,8 @@ namespace Lastfm.Services
 			
 			XmlNode n = doc.GetElementsByTagName("weeklyalbumchart")[0];
 			
-			DateTime nfrom = Utilities.TimestampToDateTime(Int64.Parse(n.Attributes[1].InnerText), DateTimeKind.Utc);
-			DateTime nto = Utilities.TimestampToDateTime(Int64.Parse(n.Attributes[2].InnerText), DateTimeKind.Utc);
+			DateTime nfrom = Utilities.TimestampToDateTime(Int64.Parse(n.Attributes[1].InnerText));
+			DateTime nto = Utilities.TimestampToDateTime(Int64.Parse(n.Attributes[2].InnerText));
 			
 			WeeklyAlbumChart chart = new WeeklyAlbumChart(new WeeklyChartTimeSpan(nfrom, nto));
 			
@@ -271,15 +271,15 @@ namespace Lastfm.Services
 		{
 			RequestParameters p = getParams();
 			
-			p["from"] = Utilities.DateTimeToUTCTimestamp(span.From).ToString();
-			p["to"] = Utilities.DateTimeToUTCTimestamp(span.To).ToString();
+			p["from"] = Utilities.DateTimeToTimestamp(span.From).ToString();
+			p["to"] = Utilities.DateTimeToTimestamp(span.To).ToString();
 			
 			XmlDocument doc = request("user.getWeeklyAlbumChart", p);
 			
 			XmlNode n = doc.GetElementsByTagName("weeklyalbumchart")[0];
 			
-			DateTime nfrom = Utilities.TimestampToDateTime(Int64.Parse(n.Attributes[1].InnerText), DateTimeKind.Utc);
-			DateTime nto = Utilities.TimestampToDateTime(Int64.Parse(n.Attributes[2].InnerText), DateTimeKind.Utc);
+			DateTime nfrom = Utilities.TimestampToDateTime(Int64.Parse(n.Attributes[1].InnerText));
+			DateTime nto = Utilities.TimestampToDateTime(Int64.Parse(n.Attributes[2].InnerText));
 			
 			WeeklyAlbumChart chart = new WeeklyAlbumChart(new WeeklyChartTimeSpan(nfrom, nto));
 			
@@ -314,8 +314,8 @@ namespace Lastfm.Services
 				long lfrom = long.Parse(node.Attributes[0].InnerText);
 				long lto = long.Parse(node.Attributes[1].InnerText);
 				
-				DateTime from = Utilities.TimestampToDateTime(lfrom, DateTimeKind.Utc);
-				DateTime to = Utilities.TimestampToDateTime(lto, DateTimeKind.Utc);
+				DateTime from = Utilities.TimestampToDateTime(lfrom);
+				DateTime to = Utilities.TimestampToDateTime(lto);
 				
 				list.Add(new WeeklyChartTimeSpan(from, to));
 			}

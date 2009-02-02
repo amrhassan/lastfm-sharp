@@ -62,12 +62,12 @@ namespace Lastfm
 			return builder.ToString();
 		}
 		
-		public static DateTime TimestampToDateTime(long timestamp, DateTimeKind kind)
+		internal static DateTime TimestampToDateTime(long timestamp)
 		{
-			return new DateTime(1970, 1, 1, 0, 0, 0, 0, kind).AddSeconds(timestamp).ToLocalTime();
+			return new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddSeconds(timestamp).ToLocalTime();
 		}
 		
-		public static long DateTimeToUTCTimestamp(DateTime dateTime)
+		internal static long DateTimeToTimestamp(DateTime dateTime)
 		{
 			DateTime baseDate = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
 			

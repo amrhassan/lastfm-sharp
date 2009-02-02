@@ -27,6 +27,8 @@ namespace Lastfm
 {
 	internal class RequestParameters : SortedDictionary<string, string>
 	{
+		internal RequestParameters() : base() {}
+
 		public override string ToString()
 		{
 			string values = "";
@@ -41,33 +43,6 @@ namespace Lastfm
 		internal byte[] ToBytes()
 		{	
 			return Encoding.ASCII.GetBytes(ToString());
-		}
-		
-		internal string serialize()
-		{
-			string line = "";
-			
-			foreach (string key in Keys)
-				line += key + "\t" + this[key] + "\t";
-			
-			return line;
-		}
-		
-		internal RequestParameters(string serialization)
-			:base()
-		{
-			string[] values = serialization.Split('\t');
-			
-			for(int i = 0; i < values.Length - 1; i++)
-			{
-				if ( (i%2) == 0 )
-					this[values[i]] = values[i+1];
-			}
-		}
-		
-		public RequestParameters()
-			:base()
-		{
 		}
 	}
 }
