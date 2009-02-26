@@ -1,16 +1,16 @@
-<Project name="liblastfm-sharp" fileversion="2.0" DefaultNamespace="Lastfm" newfilesearch="OnLoad" language="C#" clr-version="Net_2_0" ctype="DotNetProject">
-  <Configurations active="Debug">
+<Project name="lastfm-sharp" fileversion="2.0" DefaultNamespace="Lastfm" language="C#" clr-version="Net_2_0" ctype="DotNetProject">
+  <Configurations active="Release">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
-      <Output directory="../bin/Debug" assemblyKeyFile="." assembly="liblastfm-sharp" />
+      <Output directory="../../bin/Debug" assemblyKeyFile="." assembly="lastfm-sharp" />
       <Build debugmode="True" target="Library" />
       <Execution runwithwarnings="True" consolepause="False" runtime="MsNet" clr-version="Net_2_0" />
       <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" definesymbols="DEBUG" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
     </Configuration>
     <Configuration name="Release" ctype="DotNetProjectConfiguration">
-      <Output directory="../bin/Release" assembly="liblastfm-sharp" />
+      <Output directory="../../bin/Release" assemblyKeyFile="../../../../../snk.key" assembly="lastfm-sharp" />
       <Build debugmode="False" target="Library" />
       <Execution runwithwarnings="True" consolepause="False" runtime="MsNet" clr-version="Net_2_0" />
-      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
+      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" generatexmldocumentation="True" ctype="CSharpCompilerParameters" />
     </Configuration>
   </Configurations>
   <Contents>
@@ -92,11 +92,32 @@
     <File name="Services/WeeklyTrackChartItem.cs" subtype="Code" buildaction="Compile" />
     <File name="Services/Wiki.cs" subtype="Code" buildaction="Compile" />
     <File name="Services/XSPF.cs" subtype="Code" buildaction="Compile" />
-    <File name="liblastfm-sharp.pc.in" subtype="Code" buildaction="Exclude" />
+    <File name="Scrobbling/Request.cs" subtype="Code" buildaction="Compile" />
+    <File name="Scrobbling/ScrobblingException.cs" subtype="Code" buildaction="Compile" />
+    <File name="Scrobbling/BadAuthenticationDetailsException.cs" subtype="Code" buildaction="Compile" />
+    <File name="Scrobbling/AuthenticationFailureException.cs" subtype="Code" buildaction="Compile" />
+    <File name="Scrobbling/WrongTimeException.cs" subtype="Code" buildaction="Compile" />
+    <File name="Scrobbling/BannedClientException.cs" subtype="Code" buildaction="Compile" />
+    <File name="Scrobbling/Connection.cs" subtype="Code" buildaction="Compile" />
+    <File name="Scrobbling/PlayedTrack.cs" subtype="Code" buildaction="Compile" />
+    <File name="Scrobbling/BadSessionException.cs" subtype="Code" buildaction="Compile" />
+    <File name="Scrobbling/NowplayingTrack.cs" subtype="Code" buildaction="Compile" />
+    <File name="Scrobbling/PlaybackSource.cs" subtype="Code" buildaction="Compile" />
+    <File name="Scrobbling/ScrobbleMode.cs" subtype="Code" buildaction="Compile" />
+    <File name="Scrobbling/ScrobbleManager.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <ProjectReference type="Gac" localcopy="True" refto="System.Xml, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <ProjectReference type="Gac" localcopy="True" refto="System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   </References>
+  <MonoDevelop.Autotools.MakefileInfo RelativeMakefileName="Makefile.am" SyncReferences="True" IsAutotoolsProject="True" RelativeConfigureInPath="..">
+    <BuildFilesVar Sync="True" Name="FILES" />
+    <DeployFilesVar />
+    <ResourcesVar Sync="True" Name="RESOURCES" />
+    <OthersVar />
+    <GacRefVar Sync="True" Name="REFERENCES" />
+    <AsmRefVar Sync="True" Name="REFERENCES" />
+    <ProjectRefVar Sync="True" Name="REFERENCES" />
+  </MonoDevelop.Autotools.MakefileInfo>
 </Project>

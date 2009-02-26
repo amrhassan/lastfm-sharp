@@ -1,5 +1,7 @@
-To install this package:
+lastfm-sharp
+------------
 
-1	./configure
-2	make
-3	make install
+lastfm-sharp is a Mono/.Net utility for accessing the Last.fm
+webservices including music scrobbling support.
+
+To compile this lib you'll have to use MonoDevelop.

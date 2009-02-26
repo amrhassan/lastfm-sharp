@@ -124,7 +124,7 @@ namespace Lastfm.Scrobbling
 			try
 			{
 				request.execute();
-			} catch (BadSessionException e) {
+			} catch (BadSessionException) {
 				this.doHandshake();
 				this.ReportNowplaying(track);
 			}
@@ -169,7 +169,7 @@ namespace Lastfm.Scrobbling
 			try
 			{
 				request.execute();
-			} catch (BadSessionException e) {
+			} catch (BadSessionException) {
 				this.doHandshake();
 				this.Scrobble(parameters);
 			}
