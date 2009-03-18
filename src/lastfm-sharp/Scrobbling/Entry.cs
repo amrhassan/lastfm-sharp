@@ -1,4 +1,4 @@
-// PlayedTrack.cs
+// Entry.cs
 // 
 // Copyright (C) 2009 Amr Hassan
 //
@@ -22,7 +22,7 @@ namespace Lastfm.Scrobbling
 {
 	
 	
-	public class PlayedTrack
+	public class Entry
 	{
 		public string Artist {get; set;}
 		public string Title {get; set;}
@@ -36,7 +36,7 @@ namespace Lastfm.Scrobbling
 		public ScrobbleMode Mode {get; set;}
 		public string MBID {get; set;}
 		
-		public PlayedTrack(string artist, string title, DateTime timeStarted, PlaybackSource source, TimeSpan duration,
+		public Entry(string artist, string title, DateTime timeStarted, PlaybackSource source, TimeSpan duration,
 		                   ScrobbleMode mode)
 		{
 			Artist = artist;
@@ -47,7 +47,7 @@ namespace Lastfm.Scrobbling
 			Mode = mode;
 		}
 		
-		public PlayedTrack(string artist, string title, DateTime timeStarted, PlaybackSource source, string recommendationKey,
+		public Entry(string artist, string title, DateTime timeStarted, PlaybackSource source, string recommendationKey,
 		                   TimeSpan duration, ScrobbleMode mode)
 		{
 			Artist = artist;
@@ -59,7 +59,7 @@ namespace Lastfm.Scrobbling
 			RecommendationKey = recommendationKey;
 		}
 		
-		public PlayedTrack(string artist, string title, DateTime timeStarted, PlaybackSource source, TimeSpan duration,
+		public Entry(string artist, string title, DateTime timeStarted, PlaybackSource source, TimeSpan duration,
 		                   ScrobbleMode mode, string album, int trackNumber, string mbid)
 		{
 			Artist = artist;
@@ -73,7 +73,7 @@ namespace Lastfm.Scrobbling
 			MBID = mbid;
 		}		
 
-		public PlayedTrack(string artist, string title, DateTime timeStarted, PlaybackSource source, string recommendationKey,
+		public Entry(string artist, string title, DateTime timeStarted, PlaybackSource source, string recommendationKey,
 		                   TimeSpan duration, ScrobbleMode mode, string album, int trackNumber, string mbid)
 		{
 			Artist = artist;

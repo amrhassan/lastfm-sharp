@@ -37,7 +37,7 @@ namespace Lastfm.Services
 		public Library Library {get; private set;}
 		
 		public LibraryTracks(Library library, Session session)
-			:base("library.getAlbums", session)
+			:base("library.getTracks", session)
 		{
 			Library = library;
 		}

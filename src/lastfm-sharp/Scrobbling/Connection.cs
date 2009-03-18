@@ -89,6 +89,15 @@ namespace Lastfm.Scrobbling
 		}
 		
 		/// <summary>
+		/// Performs the initial handshake. Can be ignored, a handshake
+		/// will be performed whenever necessary.
+		/// </summary>
+		public void Initialize()
+		{
+			doFirstHandshake();
+		}
+		
+		/// <summary>
 		/// Send the now playing notification.
 		/// </summary>
 		/// <param name="track">
@@ -136,7 +145,7 @@ namespace Lastfm.Scrobbling
 		/// <param name="track">
 		/// A <see cref="PlayedTrack"/>
 		/// </param>
-		public void Scrobble(PlayedTrack track)
+		public void Scrobble(Entry track)
 		{
 			RequestParameters np = new RequestParameters();
 			RequestParameters p = track.getParameters();

@@ -99,7 +99,7 @@
     <File name="Scrobbling/WrongTimeException.cs" subtype="Code" buildaction="Compile" />
     <File name="Scrobbling/BannedClientException.cs" subtype="Code" buildaction="Compile" />
     <File name="Scrobbling/Connection.cs" subtype="Code" buildaction="Compile" />
-    <File name="Scrobbling/PlayedTrack.cs" subtype="Code" buildaction="Compile" />
+    <File name="Scrobbling/Entry.cs" subtype="Code" buildaction="Compile" />
     <File name="Scrobbling/BadSessionException.cs" subtype="Code" buildaction="Compile" />
     <File name="Scrobbling/NowplayingTrack.cs" subtype="Code" buildaction="Compile" />
     <File name="Scrobbling/PlaybackSource.cs" subtype="Code" buildaction="Compile" />

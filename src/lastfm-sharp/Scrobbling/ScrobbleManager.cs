@@ -73,7 +73,7 @@ namespace Lastfm.Scrobbling
 		/// <param name="track">
 		/// A <see cref="PlayedTrack"/>
 		/// </param>
-		public void Queue(PlayedTrack track)
+		public void Queue(Entry track)
 		{
 			// Append the scrobble line to the file
 			StreamWriter writer = new StreamWriter(CacheDir + cacheFileName, true, Encoding.Unicode);
