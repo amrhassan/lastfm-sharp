@@ -94,7 +94,11 @@ namespace Lastfm.Scrobbling
 		/// </summary>
 		public void Initialize()
 		{
-			doFirstHandshake();
+			if (!firstHandshakeDone)
+			{
+				doHandshake();
+				firstHandshakeDone = true;
+			}
 		}
 		
 		/// <summary>
@@ -105,7 +109,7 @@ namespace Lastfm.Scrobbling
 		/// </param>
 		public void ReportNowplaying(NowplayingTrack track)
 		{
-			doFirstHandshake();
+			Initialize();
 			
 			RequestParameters p = new RequestParameters();
 			p["s"] = SessionID;
@@ -167,7 +171,7 @@ namespace Lastfm.Scrobbling
 		/// </param>
 		internal void Scrobble(RequestParameters parameters)
 		{
-			doFirstHandshake();
+			Initialize();
 			
 			parameters["s"] = SessionID;			
 			Request request = new Request(this.SubmissionURL, parameters);
@@ -181,18 +185,6 @@ namespace Lastfm.Scrobbling
 			} catch (BadSessionException) {
 				this.doHandshake();
 				this.Scrobble(parameters);
-			}
-		}
-		
-		/// <summary>
-		/// Does the initial handshake.
-		/// </summary>
-		private void doFirstHandshake()
-		{
-			if (!firstHandshakeDone)
-			{
-				doHandshake();
-				firstHandshakeDone = true;
 			}
 		}			
 	}

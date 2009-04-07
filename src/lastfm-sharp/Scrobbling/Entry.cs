@@ -159,5 +159,11 @@ namespace Lastfm.Scrobbling
 			
 			return p;
 		}
+		
+		public override string ToString ()
+		{
+			return Artist + " - " + Title + " (" + TimeStarted + ")";
+		}
+
 	}
 }
