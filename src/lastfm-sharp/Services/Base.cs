@@ -145,7 +145,7 @@ namespace Lastfm.Services
 			domains.Add(SiteLanguage.Japanese, "www.lastfm.jp");
 			domains.Add(SiteLanguage.Chinese, "cn.last.fm");
 			
-			return "http://" + domains[language];
+			return domains[language];
 		}
 	}
 }
