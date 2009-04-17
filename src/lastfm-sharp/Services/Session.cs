@@ -135,7 +135,10 @@ namespace Lastfm.Services
 			p["username"] = username;
 			p["authToken"] = Utilities.md5(username + md5Password);
 			
-			XmlDocument doc = (new Request("auth.getMobileSession", this, p)).execute();
+			Request request = new Request("auth.getMobileSession", this, p);
+			request.signIt();
+			
+			XmlDocument doc = request.execute();
 			
 			SessionKey = doc.GetElementsByTagName("key")[0].InnerText;
 		}
