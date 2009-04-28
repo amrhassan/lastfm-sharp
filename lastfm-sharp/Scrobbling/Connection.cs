@@ -36,7 +36,7 @@ namespace Lastfm.Scrobbling
 		private bool firstHandshakeDone {get; set;}
 		
 		public Connection(string clientID, string clientVersion, string username, 
-		                  Lastfm.Services.Session authenticatedSession)
+		                  Session authenticatedSession)
 		{
 			RequestParameters p = new RequestParameters();
 			p["hs"] = "true";

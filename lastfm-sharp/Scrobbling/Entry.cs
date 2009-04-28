@@ -164,6 +164,10 @@ namespace Lastfm.Scrobbling
 		{
 			return Artist + " - " + Title + " (" + TimeStarted + ")";
 		}
-
+		
+		public Lastfm.Services.Track GetInfo(Session session)
+		{
+			return new Lastfm.Services.Track(this.Artist, this.Title, session);
+		}
 	}
 }

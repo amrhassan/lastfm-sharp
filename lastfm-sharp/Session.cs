@@ -22,7 +22,7 @@ using System;
 using System.Xml;
 
 
-namespace Lastfm.Services
+namespace Lastfm
 {
 	/// <summary>
 	/// Represents your identity tokens provided by Last.fm.</summary>
@@ -62,6 +62,7 @@ namespace Lastfm.Services
 	/// used the artists returned by <see cref="Artist.GetSimilar"/> they would also have an
 	/// unauthenticated session.
 	/// </remarks>
+	
 	[Serializable]
 	public class Session : IEquatable<Session>
 	{
@@ -135,7 +136,7 @@ namespace Lastfm.Services
 			p["username"] = username;
 			p["authToken"] = Utilities.MD5(username + md5Password);
 			
-			Request request = new Request("auth.getMobileSession", this, p);
+			Lastfm.Services.Request request = new Lastfm.Services.Request("auth.getMobileSession", this, p);
 			request.signIt();
 			
 			XmlDocument doc = request.execute();
@@ -145,7 +146,7 @@ namespace Lastfm.Services
 		
 		private string getAuthenticationToken()
 		{
-			XmlDocument doc = (new Request("auth.getToken", this, new RequestParameters())).execute();
+			XmlDocument doc = (new Lastfm.Services.Request("auth.getToken", this, new RequestParameters())).execute();
 			
 			return doc.GetElementsByTagName("token")[0].InnerText;
 		}
@@ -174,7 +175,7 @@ namespace Lastfm.Services
 			RequestParameters p = new Lastfm.RequestParameters();
 			p["token"] = token;
 			
-			Request r = new Request("auth.getSession", this, p);
+			Lastfm.Services.Request r = new Lastfm.Services.Request("auth.getSession", this, p);
 			r.signIt();
 			
 			XmlDocument doc = r.execute();

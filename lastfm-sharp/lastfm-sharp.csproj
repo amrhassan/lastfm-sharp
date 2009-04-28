@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -24,7 +24,7 @@
     <SignAssembly>true</SignAssembly>
     <Externalconsole>true</Externalconsole>
     <Execution>
-      <Execution clr-version="Net_2_0" xmlns="" />
+      <Execution clr-version="Net_2_0" />
     </Execution>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -38,7 +38,7 @@
     <GenerateDocumentation>true</GenerateDocumentation>
     <ConsolePause>false</ConsolePause>
     <Execution>
-      <Execution clr-version="Net_2_0" xmlns="" />
+      <Execution clr-version="Net_2_0" />
     </Execution>
   </PropertyGroup>
   <ItemGroup>
@@ -90,7 +90,6 @@
     <Compile Include="Services\Request.cs" />
     <Compile Include="Services\Search.cs" />
     <Compile Include="Services\ServiceException.cs" />
-    <Compile Include="Services\Session.cs" />
     <Compile Include="Services\SiteLanguage.cs" />
     <Compile Include="Services\Tag.cs" />
     <Compile Include="Services\TagCollection.cs" />
@@ -134,6 +133,9 @@
     <Compile Include="Scrobbling\ScrobbleMode.cs" />
     <Compile Include="Scrobbling\ScrobbleManager.cs" />
     <Compile Include="Radio\StationURI.cs" />
+    <Compile Include="Radio\Track.cs" />
+    <Compile Include="Session.cs" />
+    <Compile Include="Radio\Station.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -143,7 +145,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <MonoDevelop>
-      <Properties xmlns="">
+      <Properties>
         <Policies>
           <StandardHeader inheritsSet="LGPLv2License" />
         </Policies>

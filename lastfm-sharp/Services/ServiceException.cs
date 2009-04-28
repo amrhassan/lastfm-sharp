@@ -38,7 +38,12 @@ namespace Lastfm.Services
 		SubscribersOnly = 12,
 		InvalidSignature = 13,
 		UnauthorizedToken = 14,
-		ExpiredToken = 15
+		ExpiredToken = 15,
+		FreeRadioExpired = 18,
+		NotEnoughContent = 20,
+		NotEnoughMembers = 21,
+		NotEnoughFans = 22,
+		NotEnoughNeighbours = 23
 	}
 	
 	/// <summary>
@@ -65,27 +70,7 @@ namespace Lastfm.Services
 		public override string Message
 		{
 			get
-			{
-				/*
-				Dictionary<ServiceExceptionType, string> messages = new Dictionary<ServiceExceptionType,string>();
-				
-				messages.Add(ServiceExceptionType.AuthenticationFailed, "Authentication Failed - You do not have permissions to access the service.");
-				messages.Add(ServiceExceptionType.ExpiredToken, "Token Expired -This token has expired.");
-				messages.Add(ServiceExceptionType.InvalidAPIKey, "Invalid API Key - You must be granted a valid key by last.fm.");
-				messages.Add(ServiceExceptionType.InvalidFormat, "Invalid Format - This service doesn't exist in that format.");
-				messages.Add(ServiceExceptionType.InvalidMethod, "Invalid Method - No method with that name in this package.");
-				messages.Add(ServiceExceptionType.InvalidParameters, "Invalid Parameters - Your Request is missing a required parameter.");
-				messages.Add(ServiceExceptionType.InvalidResource, "Invalid Resource Specified.");
-				messages.Add(ServiceExceptionType.InvalidService, "Invalid Service - This service does not exist.");
-				messages.Add(ServiceExceptionType.InvalidSessionKey, "Invalid Session Key - Please re-authenticate.");
-				messages.Add(ServiceExceptionType.InvalidSignature, "Invalid method signature supplied.");
-				messages.Add(ServiceExceptionType.ServiceOffline, "Service Offline - This service is temporarily offline. Try again later.");
-				messages.Add(ServiceExceptionType.SubscribersOnly, "Subscribers Only - This service is only available to paid last.fm subscribers.");
-				messages.Add(ServiceExceptionType.TokenError, "Token Error - There was an error granting the Request token.");
-				messages.Add(ServiceExceptionType.UnauthorizedToken, "Unauthorized Token - This token has not been authorized.");
-				*/
-				
-				
+			{				
 				return this.Type.ToString() + ": " + this.Description;
 			}
 		}

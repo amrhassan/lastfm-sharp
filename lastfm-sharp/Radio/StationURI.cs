@@ -33,7 +33,6 @@ namespace Lastfm.Radio
 		public StationURI(string uri)
 		{
 			// TODO
-			
 		}
 		
 		public StationURI(string stationType, string resourceName, string subType)
@@ -48,37 +47,37 @@ namespace Lastfm.Radio
 			return String.Format("lastfm://{0}/{1}/{2}", StationType, ResourceName, SubType);
 		}
 		
-		public StationURI GetGlobalTag(string tagName)
+		public static StationURI GetGlobalTag(string tagName)
 		{
 			return new StationURI("globaltags", tagName, "");
 		}
 		
-		public StationURI GetLoved(string username)
+		public static StationURI GetLoved(string username)
 		{
 			return new StationURI("user", username, "loved");
 		}
 		
-		public StationURI GetNeighbours(string username)
+		public static StationURI GetNeighbours(string username)
 		{
 			return new StationURI("user", username, "neighbours");
 		}
 		
-		public StationURI GetRecommended(string username)
+		public static StationURI GetRecommended(string username)
 		{
 			return new StationURI("user", username, "recommended");
 		}
 		
-		public StationURI GetArtist(string artistName)
+		public static StationURI GetArtist(string artistName)
 		{
 			return new StationURI("artist", artistName, "similarartists");
 		}
 		
-		public StationURI GetUserLibrary(string username)
+		public static StationURI GetUserLibrary(string username)
 		{
 			return new StationURI("user", username, "library");
 		}
 		
-		public StationURI GetTopFans(string artistName)
+		public static StationURI GetTopFans(string artistName)
 		{
 			return new StationURI("artist", artistName, "fans");
 		}
