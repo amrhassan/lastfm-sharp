@@ -1,5 +1,5 @@
 //  
-//  Copyright (C) 2009 Amr Hassan (c) 2009
+//  Copyright (C) 2009 Amr Hassan
 // 
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
