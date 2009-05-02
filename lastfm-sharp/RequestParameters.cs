@@ -22,18 +22,22 @@ using System.Text;
 
 namespace Lastfm
 {
-	internal class RequestParameters : SortedDictionary<string, string>
+	internal class RequestParameters : SortedList<string, string>
 	{
-		public override string ToString()
-		{
-			string values = "";
-			foreach(string key in this.Keys)
-				values += HttpUtility.UrlEncode(key) + "=" +
-					HttpUtility.UrlEncode(this[key]) + "&";
-			values = values.Substring(0, values.Length - 1);
-			
-			return values;
-		}
+        public override string ToString()
+        {
+            StringBuilder builder = new StringBuilder();
+
+            foreach (string key in this.Keys)
+            {
+                if (builder.Length > 0)
+                    builder.Append('&');
+
+                builder.AppendFormat("{0}={1}", HttpUtility.UrlEncode(key), HttpUtility.UrlEncode(this[key]));
+            }
+
+            return builder.ToString();
+        }
 		
 		internal byte[] ToBytes()
 		{	
